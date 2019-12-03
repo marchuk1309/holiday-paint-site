@@ -1,0 +1,76 @@
+<template>
+  <client-only>
+    <div class="container">
+      <div class="popular-goods">
+        <h2 class="section-title big gradient">Популярные товары</h2>
+        <p class="subtitle">Что чаще всего покупают наши клиенты</p>
+        <div class="popular-goods__body">
+          <goods-item v-if="clientWidth >= 1025" v-for="(good, index) in popularGoods" :good="good" :key="index + '-norm'" :addedClass="'popular-item'"/>
+          <agile :slidesToShow="1" :responsive="[{breakpoint: 600, settings: {slidesToShow: 2}}, {breakpoint: 767, settings: {slidesToShow: 3}}]" :dots="false"  v-if="clientWidth < 1025">
+            <div class="popular-items__slide" v-for="(good, index) in popularGoods" :key="index">
+              <goods-item :good="good" :addedClass="'popular-item'"/>
+            </div>
+          </agile>
+        </div>
+      </div>
+    </div>
+  </client-only>
+</template>
+
+<script>
+  import GoodsItem from '@/components/GoodsItem'
+  import localData from "@/assets/localdata";
+  export default {
+    data: () => ({
+      popularGoods: localData.itemsData.slice(0, 5),
+      clientWidth: 0
+    }),
+    components: {
+      GoodsItem
+    },
+    methods: {
+      updateWidth() {
+        this.clientWidth = window.innerWidth;
+      },
+    },
+    mounted() {
+      window.addEventListener('resize', this.updateWidth);
+      this.updateWidth();
+    },
+  }
+</script>
+
+<style lang="sass" scoped>
+  .popular
+    &-goods
+      padding-bottom: 8em
+      &__body
+        display: flex
+        justify-content: space-between
+    &-item
+      width: 19%
+      @media (max-width: 1024px)
+        margin: 3em 1.75em
+        width: auto
+        box-shadow: 0 5px 19px rgba(122, 49, 158, 0.12)
+
+</style>
+<style lang="sass">
+  @import "../assets/sass/variables"
+  .agile__actions
+    position: absolute
+    left: 0
+    width: calc(100% + .5em)
+    top: 50%
+    transform: translateY(-50%)
+    margin: 0 -.25em
+  .agile__nav-button
+    background-image: $primaryGrad
+    border: none
+    color: #fff
+    width: 40px
+    height: 40px
+    border-radius: 50%
+    box-shadow: $boxShadow
+    font-size: 1.5em
+</style>

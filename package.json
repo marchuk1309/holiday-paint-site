@@ -1,0 +1,25 @@
+{
+  "name": "holiday-paint",
+  "version": "1.0.0",
+  "description": "Holiday Paint Site",
+  "author": "Dmitrij Marchuk",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "element-ui": "^2.4.11",
+    "lodash.chunk": "^4.2.0",
+    "node-sass": "^4.13.0",
+    "nuxt": "^2.0.0",
+    "sass-loader": "^8.0.0",
+    "vue-agile": "^1.0.11",
+    "vue-owl-carousel": "^2.0.3",
+    "vuejs-paginate": "^2.1.0"
+  },
+  "devDependencies": {}
+}

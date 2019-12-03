@@ -1,0 +1,82 @@
+.item-card
+  margin-top: 4em
+  &__wrap
+    display: flex
+    justify-content: space-between
+    margin-bottom: 8em
+  &__left
+    width: 60%
+    display: flex
+    justify-content: space-between
+  &__right
+    width: 35%
+  &__name
+    text-transform: uppercase
+    font-size: $_30px
+    font-weight: 500
+    margin-bottom: .75em
+  &__label
+    font-size: 1.365em
+    margin-bottom: .5em
+  &__buttons
+    width: 100%
+    display: flex
+    justify-content: space-between
+    margin: 2em 0
+    align-items: center
+  &__btn
+    width: 48%
+    text-align: center
+    &:not(.btn-transparent)
+      padding: calc(.875em + 3px)
+  &__gallery
+    width: 70%
+    background-color: #ffffff
+    border-radius: 10px
+    box-shadow: 0 10px 29px rgba(122, 49, 158, 0.12)
+    &__slide
+      height: calc(34em + 60px )
+      img
+        width: 100%
+        height: 100%
+        object-fit: contain
+    &-nav
+      &igation
+        width: 30%
+        position: relative
+        padding: 40px 0 0
+        .tns-controls
+          button
+            &:first-child, &:last-child
+              position: absolute
+              width: 2em
+              height: 2em
+              background-color: transparent
+              border: none
+              background-image: url('../img/icons/bottom.svg')
+              background-position: center
+              background-repeat: no-repeat
+              background-size: contain
+              left: 50%
+              z-index: 2
+            &:first-child
+              top: calc(100% - 2em)
+              transform: translateX(-50%)
+            &:last-child
+              bottom: calc(100% - 2em)
+              transform: translateX(-50%) rotate(180deg)
+      &__slide
+        text-align: center
+        background-color: #ffffff
+        border-radius: 10px
+        box-shadow: 0 10px 29px rgba(122, 49, 158, 0.12)
+        margin: 0 3em
+        transition: .3s
+        img
+          height: 10em
+        &:not(.tns-slide-active)
+          box-shadow: none
+          transition: .3s
+
+  .popular-goods
+    margin-bottom: 8em

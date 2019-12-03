@@ -1,0 +1,176 @@
+@import "variables"
+@import "components/total/form"
+
+html
+  font-family: 'Montserrat'
+  max-width: 100vw
+  color: $textColor
+body
+  max-width: 100vw
+  font-family: 'Montserrat'
+
+*
+  font-family: 'Montserrat'
+  box-sizing: border-box
+  min-width: 0
+  min-height: 0
+  outline: none
+
+a
+  text-decoration: none
+  color: inherit
+  transition: .3s
+  cursor: pointer
+  &:hover
+    color: $primaryColor
+
+.container
+  width: 1280px
+  max-width: 95%
+  margin-left: auto
+  margin-right: auto
+
+.page-view
+  padding: 5em 0
+
+.section-title
+  color: $titleColor
+  font-size: $_36px
+  font-weight: 600
+  text-align: center
+  margin-bottom: .9em
+  text-transform: uppercase
+  &.big-margin
+    margin-bottom: 2em
+  &.big
+    font-size: 3em
+    margin-bottom: .6em
+  &.gradient
+    background-image: $primaryGrad
+    -webkit-text-fill-color: transparent
+    -webkit-background-clip: text
+    letter-spacing: -2px
+.subtitle
+  color: $titleColor
+  text-align: center
+  font-size: 1.875em
+  margin-bottom: 2.8em
+
+.text-grad
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  background-image: $primaryGrad
+
+.uppercase
+  text-transform: uppercase
+/* Flex short classes*/
+
+.flex
+  display: flex
+.jc-sb
+  justify-content: space-between
+.jc-sa
+  justify-content: space-around
+.ai-c
+  align-items: center
+.ai-fs
+  align-items: flex-start
+.fd-c
+  flex-direction: column
+
+.btn
+  text-transform: uppercase
+  font-weight: 700
+  padding: $_14px 2em
+  color: #ffffff
+  text-align: center
+  display: block
+  border-radius: 1.5em
+  position: relative
+  cursor: pointer
+  &:not(.btn-transparent)
+    background-image: $primaryGrad
+    overflow: hidden
+    border: none
+    padding: calc(.875em + 3px) 2em
+    &.blue
+      background-image: $blueGrad
+    &.with-shadow
+      box-shadow: 0 4px 20px rgba(122, 49, 158, 0.4)
+      &:hover
+        box-shadow: none
+    &:after
+      content: ''
+      position: absolute
+      left: -4em
+      top: 0
+      width: 3em
+      height: 100%
+      background-color: rgba(255,255,255,.5)
+      filter: blur(20px)
+      transform: skew(-30deg)
+      animation-duration: 2s
+    &:hover
+      color: #ffffff
+      &::after
+        animation-name: btnBlick
+  &.btn-transparent
+    color: $textColor
+    position: relative
+    border: 3px solid transparent
+    background: #ffffff
+    background-clip: padding-box
+    box-shadow: 0 6px 21px rgba(122, 49, 158, 0.19)
+    &::after
+      transition: inherit
+      content: ''
+      z-index: -1
+      border-radius: inherit
+      position: absolute
+      left: 0
+      right: 0
+      top: 0
+      bottom: 0
+      background-image: $primaryGrad
+      margin: -3px
+    &:hover
+      box-shadow: 0 3px 10px rgba(122, 49, 158, 0.19)
+      &::after
+        background-image: $primaryGradReverse
+
+.socials
+  &-item
+    display: inline-block
+    height: 3em
+    width: 3em
+    padding: .75em 0
+    border-radius: 50%
+    text-align: center
+    background-color: #fff
+    box-shadow: $boxShadow
+    &:not(:last-child)
+      margin-right: .8em
+    img
+      height: 100%
+      filter: drop-shadow(0 4px 5px rgba(122, 49, 158, 0.27))
+    &:hover
+      box-shadow: $boxShadowHover
+
+.mb2
+  margin-bottom: 1.5em
+@keyframes btnBlick
+  0%
+    left: -4em
+  25%
+    left: 100%
+  100%
+    left: 100%
+
+@media (max-width: 1200px)
+  html
+    font-size: 14px
+
+@media (min-width: 1025px)
+  .mobile-show
+    display: none
+

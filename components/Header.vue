@@ -2,7 +2,7 @@
   <div class="header">
     <div class="header-top">
       <div class="container flex ai-c jc-sb">
-        <nuxt-link to="/" class="header-logo"><img src="@/assets/img/logo.png" alt=""></nuxt-link>
+        <nuxt-link no-prefetch to="/" class="header-logo"><img src="@/assets/img/logo.png" alt=""></nuxt-link>
         <div class="header__contacts">
           <a href="tel:8 800 000 00 00" class="header__contacts-link">8 800 000 00 00</a>
           <a href="mailto:partner@holiday-paint.ru" class="header__contacts-link">partner@holiday-paint.ru</a>
@@ -21,19 +21,19 @@
         </div>
         <ul class="header__menu flex jc-sb">
           <li class="header__menu-link">
-            <nuxt-link active-class="active" to="/about">О проекте</nuxt-link>
+            <nuxt-link no-prefetch active-class="active" to="/about">О проекте</nuxt-link>
           </li>
           <li class="header__menu-link">
             <a href="">Франшиза</a>
           </li>
           <li class="header__menu-link">
-            <nuxt-link active-class="active" to="/feedback">Отзывы</nuxt-link>
+            <nuxt-link no-prefetch active-class="active" to="/feedback">Отзывы</nuxt-link>
           </li>
           <li class="header__menu-link">
-            <nuxt-link active-class="active" to="/discounts">Акции и скидки</nuxt-link>
+            <nuxt-link no-prefetch active-class="active" to="/discounts">Акции и скидки</nuxt-link>
           </li>
         </ul>
-        <nuxt-link to="/basket" class="header-basket mobile-show">
+        <nuxt-link no-prefetch to="/basket" class="header-basket mobile-show">
           <p class="header-basket__counter">{{basketCount}}</p>
           <img src="@/assets/img/icons/basket.svg" alt="">
         </nuxt-link>
@@ -44,51 +44,52 @@
     </div>
     <div class="mobile-menu" :class="{active: mobileMenu}">
       <div class="mobile-menu__list">
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/about">О проекте</nuxt-link>
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/">Франшиза</nuxt-link>
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/feedback">Отзывы</nuxt-link>
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/discounts">Акции и скидки</nuxt-link>
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/catalog">Магазин</nuxt-link>
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/paint">Смываемая краска</nuxt-link>
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/markers">Меловые маркеры</nuxt-link>
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/colored-smoke">Цветной дым</nuxt-link>
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/holy-paint">Краски холи</nuxt-link>
-        <nuxt-link @click="mobileMenu = false" class="mobile-menu__link" active-class="active" to="/kigurumi">Кигуруми</nuxt-link>
+        <a @click.prevent="goTo('/about')" class="mobile-menu__link">О проекте</a>
+        <a @click.prevent="goTo('/')" class="mobile-menu__link">Франшиза</a>
+        <a @click.prevent="goTo('/feedback')" class="mobile-menu__link">Отзывы</a>
+        <a @click.prevent="goTo('/discounts')" class="mobile-menu__link">Акции и скидки</a>
+        <a @click.prevent="goTo('/catalog')" class="mobile-menu__link">Магазин</a>
+        <a @click.prevent="goTo('/paint')" class="mobile-menu__link">Смываемая краска</a>
+        <a @click.prevent="goTo('/markers')" class="mobile-menu__link">Меловые маркеры</a>
+        <a @click.prevent="goTo('/colored-smoke')" class="mobile-menu__link">Цветной дым</a>
+        <a @click.prevent="goTo('/holy-paint')" class="mobile-menu__link">Краски холи</a>
+        <a @click.prevent="goTo('/kigurumi')" class="mobile-menu__link">Кигуруми</a>
       </div>
       <a href="tel:8 800 000 00 00" class="mobile-menu__tel">8 800 000 00 00</a>
     </div>
     <div class="header-bottom">
       <div class="container flex ai-c jc-sb">
         <div class="header-nav flex ai-c jc-sb">
-          <nuxt-link to="/paint" active-class="active" class="header-nav__link">
+          <nuxt-link no-prefetch to="/paint" active-class="active" class="header-nav__link">
             <p class="header-nav__link-img"><img src="@/assets/img/icons/paint-spray.svg" alt=""></p>
             Смываемая краска
           </nuxt-link>
-          <nuxt-link to="/markers" active-class="active" class="header-nav__link">
+          <nuxt-link no-prefetch to="/markers" active-class="active" class="header-nav__link">
             <p class="header-nav__link-img"><img src="@/assets/img/icons/highlighter.svg" alt=""></p>
             Меловые маркеры
           </nuxt-link>
-          <nuxt-link to="/colored-smoke" active-class="active" class="header-nav__link">
+          <nuxt-link no-prefetch to="/colored-smoke" active-class="active" class="header-nav__link">
             <p class="header-nav__link-img"><img src="@/assets/img/icons/cloud.svg" alt=""></p>
             Цветной дым
           </nuxt-link>
-          <nuxt-link to="/holy-paint" active-class="active" class="header-nav__link">
+          <nuxt-link no-prefetch to="/holy-paint" active-class="active" class="header-nav__link">
             <p class="header-nav__link-img"><img src="@/assets/img/icons/dust.svg" alt=""></p>
             Краски холи
           </nuxt-link>
-          <nuxt-link to="/kigurumi" active-class="active" class="header-nav__link">
+          <nuxt-link no-prefetch to="/kigurumi" active-class="active" class="header-nav__link">
             <p class="header-nav__link-img"><img src="@/assets/img/icons/working-coverall.svg" alt=""></p>
             Кигуруми
           </nuxt-link>
         </div>
-        <nuxt-link to="/basket" class="header-basket">
+        <nuxt-link no-prefetch to="/basket" class="header-basket">
           <p class="header-basket__counter">{{basketCount}}</p>
           <img src="@/assets/img/icons/basket.svg" alt="">
         </nuxt-link>
-        <nuxt-link to="/catalog" class="btn btn-transparent">Магазин</nuxt-link>
+        <nuxt-link no-prefetch to="/catalog" class="btn btn-transparent">Магазин</nuxt-link>
       </div>
     </div>
     <el-dialog
+      :modal-append-to-body="false"
       :center="true"
       title="Выберите район"
       :visible.sync="changeDistrict"
@@ -153,6 +154,10 @@
       }, toggleMenu() {
         this.mobileMenu = !this.mobileMenu;
         this.$emit('mobileMenu')
+      },
+      goTo(link) {
+        this.mobileMenu = false
+        this.$router.push(link)
       }
     }
 
@@ -171,6 +176,7 @@
     &-top, &-bottom
       padding: 1.25em 0
       position: relative
+    &-top
       &::before
         content: ''
         position: absolute
@@ -181,7 +187,8 @@
         opacity: .6
         z-index: -1
         background-color: #fff
-        border-bottom: .25em #ffeefe solid
+    &-bottom
+      background-color: transparent
     &-logo
       width: 8em
       img
@@ -287,10 +294,11 @@
         bottom: 68%
         left: 68%
         border-radius: 50%
-        width: 1.5em
-        height: 1.5em
-        line-height: 1.5em
+        width: 1.75em
+        height: 1.75em
+        line-height: 1.75em
         text-align: center
+        background-color: #fff
         box-shadow: 0 6px 5px rgba(75, 75, 75, 0.22)
         font-weight: 600
       &:hover

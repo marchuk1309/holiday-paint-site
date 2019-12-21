@@ -1,18 +1,20 @@
 <template>
-  <section class="partners">
-    <div class="container">
-      <h2 class="section-title big gradient">Партнеры Holiday Paint</h2>
-      <p class="subtitle">Топ 5 партнеров проекта</p>
-      <div class="partners-wrap flex jc-sb">
-        <PartnersItem v-if="clientWidth >= 1025" v-for="partner in partners" :key="partner.id" :partner="partner"/>
-        <agile :slidesToShow="1" :responsive="[{breakpoint: 600, settings: {slidesToShow: 2}}, {breakpoint: 767, settings: {slidesToShow: 3}}]" :dots="false"  v-if="clientWidth < 1025">
-          <div class="partners__slide" v-for="(partner, index) in partners" :key="index + '-slide'">
-            <partners-item :partner="partner" />
-          </div>
-        </agile>
+  <client-only>
+    <section class="partners">
+      <div class="container">
+        <h2 class="section-title big gradient">Партнеры Holiday Paint</h2>
+        <p class="subtitle">Топ 5 партнеров проекта</p>
+        <div class="partners-wrap flex jc-sb">
+          <PartnersItem v-if="clientWidth >= 1025" v-for="partner in partners" :key="partner.id" :partner="partner"/>
+          <agile :slidesToShow="1" :responsive="[{breakpoint: 600, settings: {slidesToShow: 2}}, {breakpoint: 767, settings: {slidesToShow: 3}}]" :dots="false"  v-if="clientWidth < 1025">
+            <div class="partners__slide" v-for="(partner, index) in partners" :key="index + '-slide'">
+              <partners-item :partner="partner" />
+            </div>
+          </agile>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </client-only>
 </template>
 
 <script>

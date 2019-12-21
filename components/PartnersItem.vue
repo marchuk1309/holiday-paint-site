@@ -34,6 +34,8 @@
       overflow: hidden
       padding-bottom: 1em
       position: relative
+      @media (min-width: 1025px)
+        margin: 1em
     &-photo
       width: 100%
       height: 15em

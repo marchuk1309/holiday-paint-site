@@ -31,6 +31,17 @@
   @import "../assets/sass/variables"
   .el-header, .el-footer, .el-main
     padding: 0
+  .el-header
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    z-index: 10
+  .el-main
+    overflow-x: hidden
+    padding-top: 14em
+    @media (max-width: 1024px)
+      padding-top: 6em
   .el-container
     min-height: 100vh
 </style>

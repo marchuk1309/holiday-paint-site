@@ -12,9 +12,10 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  loading: { color: '#' },
+  loading: { color: '#825cd4' },
   css: [
-    './assets/fonts/montserrat.css',
+    './assets/fonts/stylesheet.css',
+    './assets/fonts/comfortaa.css',
     './assets/css/reset.css',
     'element-ui/lib/theme-chalk/index.css',
     './assets/sass/index.sass'
@@ -35,6 +36,7 @@ export default {
   },
   build: {
     vendor: ['vue-agile'],
+
     transpile: [/^element-ui/],
     extend (config, ctx) {
     }

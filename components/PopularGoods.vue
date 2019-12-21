@@ -73,4 +73,5 @@
     border-radius: 50%
     box-shadow: $boxShadow
     font-size: 1.5em
+    padding-bottom: 4px
 </style>

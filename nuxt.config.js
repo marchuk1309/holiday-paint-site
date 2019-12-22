@@ -12,7 +12,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  loading: { color: '#825cd4' },
+  loading: '~/components/Loader',
   css: [
     './assets/fonts/stylesheet.css',
     './assets/fonts/comfortaa.css',

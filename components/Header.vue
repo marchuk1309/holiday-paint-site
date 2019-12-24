@@ -57,7 +57,7 @@
       </div>
       <a href="tel:8 800 000 00 00" class="mobile-menu__tel">8 800 000 00 00</a>
     </div>
-    <div class="header-bottom">
+    <div class="header-bottom" :class="{fixed: this.headerFixed}">
       <div class="container flex ai-c jc-sb">
         <div class="header-nav flex ai-c jc-sb">
           <nuxt-link no-prefetch to="/paint" active-class="active" class="header-nav__link">
@@ -118,6 +118,7 @@
       changeDistrict: false,
       mobileMenu: false,
       currentDistrict: 'Химки',
+      headerFixed: false,
       currentCity: 'Петропавловск-Камчатский',
       districts: [
         'Химки',
@@ -143,7 +144,16 @@
         return total
       }
     },
+    mounted() {
+      window.addEventListener('scroll', this.scrolled);
+    },
     methods: {
+      scrolled () {
+        if (window.pageYOffset > 100) {
+          console.log('WORKKK')
+          this.headerFixed = true
+        } else this.headerFixed = false
+      },
       changeCurrentCity(city) {
         this.currentCity = city
         this.changeCity = false
@@ -189,6 +199,13 @@
         background-color: #fff
     &-bottom
       background-color: transparent
+      &.fixed
+        position: fixed
+        top: 0
+        left: 0
+        width: 100%
+        background-color: rgba(#fff, .9)
+        transition: .5s
     &-logo
       width: 8em
       img

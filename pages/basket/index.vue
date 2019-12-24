@@ -2,8 +2,8 @@
   <section class="basket">
     <div class="container">
       <h2 class="section-title">Корзина ({{basketCount}})</h2>
-      <el-row class="basket-wrap">
-        <el-col :md="24" :lg="19" >
+      <div class="basket-wrap"  ref="basket">
+        <div class="basket-left">
           <el-table
             :data="items"
             class="basket-table"
@@ -61,9 +61,9 @@
               </template>
             </el-table-column>
           </el-table>
-        </el-col>
-        <el-col :lg="5" class="basket-right">
-          <el-card class="basket-card">
+        </div>
+        <div class="basket-right">
+          <el-card class="basket-card" ref="totalBasket" :class="{fixed: totalBaskedFixed}">
             <p class="basket-card__title">Итого: {{totalSum * (100 - discount) / 100}} р.</p>
             <div class="basket-card__paragraphs">
               <p>Сумма: {{totalSum}} р.</p>
@@ -83,8 +83,8 @@
             </el-dialog>
             <nuxt-link to="/order/step1" class="btn with-shadow">Оформить</nuxt-link>
           </el-card>
-        </el-col>
-      </el-row>
+        </div>
+      </div>
     </div>
     <el-dialog
       :center="true"
@@ -112,6 +112,7 @@
     data: () => ({
       items: localdata.basketData,
       discount: 10,
+      totalBaskedFixed: true,
       promocodeDialog: false,
       removeDialog: false,
       removeItem: {}
@@ -151,7 +152,16 @@
           total += item.count
         })
         return total
-      }
+      },
+    },
+    mounted() {
+      window.addEventListener('scroll', () => {
+        if (window.innerWidth > 1024) {
+          const scrollHeight = this.$refs.basket.clientHeight - this.$refs.totalBasket.$el.clientHeight
+          if (window.pageYOffset > scrollHeight) this.totalBaskedFixed = false
+          else this.totalBaskedFixed = true
+        } else this.totalBaskedFixed = false
+      })
     }
   }
 </script>
@@ -166,6 +176,13 @@
     padding-top: 5em
     &-wrap
       margin-bottom: 4em
+      display: flex
+      justify-content: space-between
+      flex-wrap: wrap
+    &-left
+      width: 75%
+      @media (max-width: 1024px)
+        width: 100%
     &-table
       font-size: $_14px
     &-item
@@ -195,14 +212,23 @@
         height: 100%
         object-fit: contain
     &-right
+      width: 23%
+      position: relative
       display: flex
       justify-content: flex-end
       @media (max-width: 1024px)
+        width: 100%
         margin-top: 2em
         justify-content: center
     &-card
-      width: 95%
+      position: absolute
+      bottom: 0
+      width: 18em
+      &.fixed
+        position: fixed
+        bottom: auto
       @media (max-width: 1024px)
+        position: relative
         width: 20em
         max-width: 100%
       &__title

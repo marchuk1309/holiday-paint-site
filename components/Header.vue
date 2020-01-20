@@ -4,7 +4,7 @@
             <div class="container flex ai-c jc-sb">
                 <nuxt-link no-prefetch to="/" class="header-logo"><img src="@/assets/img/logo.png" alt=""></nuxt-link>
                 <div class="header__contacts">
-                    <a :href="'tel:' + userInfo.info.phone" class="header__contacts-link">{{userInfo.info.phone}}</a>
+                    <a :href="'tel:' + userInfo.info.phone" class="header__contacts-link">{{userPhone}}</a>
                     <a target="_blank" :href="'mailto:' + userInfo.info.corp_email" class="header__contacts-link">{{userInfo.info.corp_email}}</a>
                     <div v-if="currentCity == 'Москва'" @click="changeDistrict = !changeDistrict" class="header-address">
                         <span>Район {{currentDistrict}}</span>
@@ -134,6 +134,10 @@
             },
             currentCity() {
                 return this.$store.getters['shop/currentCity'];
+            },
+            userPhone() {
+              let tel = '+' + this.userInfo.info.phone[0] + " (" +this.userInfo.info.phone.slice(1, 4) + ") " + this.userInfo.info.phone.slice(4, 8) + " " + this.userInfo.info.phone.slice(8)
+              return tel
             }
         },
         mounted() {

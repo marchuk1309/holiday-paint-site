@@ -71,6 +71,7 @@
             </div>
             <a class="basket-card__link" @click.prevent="promocodeDialog = !promocodeDialog">У меня есть промокод</a>
             <el-dialog
+                    :append-to-body="true"
                     title="Введите промокод"
                     :visible.sync="promocodeDialog"
                     width="30%"

@@ -117,7 +117,6 @@
     &-photo
       position: relative
       height: 15em
-      border-bottom: 1px solid #c4c4c4
       margin-bottom: 1em
       img
         height: 100%

@@ -81,7 +81,7 @@
                 <a  class="btn" @click="usePromocode()">Применить</a>
               </span>
             </el-dialog>
-            <nuxt-link to="/order/step1" class="btn with-shadow">Оформить</nuxt-link>
+            <button :disabled="items.length == 0" @click="proceed" style="width:100%" class="btn with-shadow">Оформить</button>
           </el-card>
         </div>
       </div>
@@ -135,6 +135,9 @@
       window.removeEventListener('scroll', this.basketScrolling)
     },
     methods: {
+      proceed(){
+        this.$router.push('/order/step1')
+      },
       basketScrolling() {
         if (window.innerWidth > 1024) {
           const scrollHeight = this.$refs.basket.clientHeight - this.$refs.totalBasket.$el.clientHeight

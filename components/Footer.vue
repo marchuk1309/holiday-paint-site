@@ -32,7 +32,7 @@
         <nuxt-link to="/about" class="footer-link">О компании</nuxt-link>
         <nuxt-link to="/found" class="footer-link">Найти представителя</nuxt-link>
         <nuxt-link to="/discounts" class="footer-link">Акции</nuxt-link>
-        <a href="https://franchise.holiday-paint.biz" class="btn footer-btn">Стать партнером</a>
+        <a href="https://franchise.holiday-paint.biz" target="_blank" class="btn footer-btn">Стать партнером</a>
       </div>
     </div>
     <div class="footer-after">

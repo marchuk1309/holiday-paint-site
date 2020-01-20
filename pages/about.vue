@@ -25,20 +25,62 @@
       </div>
       <Partners />
     </div>
-    <div class="map"><img src="@/assets/img/map-placeholder.png" alt=""></div>
+    <yandex-map
+        :settings="settings"
+        :coords="[59.62896654088406, 48.731893822753904]"
+        zoom="3"
+        style="width: 100%; height: 500px;"
+        :controls="[]"
+    >
+
+      <ymap-marker v-for="(item,index) in markers()"
+          :markerId="index"
+          marker-type="placemark"
+          :coords="item.coords.split(' ')"
+          hint-content="Hint content 1"
+          :balloon="{header: 'header', body: 'body', footer: 'footer'}"
+          :icon="{color: 'purple'}"
+          cluster-name="1"
+      ></ymap-marker>
+
+    </yandex-map>
   </section>
 </template>
 
 <script>
+  import { yandexMap, ymapMarker } from 'vue-yandex-maps'
   import Partners from "../components/Partners";
   export default {
     components: {
-      Partners
+      Partners,
+      yandexMap,
+      ymapMarker
     },
     head: {
       title: `Holiday Paint | О проекте`
+    },
+    data: () => ({
+      settings: {
+        apiKey: '51dd1116-29b8-4a97-ac52-d4d1197d0d80',
+        lang: 'ru_RU',
+        coordorder: 'longlat',
+        version: '2.1'
+      },
+    }),
+    methods: {
+      markers(){
+        return this.$store.state.shop.markers.filter(item => item.coords != null)
+      },
+      parseCoords(coords) {
+        console.log(coords)
+        return coords.split(',')
+      }
+    },
+    mounted() {
+      console.log(this.markers())
     }
   }
+
 </script>
 
 <style lang="sass" scoped>

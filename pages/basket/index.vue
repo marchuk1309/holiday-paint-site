@@ -2,15 +2,15 @@
   <section class="basket">
     <div class="container">
       <h2 class="section-title">Корзина ({{basketCount}})</h2>
-      <div class="basket-wrap"  ref="basket">
+      <div class="basket-wrap" ref="basket">
         <div class="basket-left">
           <el-table
-            :data="items"
-            class="basket-table"
-            style="width: 100%">
+                  :data="items"
+                  class="basket-table"
+                  style="width: 100%">
             <el-table-column
-              label="Товар"
-              width="300">
+                    label="Товар"
+                    width="300">
               <template slot-scope="scope">
                 <div class="basket-item">
                   <div class="basket-image">
@@ -18,67 +18,67 @@
                   </div>
                   <div class="basket-descript">
                     <p class="basket-item__name">{{scope.row.name}}</p>
-                    <p>{{scope.row.descript}}</p>
-                    <p>Цвет: {{scope.row.color}}</p>
+                    <p>{{scope.row.description}}</p>
+                    <p>Цвет: {{$store.state.shop.colors[scope.row.color].label}}</p>
                   </div>
                 </div>
               </template>
             </el-table-column>
             <el-table-column
-              label="Количество"
-              align="center"
-              width="140">
+                    label="Количество"
+                    align="center"
+                    width="140">
               <template slot-scope="scope">
                 <div class="basket-item__counter">
-                  <el-input-number @change="changeCount(scope.row)" size="small" v-model.sync="scope.row.count" :min="0" :max="100"></el-input-number>
-                  <p class="basket-item__size">250 мл.</p>
+                  <el-input-number @change="changeCount(scope.row)" size="small" v-model="scope.row.quantity" :min="0" :max="100"></el-input-number>
+                  <p class="basket-item__size"></p>
                 </div>
               </template>
             </el-table-column>
             <el-table-column
-              label="Стоимость"
-              align="center"
+                    label="Стоимость"
+                    align="center"
             >
               <template slot-scope="scope">
                 <p>{{scope.row.price}} р.</p>
               </template>
             </el-table-column>
             <el-table-column
-              align="center"
-              label="Сумма"
+                    align="center"
+                    label="Сумма"
             >
               <template slot-scope="scope">
-                <p>{{scope.row.price * scope.row.count}} р.</p>
+                <p>{{scope.row.price * scope.row.quantity}} р.</p>
               </template>
             </el-table-column>
             <el-table-column>
               <template slot-scope="scope">
                 <el-button
-                  circle
-                  type="danger"
-                  icon="el-icon-delete"
-                  @click="removeItem = scope.row; removeDialog = true"></el-button>
+                        circle
+                        type="danger"
+                        icon="el-icon-delete"
+                        @click="removeItem = scope.row; removeDialog = true"></el-button>
               </template>
             </el-table-column>
           </el-table>
         </div>
         <div class="basket-right">
           <el-card class="basket-card" ref="totalBasket" :class="{fixed: totalBaskedFixed}">
-            <p class="basket-card__title">Итого: {{totalSum * (100 - discount) / 100}} р.</p>
+            <p class="basket-card__title">Итого: {{totalSum - discountValue}} р.</p>
             <div class="basket-card__paragraphs">
               <p>Сумма: {{totalSum}} р.</p>
-              <p>Скидка: {{discount}} %</p>
+              <p>Скидка: {{discountValue}} р.</p>
             </div>
             <a class="basket-card__link" @click.prevent="promocodeDialog = !promocodeDialog">У меня есть промокод</a>
             <el-dialog
-              title="Введите промокод"
-              :visible.sync="promocodeDialog"
-              width="30%"
+                    title="Введите промокод"
+                    :visible.sync="promocodeDialog"
+                    width="30%"
             >
-              <input type="text" class="form-input width-100" placeholder="Ваш промокод">
+              <input v-model="promocode" type="text" class="form-input width-100" placeholder="Ваш промокод">
               <span slot="footer" class="dialog-footer">
                 <a class="btn btn-transparent" @click="promocodeDialog = false">Отменить</a>
-                <a  class="btn" @click="promocodeDialog = false">Применить</a>
+                <a  class="btn" @click="usePromocode()">Применить</a>
               </span>
             </el-dialog>
             <nuxt-link to="/order/step1" class="btn with-shadow">Оформить</nuxt-link>
@@ -87,14 +87,14 @@
       </div>
     </div>
     <el-dialog
-      :center="true"
-      title="Удалить товар?"
-      :visible.sync="removeDialog"
-      width="350px"
+            :center="true"
+            title="Удалить товар?"
+            :visible.sync="removeDialog"
+            width="350px"
     >
       <span class="dialog-text">Вы действительно хотите удалить {{removeItem.name}} из корзины?</span>
       <span slot="footer" class="dialog-footer">
-        <a class="btn btn-transparent" @click="removeDialog = false; removeItem.count === 0 ? removeItem.count = 1 : removeItem.count = removeItem.count">Нет</a>
+        <a class="btn btn-transparent" @click="removeDialog = false; removeItem.quantity === 0 ? removeItem.quantity = 1 : removeItem.quantity = removeItem.quantity">Нет</a>
         <a class="btn" type="primary" @click="deleteItem()">Да</a>
       </span>
     </el-dialog>
@@ -106,16 +106,18 @@
 <script>
   import PopularGoods from "../../components/PopularGoods";
   import Subscription from '../../components/Subscription';
-  import localdata from "../../assets/localdata";
+
   export default {
     name: "basket",
     data: () => ({
-      items: localdata.basketData,
-      discount: 10,
+      items: [],
+      discountValue: 0,
+      discountType: 0,
       totalBaskedFixed: true,
       promocodeDialog: false,
       removeDialog: false,
-      removeItem: {}
+      removeItem: {},
+      promocode: ''
     }),
     head: {
       title: 'Holiday Paint | Корзина'
@@ -124,44 +126,74 @@
       PopularGoods,
       Subscription
     },
+    mounted() {
+      window.addEventListener('scroll', this.basketScrolling)
+      console.log(this.$store.getters['shop/basketInfo'])
+      this.items = this.$store.getters['shop/basketInfo']
+    },
+    beforeDestroy() {
+      window.removeEventListener('scroll', this.basketScrolling)
+    },
     methods: {
+      basketScrolling() {
+        if (window.innerWidth > 1024) {
+          const scrollHeight = this.$refs.basket.clientHeight - this.$refs.totalBasket.$el.clientHeight
+          if (window.pageYOffset > scrollHeight) this.totalBaskedFixed = false
+          else this.totalBaskedFixed = true
+        } else this.totalBaskedFixed = false
+      },
       changeCount(item) {
-        if (item.count === 0) {
+        if (item.quantity === 0) {
           this.removeItem = item
           this.removeDialog = true
         }
       },
       deleteItem(){
         console.log(this.removeItem.id)
-        this.items = this.items.filter(el => el.id !== this.removeItem.id)
+        this.$store.commit('shop/basketDel', this.removeItem)
         console.log(this.items)
         this.removeDialog = false
+      },
+      usePromocode() {
+        this.$store.state.shop.promocodes.forEach((promocode) => {
+          if (promocode.code == this.promocode) {
+            console.log('Promocode found')
+            this.$store.state.shop.basket.forEach((item) => {
+              if (promocode.target != 1) {
+                if (promocode.items.includes(item.id)) {
+                  console.log('Target item found by id')
+                  if (promocode.type == 0) this.discountValue = promocode.value * item.quantity
+                  else if (promocode.type == 1) this.discountValue = item.price * item.quantity * promocode.value / 100
+                  this.$store.commit('shop/setDiscount', this.discountValue)
+                  this.promocodeDialog = false
+                }
+              }
+              else if (promocode.target == 1) {
+                if (promocode.items.includes(item.category)) {
+                  console.log('Target item found by category')
+                  if (promocode.type == 0) this.discountValue = promocode.value * item.quantity
+                  else if (promocode.type == 1) this.discountValue = item.price * item.quantity * promocode.value / 100
+                  this.$store.commit('shop/setDiscount', this.discountValue)
+                  this.promocodeDialog = false
+                }
+              }
+              else console.log('Target item not found')
+            })
+          }
+        })
       }
     },
     computed: {
       totalSum() {
         let total = 0
         this.items.forEach((item) => {
-          total += item.price * item.count
+          total += item.price * item.quantity;
         })
         return total
       },
       basketCount() {
-        let total = 0
-        this.items.forEach((item) => {
-          total += item.count
-        })
-        return total
-      },
-    },
-    mounted() {
-      window.addEventListener('scroll', () => {
-        if (window.innerWidth > 1024) {
-          const scrollHeight = this.$refs.basket.clientHeight - this.$refs.totalBasket.$el.clientHeight
-          if (window.pageYOffset > scrollHeight) this.totalBaskedFixed = false
-          else this.totalBaskedFixed = true
-        } else this.totalBaskedFixed = false
-      })
+        return this.$store.getters['shop/basketInfo'].length
+      }
     }
   }
 </script>

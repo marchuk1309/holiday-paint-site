@@ -14,7 +14,7 @@
         </el-drawer>
         <a @click.prevent="mobileFilter = true" class="btn mobile-filter__trigger">Показать фильтр</a>
         <div class="catalog-list">
-          <catalog-nav @changePageSize="changePageSize" />
+          <catalog-nav @search="search" @changePageSize="changePageSize" />
           <catalog-list :goods="items"/>
           <el-pagination
             :current-page.sync="page"
@@ -39,11 +39,9 @@
   import Subscription from '@/components/Subscription'
   import paginationMixin from '@/mixins/pagination.mixin.js'
 
-  import localData from "@/assets/localdata";
 
   export default {
     data: () => ({
-      goods: localData.itemsData,
       mobileFilter: false
     }),
     head: {
@@ -57,12 +55,31 @@
       PopularGoods,
     },
     mixins: [paginationMixin],
+    computed: {
+      goods(){
+        return this.$store.getters['shop/productsInfo']
+      },
+        shownGoods(){
+            return this.$store.getters['shop/shownProductsInfo']
+        }
+    },
     mounted() {
+      console.log(this.goods)
       this.setupPagination(this.goods.map(good => {
         return {
           ...good
         }
       }))
+      this.$forceUpdate()
+    },
+    watch: {
+        shownGoods(){
+          this.setupPagination(this.goods.map(good => {
+              return {
+                  ...good
+              }
+          }))
+      }
     },
     methods: {
       changePageSize(newPageSize){
@@ -79,6 +96,9 @@
       },
       handleCurrentChange(count) {
         console.log(val)
+      },
+      search(string) {
+        this.$store.commit('shop/filterSearch', string);
       }
     }
   }

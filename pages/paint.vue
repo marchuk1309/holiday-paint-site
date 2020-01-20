@@ -11,7 +11,7 @@
               <p class="landing__label">590 рублей за штуку</p>
             </div>
             <div class="video-btn">
-              <button class="video-btn__body" @click.prevent="openVideo('https://www.youtube.com/embed/ScMzIvxBSi4')"></button>
+              <button class="video-btn__body" @click.prevent="openVideo($store.state.shop.settings[4].value)"></button>
               <span class="video-btn--label-1">Смотреть видео</span>
             </div>
           </div>
@@ -74,7 +74,7 @@
     </section>
     <section class="about-second">
       <div class="container flex jc-sb">
-        <button @click="openVideo('https://www.youtube.com/embed/ScMzIvxBSi4')" class="about-second__left video-btn">
+        <button @click="openVideo($store.state.shop.settings[5].value)" class="about-second__left video-btn">
           <span class="video-btn__body gradient"></span>
           <span class="video-btn--label-1">Смотреть видео</span>
         </button>

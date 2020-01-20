@@ -6,8 +6,8 @@
         <div class="item-card__left">
           <div class="item-card__gallery">
             <el-carousel arrow="always" height="30em" trigger="click" :autoplay="false">
-              <el-carousel-item v-for="(image, inx) in images" :key="inx">
-                <img src="../../assets/img/goods/photo.png" alt="">
+              <el-carousel-item v-for="(image, index) in images" :key="index">
+                <img :src="photo" alt="">
               </el-carousel-item>
             </el-carousel>
           </div>
@@ -16,30 +16,16 @@
           <p class="item-card__name">{{element.name}}</p>
           <div class="item-card__form-box">
             <p class="item-card__label">Цвет:</p>
-            <input name="color" type="radio" class="form-checkbox__color purple">
-            <input name="color" type="radio" class="form-checkbox__color green">
-            <input name="color" type="radio" class="form-checkbox__color blue">
-            <input name="color" type="radio" class="form-checkbox__color yellow">
-            <input name="color" type="radio" class="form-checkbox__color pink">
-            <input name="color" type="radio" class="form-checkbox__color dark-blue">
-            <input name="color" type="radio" class="form-checkbox__color maroon">
-            <input name="color" type="radio" class="form-checkbox__color red">
-            <input name="color" type="radio" class="form-checkbox__color gray">
+            <input v-for="item in element.colors" v-model="element.color" :value="item" type="radio" class="form-checkbox__color" :style="'background-color:' + $store.state.shop.colors[item].color">
           </div>
+          <div class="item-card__alert" v-if="showAlert">Выберите цвет!</div>
           <div class="item-card__form-box">
-            <p class="item-card__label">Размер:</p>
-            <select name="" id="" class="item-card__select form-select">
-              <option value="120">120</option>
-              <option value="150">150</option>
-              <option value="160">160</option>
-              <option value="190">190</option>
-            </select>
             <div class="item-card__buttons">
               <a class="item-card__btn btn btn-transparent">Купить сразу</a>
-              <a class="item-card__btn btn">В корзину</a>
+              <a @click.prevent="basketPush()" class="item-card__btn btn">В корзину</a>
             </div>
             <p class="item-card__label">Описание:</p>
-            <p class="item-card__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolore dolorem ea exercitationem expedita, fugiat impedit ipsa ipsam minima nesciunt omnis possimus rem sint veritatis vero vitae voluptates. Earum facere odio pariatur possimus praesentium tenetur ut! Accusamus expedita molestias voluptatum.</p>
+            <p class="item-card__text">{{element.description}}</p>
           </div>
         </form>
       </div>
@@ -64,6 +50,7 @@
       Subscription
     },
     data: () => ({
+      showAlert: false,
       images: [
         '../../assets/img/goods/photo.png',
         '../../assets/img/goods/photo.png',
@@ -72,9 +59,31 @@
         '../../assets/img/goods/photo.png',
       ]
     }),
-    computed: {
+    methods: {
+      basketPush() {
+        if(this.element.color == null) {
+          this.showAlert = true
+        }
+        else
+        {
+          this.showAlert = false
+          this.$store.commit('shop/basketPush', this.element)
+        }
+      }
+    },
+    watch: {
       element() {
-        return localData.itemsData.filter((el) => {
+        if (this.element.color != undefined) this.showAlert = false
+      },
+    },
+    computed: {
+      photo() {
+        let index = this.$store.state.shop.products_photos.findIndex(product => product.id == this.element.id)
+        if (index != -1) return this.$store.state.shop.products_photos[index].value
+        else return this.$store.state.shop.noPhoto
+      },
+      element() {
+        return this.$store.getters['shop/productsInfo'].filter((el) => {
           return el.id === +this.$route.params.id
         })[0]
       }
@@ -86,6 +95,12 @@
   @import "../../assets/sass/variables"
   .item-card
     margin-top: 4em
+    &__alert
+      display: flex
+      align-items: center
+      justify-content: center
+      color: #ff0000
+      padding: 0 0 1em 0
     &__wrap
       display: flex
       justify-content: space-between

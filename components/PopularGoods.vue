@@ -22,7 +22,7 @@
   import localData from "@/assets/localdata";
   export default {
     data: () => ({
-      popularGoods: localData.itemsData.slice(0, 5),
+      popularGoods: [],
       clientWidth: 0
     }),
     components: {
@@ -34,6 +34,7 @@
       },
     },
     mounted() {
+      this.popularGoods = this.$store.state.shop.items.slice(0, 5);
       window.addEventListener('resize', this.updateWidth);
       this.updateWidth();
     },

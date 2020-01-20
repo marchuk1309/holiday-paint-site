@@ -1,7 +1,7 @@
 <template>
   <div class="partners-item">
     <div class="partners-photo">
-      <img src="@/assets/img/person.jpg" alt="">
+      <img :src="partner.photo" alt="">
       <p class="partners-city">{{partner.city}}</p>
     </div>
     <div class="partners-descript">
@@ -9,18 +9,24 @@
       <p class="partners-rating">{{partner.rating}}</p>
     </div>
     <div class="partners-socials">
-      <a :href="partner.socials.vk" class="partners-social__box"><img src="@/assets/img/icons/vk.svg" alt=""></a>
-      <a :href="partner.socials.instagram" class="partners-social__box"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
-      <a :href="partner.socials.whatsapp" class="partners-social__box"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
-      <a :href="partner.socials.telegram" class="partners-social__box"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
+      <a :href="partner.vk" class="partners-social__box"><img src="@/assets/img/icons/vk.svg" alt=""></a>
+      <a :href="partner.instagram" class="partners-social__box"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
+      <a :href="partner.whatsapp" class="partners-social__box"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
+      <a :href="partner.telegram" class="partners-social__box"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
     </div>
-    <a class="partners-menu"><span>•••</span></a>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['partner']
+    props: ['partner'],
+    computed: {
+      photo() {
+        let index = this.$store.state.shop.userphoto.findIndex(user => user.id == this.partner.id)
+        if (index != -1) return this.$store.state.shop.userphoto[index]
+        else return this.$store.state.shop.noPhoto
+      },
+    }
   }
 </script>
 

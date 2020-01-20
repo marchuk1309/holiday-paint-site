@@ -1,7 +1,7 @@
 <template>
   <section class="catalog-nav">
     <div class="catalog-nav__value">
-      Отобржать на странице:
+      Отображать на странице:
       <div class="catalog-select__wrap form-select__wrap">
         <select class="catalog-select form-select" v-model="pageSize" @change="changePageSize" ref="pageSize" id="pageItemsCount">
           <option value="8">8</option>
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="catalog-nav__search form-search__wrap">
-      <input class="form-input boxed form-search" type="text" placeholder="Что хотите найти?">
+      <input @input="search()" v-model="searchString" class="form-input boxed form-search" type="text" placeholder="Что хотите найти?">
       <a class="form-search__btn"></a>
     </div>
   </section>
@@ -22,7 +22,8 @@
 <script>
   export default {
     data: () => ({
-      pageSize: "8"
+      pageSize: "8",
+      searchString: ''
     }),
     mounted() {
       this.$emit('changePageSize', this.pageSize)
@@ -30,6 +31,9 @@
     methods: {
       changePageSize() {
         this.$emit('changePageSize', this.pageSize)
+      },
+      search() {
+        this.$emit('search', this.searchString)
       }
     }
   }

@@ -23,7 +23,7 @@
 
   export default {
     data: () => ({
-      partners: localData.partnersData.slice(0, 5),
+      //partners: localData.partnersData.slice(0, 5),
       clientWidth: 0
     }),
     components: {
@@ -33,6 +33,11 @@
       updateWidth() {
         this.clientWidth = window.innerWidth;
       },
+    },
+    computed: {
+      partners() {
+        return this.$store.getters['shop/partnersInfo']
+      }
     },
     mounted() {
       window.addEventListener('resize', this.updateWidth);

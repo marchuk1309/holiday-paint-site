@@ -16,7 +16,7 @@
                 <el-input placeholder="Имя*" v-model="userData.name"/>
               </el-form-item>
               <el-form-item prop="tel">
-                <el-input placeholder="Телефон*" v-model="userData.tel"/>
+                <el-input placeholder="Телефон*" v-model="userData.phone"/>
               </el-form-item>
               <el-form-item prop="email">
                 <el-input placeholder="E-mail" v-model.trim="userData.email"/>
@@ -27,7 +27,7 @@
               <p class="order-card__text">Контактные данные под надежной защитой</p>
               <div class="order-delivery__wrap">
                 <label class="order-delivery__label">
-                  <input name="delivery" checked type="radio" class="order-delivery__radio form-radio">
+                  <input v-model="delivery" type="radio" value="0" class="order-delivery__radio form-radio">
                   <div class="order-delivery__label-border"></div>
                   <div class="order-delivery__label-text">
                     <p>Самовывоз</p>
@@ -35,7 +35,7 @@
                   </div>
                 </label>
                 <label class="order-delivery__label">
-                  <input name="delivery" type="radio" class="order-delivery__radio form-radio">
+                  <input v-model="delivery" type="radio" value="1" class="order-delivery__radio form-radio">
                   <div class="order-delivery__label-border"></div>
                   <div class="order-delivery__label-text">
                     <p>Доставка</p>
@@ -73,10 +73,11 @@
   export default {
     name: "order-step1",
     data: () => ({
-      items: localdata.basketData,
+      items: [],
+      delivery: 0,
       userData: {
         name: '',
-        tel: '',
+        phone: '',
         email: '',
         subscription: false
       },
@@ -84,13 +85,16 @@
         name: [
           { required: true, message: 'Введите свое имя', trigger: 'blur' }
         ],
-        tel: [
+        phone: [
           { required: true, message: 'Введите свой телефон', trigger: 'blur' }
         ]
       }
     }),
     head: {
       title: 'Holiday Paint | Оформление заказа'
+    },
+    mounted(){
+      this.items = this.$store.getters['shop/basketInfo']
     },
     components: {
       OrderList,
@@ -103,13 +107,39 @@
           if (valid) {
             const formData = {
               name: this.userData.name,
-              tel: this.userData.tel,
+              phone: this.userData.phone,
               email: this.userData.email,
               subscription: this.userData.subscription
             }
             try {
-              this.$router.push('/order/step2')
+              let request = this.userData
+              request.product_ids = []
+              request.quantity = []
+              request.colors = []
+              request.value = 0
+              this.items.forEach( function(item, index) {
+                request.product_ids.push(item.id)
+                request.quantity.push(item.quantity)
+                request.colors.push(item.color)
+                request.value += parseInt(item.price)
+              });
+              request.product_ids = []
+              request.value = request.value - this.$store.state.shop.discount
+              request.product_ids = JSON.stringify(request.product_ids)
+              request.quantity = JSON.stringify(request.quantity)
+              request.color = JSON.stringify(request.color)
+              if (this.delivery == 0) {
+                this.$store.commit('shop/addRequest', request)
+                this.$store.commit('shop/basketFlush')
+                this.$router.push('/order/thanks')
+              }
+              else {
+                this.$store.commit('shop/saveRequestInfo', this.userData)
+                this.$router.push('/order/step2')
+              }
+
             } catch (e) {
+              console.log(e)
             }
           }
         })

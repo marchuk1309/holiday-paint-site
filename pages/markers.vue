@@ -59,7 +59,7 @@
         <img src="../assets/img/landings/markers/letter5.png" alt="" class="about-second__parallax-item" data-depth="0.2">
       </div>
       <div class="container flex jc-sb">
-        <button @click="openVideo('https://www.youtube.com/embed/ScMzIvxBSi4')" class="about-second__left video-btn">
+        <button @click="openVideo($store.state.shop.settings[3].value)" class="about-second__left video-btn">
           <span class="video-btn__body gradient"></span>
           <span class="video-btn--label-1">Смотреть видео</span>
         </button>

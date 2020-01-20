@@ -17,9 +17,9 @@
             </div>
             <div class="basket-descript">
               <p class="basket-item__name">{{scope.row.name}}</p>
-              <p>{{scope.row.descript}}</p>
-              <p>Цвет: {{scope.row.color}}</p>
-              <p>{{scope.row.count}} шт.</p>
+              <p>{{scope.row.description}}</p>
+              <p>Цвет: {{$store.state.shop.colors[scope.row.color].label}}</p>
+              <p>{{scope.row.quantity}} шт.</p>
             </div>
           </div>
         </template>
@@ -29,13 +29,13 @@
         label="Цена"
       >
         <template slot-scope="scope">
-          <span class="order-card__price">{{scope.row.price * scope.row.count}} р.</span>
+          <span class="order-card__price">{{scope.row.price * scope.row.quantity}} р.</span>
         </template>
       </el-table-column>
     </el-table>
     <h2 class="order-card__title order-card__amount uppercase flex jc-sb">
       <span>Итого: {{totalCount}} товара</span>
-      <span>{{totalSum}} р.</span>
+      <span>{{totalSum - $store.state.shop.discount}} р.</span>
     </h2>
     <nuxt-link class="order-card__link" to="/basket">Редактировать</nuxt-link>
   </el-card>
@@ -49,14 +49,14 @@
       totalSum() {
         let total = 0
         this.items.forEach((item) => {
-          total += item.price * item.count
+          total += item.price * item.quantity
         })
         return total
       },
       totalCount() {
         let total = 0
         this.items.forEach((item) => {
-          total += item.count
+          total += item.quantity
         })
         return total
       }

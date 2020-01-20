@@ -7,31 +7,31 @@
         <a @click.prevent="clearCheckboxes()" class="catalog-filter__clean-btn">Очистить</a>
       </div>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые краски</span>
+        <input @click="$store.commit('shop/filterType', 0)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые краски</span>
       </label>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые маркеры</span>
+        <input @click="$store.commit('shop/filterType', 1)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые маркеры</span>
       </label>
       <div>
         <label class="catalog-filter__checkbox form-checkbox__wrap">
-          <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Цветной дым</span>
+          <input @click="$store.commit('shop/filterType', 2)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Цветной дым</span>
         </label>
         <!-- SUB -->
         <label class="catalog-filter__checkbox form-checkbox__wrap sub">
-          <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">30 сек</span>
+          <input @click="" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">30 сек</span>
         </label>
         <label class="catalog-filter__checkbox form-checkbox__wrap sub">
-          <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">60 сек</span>
+          <input @click="" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">60 сек</span>
         </label>
         <label class="catalog-filter__checkbox form-checkbox__wrap sub">
-          <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">120 сек</span>
+          <input @click="" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">120 сек</span>
         </label>
       </div>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Краски Холи</span>
+        <input @click="$store.commit('shop/filterType', 3)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Краски Холи</span>
       </label>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Кигуруми</span>
+        <input @click="$store.commit('shop/filterType', 4)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Кигуруми</span>
       </label>
     </div>
     <div class="catalog-filter__box active">
@@ -39,15 +39,7 @@
         <p @click="openFilterBox()">Цвет</p>
         <a @click.prevent="clearCheckboxes()" class="catalog-filter__clean-btn">Очистить</a>
       </div>
-      <input type="checkbox" class="form-checkbox__color purple">
-      <input type="checkbox" class="form-checkbox__color green">
-      <input type="checkbox" class="form-checkbox__color blue">
-      <input type="checkbox" class="form-checkbox__color yellow">
-      <input type="checkbox" class="form-checkbox__color pink">
-      <input type="checkbox" class="form-checkbox__color dark-blue">
-      <input type="checkbox" class="form-checkbox__color maroon">
-      <input type="checkbox" class="form-checkbox__color red">
-      <input type="checkbox" class="form-checkbox__color gray">
+        <input v-for="item in $store.state.shop.colors" @click="$store.commit('shop/filterColor', item.id)" type="checkbox" class="form-checkbox__color" :style="'background-color:' + item.color">
     </div>
     <div class="catalog-filter__box">
       <div class="catalog-filter__box-title">
@@ -71,10 +63,10 @@
         <a @click.prevent="clearCheckboxes()" class="catalog-filter__clean-btn">Очистить</a>
       </div>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">В наличии</span>
+        <input :checked="$store.state.shop.showAvailable" @click="$store.commit('shop/filterAvailable')" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">В наличии</span>
       </label>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Товары со скидкой</span>
+        <input :checked="$store.state.shop.showSale" @click="$store.commit('shop/filterSale')" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Товары со скидкой</span>
       </label>
     </div>
   </div>
@@ -86,6 +78,7 @@
     components: {
     },
     data: () => ({
+      showAvailable: false,
       value1: 10,
       marks: {
         90: '90',
@@ -108,6 +101,7 @@
         inputs.forEach((el, index, arr) => {
           el.checked = false
         })
+        this.$store.commit('shop/flushFilter');
       }
     }
   }

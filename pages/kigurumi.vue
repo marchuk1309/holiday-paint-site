@@ -52,7 +52,7 @@
     <section class="about-second">
       <img src="../assets/img/landings/kigurumi/about-second__right.png" alt="" class="about-second__right-bg">
       <div class="container flex jc-sb">
-        <button @click="openVideo('https://www.youtube.com/embed/ScMzIvxBSi4')" class="about-second__left video-btn">
+        <button @click="openVideo($store.state.shop.settings[1].value)" class="about-second__left video-btn">
           <span class="video-btn__body gradient"></span>
           <span class="video-btn--label-1">Смотреть видео</span>
         </button>

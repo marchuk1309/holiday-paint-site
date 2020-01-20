@@ -3,8 +3,8 @@
     <div class="container flex jc-sb">
       <div class="subscription-text">
         <h3 class="subscription-header">Нужна помощь с заказом?</h3>
-        <a href="tel:8 800 000 00 00" class="subscription-link">8 800 000 00 00</a>
-        <a href="mailto:partner@holiday-paint.ru" class="subscription-link">partner@holiday-paint.ru</a>
+        <a :href="'tel:' + $store.state.shop.user.info.phone" class="subscription-link">{{$store.state.shop.user.info.phone}}</a>
+        <a :href="'mailto:' + $store.state.shop.user.info.corp_email" class="subscription-link">{{$store.state.shop.user.info.corp_email}}</a>
       </div>
       <div class="subscription-form">
         <h3 class="subscription-header">Подпишитесь на новости Holiday Paint</h3>

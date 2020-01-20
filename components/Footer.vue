@@ -8,8 +8,8 @@
           <p>ОГРНИП 000 000 000</p>
         </div>
         <div class="footer-socials">
-          <a href="https://vk.com" target="_blank" class="socials-item footer__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
-          <a href="https://instagram.com" target="_blank" class="socials-item footer__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
+          <a :href="$store.state.shop.user.socials.ids.vk" target="_blank" class="socials-item footer__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
+          <a :href="$store.state.shop.user.socials.ids.instagram" target="_blank" class="socials-item footer__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
           <a href="https://youtube.com" target="_blank" class="socials-item footer__socials-item"><img src="@/assets/img/icons/youtube.svg" alt=""></a>
         </div>
       </div>
@@ -32,7 +32,7 @@
         <nuxt-link to="/about" class="footer-link">О компании</nuxt-link>
         <nuxt-link to="/found" class="footer-link">Найти представителя</nuxt-link>
         <nuxt-link to="/discounts" class="footer-link">Акции</nuxt-link>
-        <a class="btn footer-btn">Стать партнером</a>
+        <a href="https://franchise.holiday-paint.biz" class="btn footer-btn">Стать партнером</a>
       </div>
     </div>
     <div class="footer-after">

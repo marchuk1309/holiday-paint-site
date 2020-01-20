@@ -66,13 +66,14 @@
   export default {
     name: "order-step1",
     data: () => ({
-      items: localdata.basketData,
+      items: [],
       userData: {
         city: '',
         street: '',
         build: '',
         home: '',
-        apartment: ''
+        apartment: '',
+
       },
       rules: {
         city: [
@@ -92,10 +93,18 @@
     head: {
       title: 'Holiday Paint | Оформление заказа'
     },
+    mounted(){
+      this.items = this.$store.getters['shop/basketInfo']
+    },
     components: {
       OrderList,
       PopularGoods,
       Subscription
+    },
+    computed: {
+      requestInfo(){
+        return this.$store.getters['shop/requestInfo']
+      }
     },
     methods: {
       onSubmit() {
@@ -109,8 +118,15 @@
               apartment: this.userData.apartment
             }
             try {
-              this.$router.push('/order/thanks')
+              //this.$store.commit('addStatsRecord', {value: request.value})
+              let request = this.requestInfo
+              request.city = this.userData.city
+              request.address = this.userData.street + ' ' + this.userData.home + ' ' + this.userData.apartment
+              this.$store.commit('shop/addRequest', request)
+              this.$store.commit('shop/basketFlush')
+              this.$router.push('/order/thanks');
             } catch (e) {
+              console.log(e)
             }
           }
         })

@@ -1,27 +1,69 @@
 <template>
   <div class="feedback-slider">
     <el-carousel :autoplay="false" :loop="false" arrow="always" :trigger="'click'" :type="sliderType" height="30em">
-      <el-carousel-item v-for="item in 6" :key="item">
-        <img src="../assets/img/landings/paint/feedback-1.jpg" alt="">
+      <el-carousel-item v-for="(item,index) in imageArr[number]" :key="index">
+        <img :src="item" alt="">
       </el-carousel-item>
     </el-carousel>
   </div>
 </template>
 
 <script>
+  function checkImage(url) {
+    var img = new Image();
+    img.onload = function(){ alert("good"); };
+    img.onerror = function(){ alert("bad") };
+    img.src = url;
+  }
+
   export default {
     name: "Feedbacks",
     data: () => ({
-      sliderType: 'card'
+      sliderType: 'card',
+      imageArr: [[]]
     }),
+    computed: {
+      photos() {return [
+          'http://hpapi.fobesko.com/public/storage/content/0.png',
+          'http://hpapi.fobesko.com/public/storage/content/0.png',
+          'http://hpapi.fobesko.com/public/storage/content/0.png',
+          'http://hpapi.fobesko.com/public/storage/content/0.png',
+          'http://hpapi.fobesko.com/public/storage/content/0.png'
+      ]},
+      number() {
+        if (this.$route.name == 'paint') return 1
+        if (this.$route.name == 'colored-smoke') return 3
+        if (this.$route.name == 'holy-paint') return 4
+        if (this.$route.name == 'kigurumi') return 0
+        if (this.$route.name == 'markers') return 2
+        else return 0
+      }
+    },
     methods: {
       onResize() {
         this.sliderType = document.body.clientWidth > 767 ? 'card' : '';
-      }
+      },
     },
     mounted() {
       window.addEventListener('resize', this.onResize);
       this.onResize();
+      //if (this.$route.name == "colored-smoke")
+      var arr = [ [],[],[],[],[],[] ]
+      this.$store.state.shop.content.forEach(function (element) {
+        if (element.id < 5) arr[0].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
+        if (element.id > 4 && element.id < 10) arr[1].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
+        if (element.id > 9 && element.id < 15) arr[2].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
+        if (element.id > 14 && element.id < 20) arr[3].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
+        if (element.id > 19 && element.id < 25) arr[4].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
+        if (element.id > 24 && element.id < 30) arr[5].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
+      })
+      for (let i = 0; i < 6; i++) {
+        this.imageArr[i] = arr[i]
+
+      }
+      this.$forceUpdate()
+      console.log(this.imageArr[this.number])
+      console.log(this.photos)
     },
   }
 </script>

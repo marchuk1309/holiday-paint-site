@@ -9,7 +9,7 @@
           <div class="main-buttons">
             <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
             <div class="video-btn">
-              <button class="video-btn__body" @click.prevent="openVideo('https://www.youtube.com/embed/ScMzIvxBSi4')"></button>
+              <button class="video-btn__body" @click.prevent="openVideo($store.state.shop.settings[2].value)"></button>
               <span class="video-btn--label-1">Смотреть видео</span>
             </div>
           </div>
@@ -211,8 +211,26 @@
     </section>
     <Partners/>
     <popular-goods/>
-    <div class="map"><img src="../assets/img/map-placeholder.png" alt=""></div>
-    <el-dialog
+    <yandex-map
+        :settings="settings"
+        :coords="[59.62896654088406, 48.731893822753904]"
+        zoom="3"
+        style="width: 100%; height: 500px;"
+        :controls="[]"
+    >
+
+      <ymap-marker v-for="(item,index) in markers()"
+                   :markerId="index"
+                   marker-type="placemark"
+                   :coords="item.coords.split(' ')"
+                   hint-content="Hint content 1"
+                   :balloon="{header: 'header', body: 'body', footer: 'footer'}"
+                   :icon="{color: 'purple'}"
+                   cluster-name="1"
+      ></ymap-marker>
+
+    </yandex-map>
+      <el-dialog
       :visible.sync="videoDialog"
       custom-class="video-dialog"
     >
@@ -228,23 +246,34 @@
 </template>
 
 <script>
-
+  import { yandexMap, ymapMarker } from 'vue-yandex-maps'
   import Parallax from 'parallax-js'
   import Partners from "../components/Partners";
   import PopularGoods from "../components/PopularGoods";
 export default {
   components: {
     Partners,
-    PopularGoods
+    PopularGoods,
+    yandexMap,
+    ymapMarker
   },
   head: {
     title: `Holiday Paint | Главная`
   },
   data: () => ({
     videoDialog: false,
-    videoUrl: null
+    videoUrl: null,
+    settings: {
+      apiKey: '51dd1116-29b8-4a97-ac52-d4d1197d0d80',
+      lang: 'ru_RU',
+      coordorder: 'longlat',
+      version: '2.1'
+    },
   }),
   methods: {
+    markers(){
+      return this.$store.state.shop.markers.filter(item => item.coords != null)
+    },
     openVideo(link) {
       this.videoUrl = link
       this.videoDialog = true
@@ -749,7 +778,6 @@ export default {
       right: 0;
       top: 0;
       width: 100%;
-      height: 100%;
     }
     .video-btn-2 {
       font-size: 1.5em;

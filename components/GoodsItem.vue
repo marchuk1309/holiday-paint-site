@@ -121,6 +121,8 @@
       margin-bottom: 1em
       img
         height: 100%
+        width: 100%
+        object-fit: contain
       &__popup
         visibility: hidden
         opacity: 0

@@ -68,7 +68,7 @@
                         <p class="header-nav__link-img"><img src="@/assets/img/icons/highlighter.svg" alt=""></p>
                         Меловые маркеры
                     </nuxt-link>
-                    <nuxt-link no-prefetch to="/colored-smoke" active-class="active white" class="header-nav__link">
+                    <nuxt-link no-prefetch to="/colored-smoke" active-class="active" class="header-nav__link">
                         <p class="header-nav__link-img"><img src="@/assets/img/icons/cloud.svg" alt=""></p>
                         Цветной дым
                     </nuxt-link>
@@ -76,7 +76,7 @@
                         <p class="header-nav__link-img"><img src="@/assets/img/icons/dust.svg" alt=""></p>
                         Краски холи
                     </nuxt-link>
-                    <nuxt-link no-prefetch to="/kigurumi" active-class="active" class="header-nav__link">
+                    <nuxt-link no-prefetch to="/kigurumi" active-class="active" class="header-nav__link" :class="{'passive-white': $route.path === '/markers'}">
                         <p class="header-nav__link-img"><img src="@/assets/img/icons/working-coverall.svg" alt=""></p>
                         Кигуруми
                     </nuxt-link>
@@ -274,6 +274,11 @@
                         color: #ffffff
                     .header-nav__link-img
                         box-shadow: $boxShadowHover
+                &.passive-white
+                  @media (max-width: 1440px)
+                    color: white
+                    &:hover
+                      color: $primaryColor
                 &-img
                     transition: .3s
                     height: 3em

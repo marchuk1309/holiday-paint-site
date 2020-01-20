@@ -183,7 +183,6 @@ export const mutations = {
         axios
             .get(state.apiServer + '/api/data/1')
             .then(function (response) {
-                console.log('Data successfully loaded!')
                 console.log(response.data)
                 // Getting cities
                 response.data['cities'].forEach(function (element) {

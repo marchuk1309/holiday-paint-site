@@ -211,26 +211,28 @@
     </section>
     <Partners/>
     <popular-goods/>
-    <yandex-map
+      <yandex-map
         :settings="settings"
         :coords="[59.62896654088406, 48.731893822753904]"
         zoom="3"
         style="width: 100%; height: 500px;"
         :controls="[]"
-    >
+      >
+      <template v-for="(item,index) in markers()">
 
-      <ymap-marker v-for="(item,index) in markers()"
-                   :markerId="index"
-                   marker-type="placemark"
-                   :coords="item.coords.split(' ')"
-                   hint-content="Hint content 1"
-                   :balloon="{header: 'header', body: 'body', footer: 'footer'}"
-                   :icon="{color: 'purple'}"
-                   cluster-name="1"
-      ></ymap-marker>
+        <ymap-marker
+          :markerId="index"
+          marker-type="placemark"
+          :coords="item.coords.split(' ')"
+          hint-content="Hint content 1"
+          :balloon="{header: 'header', body: 'body', footer: 'footer'}"
+          :icon="{color: 'purple'}"
+          cluster-name="1"
+        ></ymap-marker>
+      </template>
 
-    </yandex-map>
-      <el-dialog
+      </yandex-map>
+    <el-dialog
       :visible.sync="videoDialog"
       custom-class="video-dialog"
     >

@@ -46,7 +46,7 @@
         <p @click="openFilterBox()">Размер</p>
         <a @click.prevent="clearCheckboxes()" class="catalog-filter__clean-btn">Очистить</a>
       </div>
-      <p class="catalog-filter__box-text">Ваш рост (шаг 10 см)</p>
+      <p class="catalog-filter__box-text">Ваш рост (см)</p>
       <div class="form-range__wrap">
         <el-slider
           :step="10"

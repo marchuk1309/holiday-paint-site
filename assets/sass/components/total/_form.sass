@@ -17,6 +17,8 @@
       border: none
       box-shadow: $boxShadow
   &-search
+    padding: 0 2.5em 0 1.25em
+    text-align: center
     &__wrap
       position: relative
       input
@@ -171,4 +173,11 @@
       &::after
         opacity: 1
         visibility: visible
+.el-input-group--prepend
+  .el-input__inner
+    border-radius: 0 40px 40px 0!important
+    border-left: none
+    padding-left: 5px!important
 
+.el-input-group__prepend
+  border-radius: 40px 0 0 40px!important

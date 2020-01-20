@@ -16,7 +16,9 @@
                 <el-input placeholder="Имя*" v-model="userData.name"/>
               </el-form-item>
               <el-form-item prop="tel">
-                <el-input placeholder="Телефон*" v-model="userData.phone"/>
+                <el-input placeholder="Телефон*"  maxlength="10" v-model="userData.phone">
+                  <template slot="prepend">+7</template>
+                </el-input>
               </el-form-item>
               <el-form-item prop="email">
                 <el-input placeholder="E-mail" v-model.trim="userData.email"/>
@@ -72,6 +74,7 @@
 
   export default {
     name: "order-step1",
+
     data: () => ({
       items: [],
       delivery: 0,
@@ -86,7 +89,8 @@
           { required: true, message: 'Введите свое имя', trigger: 'blur' }
         ],
         phone: [
-          { required: true, message: 'Введите свой телефон', trigger: 'blur' }
+          { required: true,  message: 'Введите свой телефон', trigger: 'blur' },
+          { type: 'number', message: 'Введен невалидный номер'}
         ]
       }
     }),
@@ -107,12 +111,12 @@
           if (valid) {
             const formData = {
               name: this.userData.name,
-              phone: this.userData.phone,
+              phone: '+7' + this.userData.phone,
               email: this.userData.email,
               subscription: this.userData.subscription
             }
             try {
-              let request = this.userData
+              let request = formData
               request.product_ids = []
               request.quantity = []
               request.colors = []

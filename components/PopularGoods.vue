@@ -47,9 +47,11 @@
       padding-bottom: 8em
       &__body
         display: flex
-        justify-content: space-between
+        justify-content: flex-start
     &-item
       width: 19%
+      @media (min-width: 1025px)
+        margin-right: 1%
       @media (max-width: 1024px)
         margin: 3em 1.75em
         width: auto

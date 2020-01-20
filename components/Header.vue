@@ -10,7 +10,7 @@
                         <span>Район {{currentDistrict}}</span>
                     </div>
                 </div>
-                <div class="header__location-toggler" @click="changeCity = !changeCity">
+                <div class="header__location-toggler" @click="$emit('changeCity')">
                     <span>{{currentCity}}</span>
                 </div>
 
@@ -97,15 +97,6 @@
         >
             <a v-for="district in districts" :key="district"  @click="changeCurrentDistrict(district)" class="dialog-link">{{district}}</a>
         </el-dialog>
-        <el-dialog
-                :modal-append-to-body="false"
-                :center="true"
-                title="Выберите город"
-                :visible.sync="changeCity"
-                width="300px"
-        >
-            <a v-for="city in cities" :key="city" @click="changeCurrentCity(city)"  class="dialog-link">{{city}}</a>
-        </el-dialog>
     </div>
 </template>
 
@@ -113,7 +104,6 @@
     export default {
         name: "Header",
         data: () => ({
-            changeCity: false,
             changeDistrict: false,
             mobileMenu: false,
             currentDistrict: 'Химки',
@@ -129,15 +119,15 @@
             userInfo(){
                 return this.$store.getters['shop/userInfo'];
             },
-            cities(){
-                return this.$store.getters['shop/citiesInfo'];
-            },
             currentCity() {
                 return this.$store.getters['shop/currentCity'];
             },
             userPhone() {
-              let tel = '+' + this.userInfo.info.phone[0] + " (" +this.userInfo.info.phone.slice(1, 4) + ") " + this.userInfo.info.phone.slice(4, 8) + " " + this.userInfo.info.phone.slice(8)
-              return tel
+              if (this.userInfo.info.phone) {
+                const tel = '+' + this.userInfo.info.phone[0] + " (" +this.userInfo.info.phone.slice(1, 4) + ") " + this.userInfo.info.phone.slice(4, 8) + " " + this.userInfo.info.phone.slice(8);
+                return tel
+              }
+              return ''
             }
         },
         mounted() {
@@ -149,12 +139,6 @@
                 if (window.pageYOffset > 100) {
                     this.headerFixed = true
                 } else this.headerFixed = false
-            },
-
-            changeCurrentCity(city) {
-                this.$store.commit('shop/setCurrentCity', city);
-                this.$store.commit('shop/getPartnerInfo', city);
-                this.changeCity = false
             },
             changeCurrentDistrict(district) {
                 this.currentDistrict = district
@@ -174,11 +158,11 @@
 <style lang="sass" scoped>
     @import "../assets/sass/variables"
     .dialog-link
-        display: block
-        width: fit-content
-        margin-left: auto
-        margin-right: auto
-        margin-bottom: .5em
+      display: block
+      width: fit-content
+      margin-left: auto
+      margin-right: auto
+      margin-bottom: .5em
     .header
         &-top, &-bottom
             padding: 1.25em 0

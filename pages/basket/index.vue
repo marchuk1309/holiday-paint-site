@@ -88,10 +88,10 @@
       </div>
     </div>
     <el-dialog
-            :center="true"
-            title="Удалить товар?"
-            :visible.sync="removeDialog"
-            width="350px"
+      :center="true"
+      title="Удалить товар?"
+      :visible.sync="removeDialog"
+      width="350px"
     >
       <span class="dialog-text">Вы действительно хотите удалить {{removeItem.name}} из корзины?</span>
       <span slot="footer" class="dialog-footer">

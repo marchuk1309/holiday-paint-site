@@ -30,14 +30,14 @@
       <div class="footer-col">
         <p class="footer-header">Навигация</p>
         <nuxt-link to="/about" class="footer-link">О компании</nuxt-link>
-        <nuxt-link to="/found" class="footer-link">Найти представителя</nuxt-link>
+        <a @click="$emit('changeCity')" class="footer-link">Найти представителя</a>
         <nuxt-link to="/discounts" class="footer-link">Акции</nuxt-link>
         <a href="https://franchise.holiday-paint.biz" target="_blank" class="btn footer-btn">Стать партнером</a>
       </div>
     </div>
     <div class="footer-after">
       <div class="container flex jc-sa">
-        <p>&copy; Holiday Paint</p>
+        <p>&copy; Holiday Paint {{currentYear}}. <a target="_blank" href="https://wa.me/79146000900">Разработано Fobesko Team</a></p>
       </div>
     </div>
   </footer>
@@ -45,7 +45,10 @@
 
 <script>
   export default {
-    name: "Footer"
+    name: "Footer",
+    data: () => ({
+      currentYear: new Date().getFullYear()
+    })
   }
 </script>
 

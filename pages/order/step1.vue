@@ -13,18 +13,18 @@
             >
               <h2 class="order-card__title">Введите данные, чтобы продолжить покупку</h2>
               <el-form-item prop="name">
-                <el-input placeholder="Имя*" v-model="userData.name"/>
+                <el-input placeholder="Имя*" v-model="name"/>
               </el-form-item>
               <el-form-item prop="tel">
-                <el-input placeholder="Телефон*"  maxlength="10" v-model="userData.phone">
+                <el-input placeholder="Телефон*"  maxlength="10" v-model="phone">
                   <template slot="prepend">+7</template>
                 </el-input>
               </el-form-item>
               <el-form-item prop="email">
-                <el-input placeholder="E-mail" v-model.trim="userData.email"/>
+                <el-input placeholder="E-mail" v-model.trim="email"/>
               </el-form-item>
               <label class="form-checkbox__wrap">
-                <input class="form-checkbox big" type="checkbox" v-model="userData.subscription"><span class="form-checkbox__label">Подписаться на новости HOLIDAY PAINT</span>
+                <input class="form-checkbox big" type="checkbox" v-model="subscription"><span class="form-checkbox__label">Подписаться на новости HOLIDAY PAINT</span>
               </label>
               <p class="order-card__text">Контактные данные под надежной защитой</p>
               <div class="order-delivery__wrap">
@@ -74,16 +74,13 @@
 
   export default {
     name: "order-step1",
-
     data: () => ({
       items: [],
       delivery: 0,
-      userData: {
-        name: '',
-        phone: '',
-        email: '',
-        subscription: false
-      },
+      name: '',
+      phone: '',
+      email: '',
+      subscription: false,
       rules: {
         name: [
           { required: true, message: 'Введите свое имя', trigger: 'blur' }
@@ -94,6 +91,14 @@
         ]
       }
     }),
+    watch: {
+      email() {
+        this.email = this.email.replace(/[А-Яа-яЁё\s]/g, "")
+      },
+      phone() {
+        this.phone = this.phone.replace(/[A-Za-zА-Яа-яЁё\s]/g, "")
+      }
+    },
     head: {
       title: 'Holiday Paint | Оформление заказа'
     },
@@ -110,10 +115,10 @@
         this.$refs.form.validate( async valid => {
           if (valid) {
             const formData = {
-              name: this.userData.name,
-              phone: '+7' + this.userData.phone,
-              email: this.userData.email,
-              subscription: this.userData.subscription
+              name: this.name,
+              phone: '+7' + this.phone,
+              email: this.email,
+              subscription: this.subscription
             }
             try {
               let request = formData

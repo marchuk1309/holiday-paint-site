@@ -3,7 +3,7 @@
     <div class="container flex jc-sb">
       <div class="subscription-text">
         <h3 class="subscription-header">Нужна помощь с заказом?</h3>
-        <a :href="'tel:' + $store.state.shop.user.info.phone" class="subscription-link">{{$store.state.shop.user.info.phone}}</a>
+        <a :href="'tel:' + userPhone" class="subscription-link">{{userPhone}}</a>
         <a :href="'mailto:' + $store.state.shop.user.info.corp_email" class="subscription-link">{{$store.state.shop.user.info.corp_email}}</a>
       </div>
       <div class="subscription-form">
@@ -18,6 +18,20 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    computed: {
+      userPhone() {
+        if (this.$store.state.shop.user.info.phone) {
+          const tel = '+' + this.$store.state.shop.user.info.phone[0] + " (" +this.$store.state.shop.user.info.phone.slice(1, 4) + ") " + this.$store.state.shop.user.info.phone.slice(4, 8) + " " + this.$store.state.shop.user.info.phone.slice(8);
+          return tel
+        }
+        return ''
+      }
+    }
+  }
+</script>
 
 <style lang="sass" scoped>
   @import "../assets/sass/variables"

@@ -1,14 +1,23 @@
 <template>
   <el-container>
     <el-header height="auto">
-      <Header />
+      <Header @changeCity="changeCity = !changeCity" />
     </el-header>
     <el-main>
       <nuxt/>
     </el-main>
     <el-footer height="auto">
-      <Footer/>
+      <Footer @changeCity="changeCity = !changeCity"/>
     </el-footer>
+    <el-dialog
+      :modal-append-to-body="false"
+      :center="true"
+      title="Выберите город"
+      :visible.sync="changeCity"
+      width="300px"
+    >
+      <a v-for="city in cities" :key="city" @click="changeCurrentCity(city)"  class="dialog-link">{{city}}</a>
+    </el-dialog>
   </el-container>
 </template>
 
@@ -18,17 +27,36 @@
   import Footer from "../components/Footer";
   export default {
     data: () => ({
-      mobileMenu: false
+      mobileMenu: false,
+      changeCity: false
     }),
     components: {
       Header,
       Footer
+    },
+    computed: {
+      cities(){
+        return this.$store.getters['shop/citiesInfo'];
+      },
+    },
+    methods: {
+      changeCurrentCity(city) {
+        this.$store.commit('shop/setCurrentCity', city);
+        this.$store.commit('shop/getPartnerInfo', city);
+        this.changeCity = false
+      },
     }
   }
 </script>
 
 <style lang="sass" scoped>
   @import "../assets/sass/variables"
+  .dialog-link
+    display: block
+    width: fit-content
+    margin-left: auto
+    margin-right: auto
+    margin-bottom: .5em
   .el-header, .el-footer, .el-main
     padding: 0
   .el-header

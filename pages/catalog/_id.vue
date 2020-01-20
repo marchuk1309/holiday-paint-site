@@ -4,12 +4,13 @@
       <h2 class="section-title">Карточка товара</h2>
       <div class="item-card__wrap">
         <div class="item-card__left">
-          <div class="item-card__gallery">
-            <el-carousel arrow="always" height="30em" trigger="click" :autoplay="false">
+          <div class="item-card__gallery" :class="{single: images.length === 1}">
+            <el-carousel v-if="images.length > 1" arrow="always" height="30em" trigger="click" :autoplay="false">
               <el-carousel-item v-for="(image, index) in images" :key="index">
                 <img :src="photo" alt="">
               </el-carousel-item>
             </el-carousel>
+            <img class="item-card__single-photo" v-else :src="photo" alt="">
           </div>
         </div>
         <form class="item-card__right">
@@ -52,11 +53,7 @@
     data: () => ({
       showAlert: false,
       images: [
-        '../../assets/img/goods/photo.png',
-        '../../assets/img/goods/photo.png',
-        '../../assets/img/goods/photo.png',
-        '../../assets/img/goods/photo.png',
-        '../../assets/img/goods/photo.png',
+        '../../assets/img/goods/photo.png'
       ]
     }),
     methods: {
@@ -95,12 +92,21 @@
   @import "../../assets/sass/variables"
   .item-card
     margin-top: 4em
+    &__gallery.single
+      width: auto
+      margin-left: auto
+      margin-right: auto
+      height: 25em
     &__alert
       display: flex
       align-items: center
       justify-content: center
       color: #ff0000
       padding: 0 0 1em 0
+    &__single-photo
+      width: 100%
+      height: 100%
+      object-fit: cover
     &__wrap
       display: flex
       justify-content: space-between

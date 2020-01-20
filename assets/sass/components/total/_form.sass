@@ -10,6 +10,8 @@
   &-input
     border: 1px solid #dcdcdc
     padding: 0 2.5em
+    &:focus::placeholder
+      opacity: 0
     &.width-100
       width: 100%
     &.boxed
@@ -17,8 +19,8 @@
       border: none
       box-shadow: $boxShadow
   &-search
-    padding: 0 2.5em 0 1.25em
-    text-align: center
+    &:focus, &:hover, &:active
+      box-shadow: $boxShadow!important
     &__wrap
       position: relative
       input

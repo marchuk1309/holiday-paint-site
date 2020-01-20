@@ -1,7 +1,7 @@
 <template>
   <div class="partners-item">
     <div class="partners-photo">
-      <img :src="partner.photo" alt="">
+      <img :src="photo" alt="">
       <p class="partners-city">{{partner.city}}</p>
     </div>
     <div class="partners-descript">

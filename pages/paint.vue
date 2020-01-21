@@ -7,7 +7,9 @@
           <h3 class="main-subtitle">Наносите на авто, <br>волосы и тело <br> Смывается простой водой</h3>
           <div class="main-buttons">
             <div class="main-btn__wrap">
-              <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
+              <p @click="$store.commit('shop/filterType', 0)">
+                <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
+              </p>
               <p class="landing__label">590 рублей за штуку</p>
             </div>
             <div class="video-btn">
@@ -26,7 +28,7 @@
       </parallax-container>
       <div class="container">
         <h2 class="section-title big gradient">Что такое меловая краска?</h2>
-        <p class="subtitle">Яркое настроение даже в самы серые будни.</p>
+        <p class="subtitle">Яркое настроение даже в самы серые будни</p>
         <p class="about-text">Смываемая меловая краска — это краска для авто волос и тела. Смывается простой водой. Безопасна для здоровья и окружающей среды.</p>
         <div class="about-facts">
           <div class="about-fact">
@@ -69,7 +71,9 @@
             <p class="about-using__text">Розыгрыши и пранки</p>
           </div>
         </div>
-        <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        <p @click="$store.commit('shop/filterType', 0)">
+          <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        </p>
       </div>
     </section>
     <section class="about-second">

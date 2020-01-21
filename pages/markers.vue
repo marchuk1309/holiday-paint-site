@@ -7,7 +7,9 @@
           <h3 class="main-subtitle">Рисуйте каждый день все, <br>что захочется</h3>
           <div class="main-buttons">
             <div class="main-btn__wrap">
-              <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
+              <p @click="$store.commit('shop/filterType', 1)">
+                <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
+              </p>
               <p class="landing__label">100 рублей за штуку</p>
             </div>
           </div>
@@ -17,7 +19,7 @@
     <section class="about">
       <div class="container">
         <h2 class="section-title big gradient">Что такое меловые маркеры?</h2>
-        <p class="subtitle">Яркие рисунки, привлекающие внимание окружающих.</p>
+        <p class="subtitle">Яркие рисунки, привлекающие внимание окружающих</p>
         <p class="about-text">Меловые маркеры — это маркеры на водной основе, жидкого мела и пигментов. Легко смывается простой водой с гладких поверхностей: стекло, металл, пластик.</p>
         <p class="subtitle blue">Где можно рисовать маркерами</p>
         <div class="about-using">
@@ -46,7 +48,9 @@
             <p class="about-using__text">Одежда и ткань</p>
           </div>
         </div>
-        <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        <p @click="$store.commit('shop/filterType', 1)">
+          <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        </p>
       </div>
     </section>
     <section class="about-second">

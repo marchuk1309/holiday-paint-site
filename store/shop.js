@@ -204,37 +204,33 @@ export const mutations = {
                     state.user = response.data['user']
                 }
 
-
                 if (localStorage.getItem('basket') != null) {
-                    //state.basket = JSON.parse(localStorage.getItem('basket'))
+                    state.basket = JSON.parse(localStorage.getItem('basket'))
                 }
 
                 // Getting other data
-                response.data['products'][0].forEach((item) => {
+                response.data['products'].forEach((item) => {
                     if (typeof item.colors == "string") item.colors = JSON.parse(item.colors)
                 })
-                state.products = response.data['products'][0]
-                state.products_photos = JSON.parse(response.data['products_photo'])
+                state.products = response.data['products']
+                //state.products_photos = response.data['products_photo']
                 //state.discounts.posts = response.data['discounts']
                 let saleproducts = []
-                response.data['promocodes'].forEach((item) => {
-                    if (typeof item.items == "string") item.items = JSON.parse(item.items)
-                    item.items.forEach((subitem) => {
-                        saleproducts.push(subitem)
-                    })
-                })
+
                 state.saleproducts = saleproducts
-                state.promocodes = response.data['promocodes']
+
                 state.colors = response.data['colors']
                 state.markers = response.data['coordinates']
                 state.partners = response.data['partners']
                 state.settings = response.data['settings']
                 state.content = response.data['content']
-                console.log(state.content)
-                JSON.parse(response.data['userphoto']).forEach(function(element) {
-                    let index = state.partners.findIndex(user => user.id === element.id);
-                    state.partners[index].photo = element.value
+                response.data['promocodes'].forEach((item) => {
+                  if (typeof item.items == "string") item.items = JSON.parse(item.items)
+                  item.items.forEach((subitem) => {
+                    saleproducts.push(subitem)
+                  })
                 })
+                state.promocodes = response.data['promocodes']
             })
             .catch(function (error) {
                 console.log(error)
@@ -255,69 +251,8 @@ export const mutations = {
                 console.log(error)
             });
     },
-    /*
-    getInfo (state, city) {
-        axios
-            .get(state.apiServer + "/api/user/cities")
-            .then((response) => {
-                console.log('Action: loadCities');
 
 
-          for (let x = 0; x < response.data.length; x++) {
-            axios
-              .get(API_SERVER + '/api/file/profile/' + id)
-              .then(function (response) { photo = response.data }).catch(function (error) { console.log(error) })
-            response.data[x].posInfo = JSON.parse(response.data[x].posInfo)
-          }
-                response.data.forEach(function (element) {
-                    state.cities.push(element.city);
-                });
-                console.log(state.cities);
-                if (localStorage.getItem('cityindex') > state.cities.length) {
-                    localStorage.removeItem('cityindex');
-                }
-                if (localStorage.getItem('cityindex') != null) {
-                    this.selectedIndex = localStorage.getItem('cityindex');
-                } else {
-                    this.selectedIndex = 0;
-                }
-                axios
-                    .get(state.apiServer + '/api/user/city?city=' + city)
-                    .then(function (response) {
-                        console.log(response.data[0]);
-                        state.user = response.data[0]
-                        axios
-                            .get(state.apiServer + '/api/store/products/' + state.user.id )
-                            .then( (response) => {
-                                console.log('Action: loadProducts');
-                                console.log(response.data[0]);
-                                /*
-                                for (let x = 0; x < response.data.length; x++) {
-                                  axios
-                                    .get(API_SERVER + '/api/file/profile/' + id)
-                                    .then(function (response) { photo = response.data }).catch(function (error) { console.log(error) })
-                                  response.data[x].posInfo = JSON.parse(response.data[x].posInfo)
-                                }
-                                state.products = response.data[0]
-                            })
-                            .catch(function (error) {
-                                console.log(error)
-                            })
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    });
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
-    },
-setUserInfo(state, data) {
-    state.user = data
-},
-
-
- */
 }
 export const actions = {
     setIndex({rootState}) {

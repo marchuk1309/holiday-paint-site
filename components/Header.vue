@@ -34,7 +34,7 @@
                     </li>
                 </ul>
                 <nuxt-link no-prefetch to="/basket" class="header-basket mobile-show">
-                    <p class="header-basket__counter">{{this.$store.state.shop.basket.length}}</p>
+                    <p class="header-basket__counter">{{basketCount}}</p>
                     <img src="@/assets/img/icons/basket.svg" alt="">
                 </nuxt-link>
                 <div class="mobile-menu__toggler" @click="toggleMenu" :class="{active: mobileMenu}">
@@ -82,7 +82,7 @@
                     </nuxt-link>
                 </div>
                 <nuxt-link no-prefetch to="/basket" class="header-basket">
-                    <p class="header-basket__counter">{{this.$store.state.shop.basket.length}}</p>
+                    <p class="header-basket__counter">{{basketCount}}</p>
                     <img src="@/assets/img/icons/basket.svg" alt="">
                 </nuxt-link>
                 <nuxt-link no-prefetch to="/catalog" class="btn btn-transparent">Магазин</nuxt-link>
@@ -128,7 +128,12 @@
                 return tel
               }
               return ''
-            }
+            },
+            basketCount () {
+                return this.$store.state.shop.basket.reduce(function (count, current) {
+                    return count + current.quantity
+                }, 0)
+            },
         },
         mounted() {
             this.$store.commit('shop/getData');

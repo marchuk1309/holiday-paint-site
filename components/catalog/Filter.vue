@@ -7,14 +7,14 @@
         <a @click.prevent="clearCheckboxes()" class="catalog-filter__clean-btn">Очистить</a>
       </div>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input @click="$store.commit('shop/filterType', 0)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые краски</span>
+        <input :checked="$store.state.shop.showType.includes(0)" @click="$store.commit('shop/filterType', 0)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые краски</span>
       </label>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input @click="$store.commit('shop/filterType', 1)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые маркеры</span>
+        <input :checked="$store.state.shop.showType.includes(1)" @click="$store.commit('shop/filterType', 1)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые маркеры</span>
       </label>
       <div>
         <label class="catalog-filter__checkbox form-checkbox__wrap">
-          <input @click="$store.commit('shop/filterType', 2)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Цветной дым</span>
+          <input :checked="$store.state.shop.showType.includes(2)" @click="$store.commit('shop/filterType', 2)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Цветной дым</span>
         </label>
         <!-- SUB -->
         <label class="catalog-filter__checkbox form-checkbox__wrap sub">
@@ -28,10 +28,10 @@
         </label>
       </div>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input @click="$store.commit('shop/filterType', 3)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Краски Холи</span>
+        <input :checked="$store.state.shop.showType.includes(3)" @click="$store.commit('shop/filterType', 3)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Краски Холи</span>
       </label>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input @click="$store.commit('shop/filterType', 4)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Кигуруми</span>
+        <input :checked="$store.state.shop.showType.includes(4)" @click="$store.commit('shop/filterType', 4)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Кигуруми</span>
       </label>
     </div>
     <div class="catalog-filter__box active">

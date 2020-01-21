@@ -7,7 +7,9 @@
           <h3 class="main-subtitle">Превратите любую <br>вечеринку в сказку</h3>
           <div class="main-buttons">
             <div class="main-btn__wrap">
-              <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
+              <p @click="$store.commit('shop/filterType', 4)">
+                <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
+              </p>
               <p class="landing__label">1990 рублей за штуку</p>
             </div>
           </div>
@@ -17,7 +19,7 @@
     <section class="about">
       <div class="container">
         <h2 class="section-title big gradient">Что такое кигуруми?</h2>
-        <p class="subtitle">Привлекательные мягкие костюмы для вечеринок.</p>
+        <p class="subtitle">Привлекательные мягкие костюмы для вечеринок</p>
         <p class="about-text">Кигуруми — это костюм, напоминающий комбинезон, стилизованный под мультяшного героя или зверушку.</p>
         <p class="subtitle blue">Для чего подойдет костюм</p>
         <div class="about-using">
@@ -46,7 +48,9 @@
             <p class="about-using__text">Повседневная жизнь</p>
           </div>
         </div>
-        <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        <p @click="$store.commit('shop/filterType', 4)">
+          <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        </p>
       </div>
     </section>
     <section class="about-second">

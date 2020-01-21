@@ -7,7 +7,9 @@
           <h3 class="main-subtitle">Сделайте свой праздник <br>атмосферным и волшебным</h3>
           <div class="main-buttons">
             <div class="main-btn__wrap">
-              <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
+              <p @click="$store.commit('shop/filterType', 3)">
+                <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
+              </p>
               <p class="landing__label">100 рублей за штуку</p>
             </div>
           </div>
@@ -22,7 +24,7 @@
       </parallax-container>
       <div class="container">
         <h2 class="section-title big gradient">Что такое краски холи?</h2>
-        <p class="subtitle">Яркая атмосфера на любом мероприятии.</p>
+        <p class="subtitle">Яркая атмосфера на любом мероприятии</p>
         <p class="about-text">Краски холи — это порошковая краска из крахмала и пищевых красителей. Легко смывается с кожи и волос, а также без труда удаляется с одежды во время стирки. Гипоаллергеная и абсолютно безвредная для человека.</p>
         <p class="subtitle blue">Где и когда пригодится краска</p>
         <div class="about-using">
@@ -51,7 +53,9 @@
             <p class="about-using__text">Розыгрыши и пранки</p>
           </div>
         </div>
-        <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        <p @click="$store.commit('shop/filterType', 3)">
+          <nuxt-link  to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        </p>
       </div>
     </section>
     <section class="about-second">

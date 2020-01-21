@@ -17,7 +17,7 @@
     <section class="about">
       <div class="container">
         <h2 class="section-title big gradient">Что такое цветной дым?</h2>
-        <p class="subtitle">Густые клубы дыма, вызывающие восторг.</p>
+        <p class="subtitle">Густые клубы дыма, вызывающие восторг</p>
         <p class="about-text">Цветной дым — это абсолютно безопасный вид пиротехники. При активации дымовой шашки выходит окрашенный густой дым, клубы которого очень эффектно смотрятся в реальности, на фото и видео.</p>
         <div class="about-images">
           <div class="about-image"><img src="../assets/img/landings/smoke/about-1.png" alt=""></div>
@@ -51,7 +51,9 @@
             <p class="about-using__text">Массовые мероприятия</p>
           </div>
         </div>
-        <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        <p @click="$store.commit('shop/filterType', 2)">
+          <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        </p>
       </div>
     </section>
     <section class="about-second">
@@ -101,7 +103,9 @@
             </li>
           </ul>
         </div>
-        <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        <p @click="$store.commit('shop/filterType', 2)">
+          <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        </p>
       </div>
     </section>
     <section class="feedback">

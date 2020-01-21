@@ -1,7 +1,7 @@
 <template>
   <div class="partners-item">
     <div class="partners-photo">
-      <img :src="photo" alt="">
+      <img :src="'http://hpapi.fobesko.com/public/storage/profile/' + partner.id + '.' + partner.imgext" alt="">
       <p class="partners-city">{{partner.city}}</p>
     </div>
     <div class="partners-descript">
@@ -21,11 +21,12 @@
   export default {
     props: ['partner'],
     computed: {
+      /*
       photo() {
         let index = this.$store.state.shop.userphoto.findIndex(user => user.id == this.partner.id)
         if (index != -1) return this.$store.state.shop.userphoto[index]
         else return this.$store.state.shop.noPhoto
-      },
+      },*/
     }
   }
 </script>

@@ -22,7 +22,7 @@
           <div class="item-card__alert" v-if="showAlert">Выберите цвет!</div>
           <div class="item-card__form-box">
             <div class="item-card__buttons">
-              <a class="item-card__btn btn btn-transparent">Купить сразу</a>
+              <a @click.prevent="basketPush(); proceed()" class="item-card__btn btn btn-transparent">Купить сразу</a>
               <a @click.prevent="basketPush()" class="item-card__btn btn">В корзину</a>
             </div>
             <p class="item-card__label">Описание:</p>
@@ -57,6 +57,9 @@
       ]
     }),
     methods: {
+      proceed(){
+        if(this.element.color != null) { this.$router.push('/order/step1') }
+      },
       basketPush() {
         if(this.element.color == null) {
           this.showAlert = true

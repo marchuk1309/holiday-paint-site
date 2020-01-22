@@ -55,11 +55,15 @@ export const mutations = {
         console.log(info)
         state.request = info
     },
-/*
-    pushFilter(state, item) {
-        state.shownProducts.push(item)
+
+    checkShownProducts(state, [item, status]) {
+        if (status == true && !state.shownProducts.includes(item)) state.shownProducts.push(item)
+        if (status == false) {
+            let index = state.shownProducts.findIndex(element => element.id === item.id)
+            state.shownProducts.splice(index, 1)
+        }
     },
-*/
+
     flushFilter(state) {
         state.showAvailable = false
         state.showSale = false

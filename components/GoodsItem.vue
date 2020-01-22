@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showItem == true" class="goods-item" :class="addedClass">
+  <div v-if="showItem === true" class="goods-item" :class="addedClass">
     <div class="goods-photo">
       <img :src="photo" alt="">
       <p class="goods-photo__popup" v-if="good.available == 0">Нет в наличии. Потребуется доставка с основного склада</p>
@@ -40,8 +40,12 @@
       good() {
         if (this.good.color != undefined) this.showAlert = false
       },
+      showItem() {
+        if (this.addedClass !== 'popular-item') this.$store.commit('shop/checkShownProducts', [this.good, this.showItem])
+      }
     },
     mounted(){
+      if (this.addedClass !== 'popular-item') this.$store.commit('shop/checkShownProducts', [this.good, this.showItem])
       //console.log(this.promocodes)
       /*
       if (this.showItem == true) {
@@ -55,6 +59,7 @@
         else return this.$store.state.shop.noPhoto
       },
       showItem(){
+        if (this.addedClass == 'popular-item') return true
         // Availability filter
         if (this.good.available == 0 && this.$store.state.shop.showAvailable) return false
         // Type filter

@@ -7,7 +7,7 @@
           <h3 class="main-subtitle">Превратите любую <br>вечеринку в сказку</h3>
           <div class="main-buttons">
             <div class="main-btn__wrap">
-              <p @click="$store.commit('shop/filterType', 4)">
+              <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 4)">
                 <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
               </p>
               <p class="landing__label">1990 рублей за штуку</p>

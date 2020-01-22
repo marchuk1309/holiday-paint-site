@@ -48,7 +48,7 @@
             <p class="about-using__text">Одежда и ткань</p>
           </div>
         </div>
-        <p @click="$store.commit('shop/filterType', 1)">
+        <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 1)">
           <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
         </p>
       </div>

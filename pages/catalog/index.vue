@@ -16,6 +16,7 @@
         <div class="catalog-list">
           <catalog-nav @search="search" @changePageSize="changePageSize" />
           <catalog-list :goods="items"/>
+          <h2 class="section-title" v-if="this.$store.state.shop.shownProducts.length == 0">Ничего не найдено!</h2>
           <el-pagination
             :current-page.sync="page"
             @current-change="pageChangeHandler"

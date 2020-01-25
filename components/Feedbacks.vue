@@ -2,7 +2,7 @@
   <div class="feedback-slider">
     <el-carousel :autoplay="false" :loop="false" arrow="always" :trigger="'click'" :type="sliderType" height="30em">
       <el-carousel-item v-for="(item,index) in imageArr[number]" :key="index">
-        <img :src="item" alt="">
+        <img :src="item.url" alt="">
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -34,7 +34,7 @@
         if (this.$route.name == 'paint') return 1
         if (this.$route.name == 'colored-smoke') return 3
         if (this.$route.name == 'holy-paint') return 4
-        if (this.$route.name == 'kigurumi') return 0
+        if (this.$route.name == 'kigurumi') return 5
         if (this.$route.name == 'markers') return 2
         else return 0
       }
@@ -49,6 +49,12 @@
       this.onResize();
       //if (this.$route.name == "colored-smoke")
       var arr = [ [],[],[],[],[],[] ]
+      for (let x in this.$store.state.shop.content) {
+        for (let y in this.$store.state.shop.content[x].images) {
+          arr[x].push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[x].images[y]})
+        }
+      }
+      /*
       this.$store.state.shop.content.forEach(function (element) {
         if (element.id < 5) arr[0].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
         if (element.id > 4 && element.id < 10) arr[1].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
@@ -56,14 +62,14 @@
         if (element.id > 14 && element.id < 20) arr[3].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
         if (element.id > 19 && element.id < 25) arr[4].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
         if (element.id > 24 && element.id < 30) arr[5].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
-      })
+      })*/
       for (let i = 0; i < 6; i++) {
         this.imageArr[i] = arr[i]
 
       }
       this.$forceUpdate()
+      console.log(this.$store.state.shop.content)
       console.log(this.imageArr[this.number])
-      console.log(this.photos)
     },
   }
 </script>

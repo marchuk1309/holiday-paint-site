@@ -13,12 +13,14 @@
         <template slot-scope="scope">
           <div class="basket-item">
             <div class="basket-image">
-              <img src="../assets/img/goods/photo.png" alt="">
+              <img v-if="scope.row.images != null" :src="'http://hpapi.fobesko.com/public/storage/product/' + scope.row.images[0]" alt="">
+              <img v-if="scope.row.images == null" :src="$store.state.shop.noPhoto" alt="">
             </div>
             <div class="basket-descript">
               <p class="basket-item__name">{{scope.row.name}}</p>
               <p>{{scope.row.description}}</p>
-              <p>Цвет: {{$store.state.shop.colors[scope.row.color].label}}</p>
+              <p v-if="scope.row.color !== undefined">Цвет: {{$store.state.shop.colors[scope.row.color].label}}</p>
+              <p v-if="scope.row.size !== undefined">Размер: {{scope.row.sizes[scope.row.size]}}</p>
               <p>{{scope.row.quantity}} шт.</p>
             </div>
           </div>

@@ -5,7 +5,7 @@
         <h2 class="section-title big gradient">Популярные товары</h2>
         <p class="subtitle">Что чаще всего покупают наши клиенты</p>
         <div class="popular-goods__body">
-          <goods-item v-if="clientWidth >= 1025" v-for="(good, index) in popularGoods" :good="good" :key="index + '-norm'" :addedClass="'popular-item'"/>
+          <goods-item v-if="clientWidth >= 1025" v-for="(good, index) in popular" :good="good" :key="index + '-norm'" :addedClass="'popular-item'"/>
           <agile :slidesToShow="1" :responsive="[{breakpoint: 600, settings: {slidesToShow: 2}}, {breakpoint: 767, settings: {slidesToShow: 3}}]" :dots="false"  v-if="clientWidth < 1025">
             <div class="popular-items__slide" v-for="(good, index) in popularGoods" :key="index">
               <goods-item :good="good" :addedClass="'popular-item'"/>
@@ -19,7 +19,7 @@
 
 <script>
   import GoodsItem from '@/components/GoodsItem'
-  import localData from "@/assets/localdata";
+  import { mapGetters } from 'vuex'
   export default {
     data: () => ({
       popularGoods: [],
@@ -32,6 +32,21 @@
       updateWidth() {
         this.clientWidth = window.innerWidth;
       },
+    },
+    computed: {
+      ...mapGetters(['productsInfo', 'colorsInfo']),
+      popular() {
+        //let index = this.productsInfo.findIndex(ideas => ideas.id === idea.id)
+        var colors = this.$store.state.shop.colors
+        var array = []
+        this.$store.state.shop.products.forEach(function (element) {
+          //console.log()
+          let item = { ...element }
+          item.sold = element.sold.reduce((a, b) => a + b, 0)
+          array.push(item)
+        })
+        return array.sort((a,b) => b-a).slice(0,5);
+      }
     },
     mounted() {
       this.popularGoods = this.$store.state.shop.items.slice(0, 5);

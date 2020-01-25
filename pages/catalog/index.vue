@@ -16,7 +16,7 @@
         <div class="catalog-list">
           <catalog-nav @search="search" @changePageSize="changePageSize" />
           <catalog-list :goods="items"/>
-          <h2 class="section-title" v-if="this.$store.state.shop.shownProducts.length == 0">Ничего не найдено!</h2>
+          <h3 class="subtitle" v-if="this.$store.state.shop.shownProducts.length == 0">Ничего не найдено!</h3>
           <el-pagination
             :current-page.sync="page"
             @current-change="pageChangeHandler"
@@ -62,18 +62,36 @@
       },
         shownGoods(){
             return this.$store.getters['shop/shownProductsInfo']
-        }
+        },
+      isLoaded(){
+        return this.$store.getters['isLoaded']
+      }
+    },
+    created(){
+      /*
+      this.$nextTick(() => {
+        this.$nuxt.$loading.start()
+        setTimeout(() => {this.$nuxt.$loading.finish(); this.$forceUpdate()}, 2000)
+      })*/
     },
     mounted() {
       console.log(this.goods)
+      if (this.$route.params.type == 'paint') { this.$store.commit('shop/filterType', 0)}
+      if (this.$route.params.type == 'markers') { this.$store.commit('shop/filterType', 1) }
+      if (this.$route.params.type == 'colored-smoke') { this.$store.commit('shop/filterType', 2) }
+      if (this.$route.params.type == 'holy-paint') { this.$store.commit('shop/filterType', 3) }
+      if (this.$route.params.type == 'kigurumi') { this.$store.commit('shop/filterType', 4) }
       this.setupPagination(this.goods.map(good => {
         return {
           ...good
         }
       }))
-      this.$forceUpdate()
     },
     watch: {
+      isLoaded(){
+        console.log('LOADING COMPLETE')
+        this.$forceUpdate()
+      },
         shownGoods(){
           this.setupPagination(this.goods.map(good => {
               return {

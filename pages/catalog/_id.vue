@@ -4,22 +4,33 @@
       <h2 class="section-title">Карточка товара</h2>
       <div class="item-card__wrap">
         <div class="item-card__left">
-          <div class="item-card__gallery" :class="{single: images.length === 1}">
-            <el-carousel v-if="images.length > 1" arrow="always" height="30em" trigger="click" :autoplay="false">
-              <el-carousel-item v-for="(image, index) in images" :key="index">
-                <img :src="photo" alt="">
+          <div v-if="element.images != null" class="item-card__gallery" :class="{single: element.images.length === 1}">
+            <el-carousel v-if="element.images.length > 1" arrow="always" height="30em" trigger="click" :autoplay="false">
+              <el-carousel-item v-for="(item, index) in element.images" :key="index">
+                <img :src="'http://hpapi.fobesko.com/public/storage/product/' + item" alt="">
               </el-carousel-item>
             </el-carousel>
-            <img class="item-card__single-photo" v-else :src="photo" alt="">
+            <img class="item-card__single-photo" v-else :src="'http://hpapi.fobesko.com/public/storage/product/' + element.images[0]" alt="">
           </div>
+          <img v-if="element.images == null" class="item-card__gallery single" :src="$store.state.shop.noPhoto" alt="">
         </div>
         <form class="item-card__right">
           <p class="item-card__name">{{element.name}}</p>
-          <div class="item-card__form-box">
+          <div v-if="element.colors !== null" class="item-card__form-box">
             <p class="item-card__label">Цвет:</p>
             <input v-for="item in element.colors" v-model="element.color" :value="item" type="radio" class="form-checkbox__color" :style="'background-color:' + $store.state.shop.colors[item].color">
           </div>
-          <div class="item-card__alert" v-if="showAlert">Выберите цвет!</div>
+          <div v-if="element.sizes !== null" class="item-card__sizes">
+            <p class="item-card__label">Размер:</p>
+            <div v-for="(size,index) in element.sizes" :key="index" class="item-card__size">
+              <input :id="element.id + '-size-' + size" v-model="element.size" type="radio" class="item-card__size--input" :value="index">
+              <label class="item-card__size--label" :for="element.id + '-size-' + size">
+                {{size}}
+              </label>
+            </div>
+          </div>
+          <div class="goods__alert" v-if="showColorAlert">Выберите цвет!</div>
+          <div class="goods__alert" v-if="showSizeAlert">Выберите размер!</div>
           <div class="item-card__form-box">
             <div class="item-card__buttons">
               <a @click.prevent="basketPush(); proceed()" class="item-card__btn btn btn-transparent">Купить сразу</a>
@@ -51,23 +62,27 @@
       Subscription
     },
     data: () => ({
-      showAlert: false,
+      showColorAlert: false,
+      showSizeAlert: false,
       images: [
         '../../assets/img/goods/photo.png'
       ]
     }),
     methods: {
       proceed(){
-        if(this.element.color != null) { this.$router.push('/order/step1') }
+        if(this.element.category != 4 && this.element.color != null) { this.$router.push('/order/step1') }
+        if(this.element.category == 4 && this.element.size != null) { this.$router.push('/order/step1') }
       },
       basketPush() {
-        if(this.element.color == null) {
-          this.showAlert = true
-        }
+        if(this.element.category != 4 && this.element.color == null) this.showColorAlert = true
+        else if (this.element.category == 4 && this.element.size == null) this.showSizeAlert = true
         else
         {
-          this.showAlert = false
-          this.$store.commit('shop/basketPush', this.element)
+          this.showColorAlert = false
+          this.showSizeAlert = false
+          let item = { ...this.element }
+          if (this.element.category == 4) item.price = JSON.parse(this.element.price)[this.element.size]
+          this.$store.commit('shop/basketPush', item)
         }
       }
     },
@@ -134,6 +149,7 @@
     &__label
       font-size: 1.365em
       margin-bottom: .5em
+      margin-right: .5em
     &__buttons
       width: 100%
       display: flex
@@ -168,4 +184,40 @@
       opacity: .11
       &:hover
         opacity: .5
+    &__sizes
+      display: flex
+      flex-wrap: wrap
+    &__size
+      &--label
+        cursor: pointer
+        border-radius: 5px
+        border: 1px solid
+        width: 2.5em
+        padding: .25em 0
+        margin: .5em .25em
+        display: block
+        text-align: center
+        position: relative
+        transition: .4s
+        z-index: 1
+        &::after
+          content: ''
+          position: absolute
+          left: 0
+          top: 0
+          width: 100%
+          height: 100%
+          opacity: 0
+          visibility: hidden
+          background-image: $primaryGrad
+          transition: inherit
+          z-index: -1
+      &--input
+        display: none
+        &:checked ~ .item-card__size--label
+          border-color: $primaryColor
+          color: #ffffff
+          &::after
+            opacity: 1
+            visibility: visible
 </style>

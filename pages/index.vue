@@ -287,7 +287,7 @@ export default {
       return this.$store.state.shop.markers.filter(item => item.coords != null)
     },
     openVideo(link) {
-      this.videoUrl = link
+      this.videoUrl = 'https://www.youtube.com/embed/' + link.split('/').pop()
       this.videoDialog = true
     }
   },

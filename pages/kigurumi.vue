@@ -171,7 +171,7 @@
     }),
     methods: {
       openVideo(link) {
-        this.videoUrl = link
+        this.videoUrl = 'https://www.youtube.com/embed/' + link.split('/').pop()
         this.videoDialog = true
       }
     },

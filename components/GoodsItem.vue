@@ -1,7 +1,8 @@
 <template>
   <div v-if="showItem === true" class="goods-item" :class="addedClass">
     <div class="goods-photo">
-      <img :src="photo" alt="">
+      <img v-if="good.images != null" :src="'http://hpapi.fobesko.com/public/storage/product/' + good.images[0]" alt="">
+      <img v-if="good.images == null" :src="$store.state.shop.noPhoto" alt="">
       <p class="goods-photo__popup" v-if="good.available == 0">Нет в наличии. Потребуется доставка с основного склада</p>
     </div>
     <p class="goods-price">{{price}}₽</p>
@@ -9,11 +10,20 @@
     <p class="goods-descript">{{this.volume}} {{this.sizes}}</p>
     <nuxt-link :to="'/catalog/' + good.id" class="goods-link"></nuxt-link>
     <div>
+      <div v-if="good.sizes !== undefined & good.sizes !== '[]'" class="goods__sizes">
+        <div v-for="(size,index) in good.sizes" :key="index"  class="goods__size">
+          <input :id="good.id + '-size-' + size" v-model="good.size" type="radio" class="goods__size--input" :value="index">
+          <label class="goods__size--label" :for="good.id + '-size-' + size">
+            {{size}}
+          </label>
+        </div>
+      </div>
       <input v-for="item in good.colors" v-model="good.color" :value="item" type="radio" class="form-checkbox__color" :style="'background-color:' + $store.state.shop.colors[item].color">
     </div>
-    <div class="goods__alert" v-if="showAlert">Выберите цвет!</div>
+    <div class="goods__alert" v-if="showColorAlert">Выберите цвет!</div>
+    <div class="goods__alert" v-if="showSizeAlert">Выберите размер!</div>
     <a v-if="good.available == 1" @click.prevent="basketPush()" class="goods-btn btn">В корзину</a>
-    <a v-else class="goods-btn btn blue">Заказать</a>
+    <a v-else @click.prevent="basketPush()" class="goods-btn btn blue">Заказать</a>
   </div>
 </template>
 
@@ -22,23 +32,28 @@
   export default {
     data: () => ({
       selectedColor: null,
-      showAlert: false
+      showColorAlert: false,
+      showSizeAlert: false
     }),
     methods: {
       basketPush() {
-        if(this.good.color == null) {
-          this.showAlert = true
-        }
+        if(this.good.category != 4 && this.good.color == null) this.showColorAlert = true
+        else if (this.good.category == 4 && this.good.size == null) this.showSizeAlert = true
         else
         {
-          this.showAlert = false
-          this.$store.commit('shop/basketPush', this.good)
+          this.showColorAlert = false
+          this.showSizeAlert = false
+          let item = { ...this.good }
+          if (this.good.category == 4) item.price = JSON.parse(this.good.price)[this.good.size]
+          this.$store.commit('shop/basketPush', item)
         }
       }
     },
     watch: {
       good() {
-        if (this.good.color != undefined) this.showAlert = false
+        if (this.good.color != undefined) this.showColorAlert = false
+        if (this.good.size != undefined) this.showSizeAlert = false
+        console.log(this.good.size)
       },
       showItem() {
         if (this.addedClass !== 'popular-item') this.$store.commit('shop/checkShownProducts', [this.good, this.showItem])
@@ -53,11 +68,12 @@
       }*/
     },
     computed: {
+      /*
       photo() {
         let index = this.$store.state.shop.products_photos.findIndex(product => product.id == this.good.id)
         if (index != -1) return this.$store.state.shop.products_photos[index].value
         else return this.$store.state.shop.noPhoto
-      },
+      },*/
       showItem(){
         if (this.addedClass == 'popular-item') return true
         // Availability filter
@@ -79,13 +95,19 @@
         return this.good.volume + ' мл.'
       },
       sizes() {
-        if (this.good.sizes == null || this.good.sizes == '[]') return ''
-        return JSON.stringify(this.good.sizes).substring(2, JSON.stringify(this.good.sizes).length - 2) + ' мм.'
+        if (this.good.sizes == null || this.good.sizes == '[]' || this.good.sizes == '') return ''
+        else return JSON.stringify(this.good.sizes).substring(2, JSON.stringify(this.good.sizes).length - 2) + ' мм.'
       },
       price() {
         if (typeof JSON.parse(this.good.price) == 'object') {
-          let price = JSON.parse(this.good.price)
-          return price[0] + '-' + price[2]
+          if (this.good.size != undefined) {
+            let price = JSON.parse(this.good.price)
+            return price[this.good.size]
+          }
+          else {
+            let price = JSON.parse(this.good.price)
+            return price[0] + '-' + price[2]
+          }
         }
         else return this.good.price
       }
@@ -123,7 +145,7 @@
       position: relative
       height: 15em
       margin-bottom: 1em
-      img
+      img, object
         height: 100%
         width: 100%
         object-fit: contain
@@ -143,13 +165,48 @@
         line-height: 1.3
         color: $blue
         font-weight: 500
-
+    &__sizes
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+      margin-bottom: .5em
+    &__size
+      &--label
+        cursor: pointer
+        border-radius: 5px
+        border: 1px solid
+        width: 2.5em
+        padding: .25em 0
+        margin: .5em .25em
+        display: block
+        text-align: center
+        position: relative
+        transition: .4s
+        z-index: 1
+        &::after
+          content: ''
+          position: absolute
+          left: 0
+          top: 0
+          width: 100%
+          height: 100%
+          opacity: 0
+          visibility: hidden
+          background-image: $primaryGrad
+          transition: inherit
+          z-index: -1
+      &--input
+        display: none
+        &:checked ~ .goods__size--label
+          border-color: $primaryColor
+          color: #ffffff
+          &::after
+            opacity: 1
+            visibility: visible
     &-price
       text-transform: uppercase
       font-weight: 600
-      background-image: $primaryGrad
-      -webkit-background-clip: text
-      -webkit-text-fill-color: transparent
+      color: $primaryColor
       font-size: 1.75em
       margin-bottom: .5em
     &-descript

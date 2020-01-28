@@ -10,7 +10,7 @@
                   style="width: 100%">
             <el-table-column
                     label="Товар"
-                    width="300">
+                    width="240">
               <template slot-scope="scope">
                 <div class="basket-item">
                   <div class="basket-image">
@@ -18,8 +18,18 @@
                   </div>
                   <div class="basket-descript">
                     <p class="basket-item__name">{{scope.row.name}}</p>
-                    <p>{{scope.row.description}}</p>
                     <p>Цвет: {{$store.state.shop.colors[scope.row.color].label}}</p>
+                  </div>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="Описание"
+              width="230">
+              <template slot-scope="scope">
+                <div class="basket-item">
+                  <div class="basket-descript">
+                    <p>{{scope.row.description}}</p>
                   </div>
                 </div>
               </template>

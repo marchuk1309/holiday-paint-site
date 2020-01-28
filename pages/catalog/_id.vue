@@ -106,7 +106,7 @@
     &__single-photo
       width: 100%
       height: 100%
-      object-fit: cover
+      object-fit: contain
     &__wrap
       display: flex
       justify-content: space-between

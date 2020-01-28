@@ -82,7 +82,7 @@
                     </nuxt-link>
                 </div>
                 <nuxt-link no-prefetch to="/basket" class="header-basket">
-                    <p class="header-basket__counter">{{basketCount}}</p>
+                    <p v-if="basketCount" class="header-basket__counter">{{basketCount}}</p>
                     <img src="@/assets/img/icons/basket.svg" alt="">
                 </nuxt-link>
                 <nuxt-link no-prefetch to="/catalog" class="btn btn-transparent">Магазин</nuxt-link>
@@ -309,7 +309,8 @@
                 height: 1.75em
                 line-height: 1.75em
                 text-align: center
-                background-color: #fff
+                color: #fff
+                background-color: rgb(245, 113, 113)
                 box-shadow: 0 6px 5px rgba(75, 75, 75, 0.22)
                 font-weight: 600
             &:hover

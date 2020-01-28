@@ -3,16 +3,16 @@
     <div class="goods-photo">
       <img :src="photo" alt="">
       <p class="goods-photo__popup" v-if="good.available == 0">Нет в наличии. Потребуется доставка с основного склада</p>
+      <nuxt-link :to="'/catalog/' + good.id" class="goods-link"></nuxt-link>
     </div>
     <p class="goods-price">{{price}}₽</p>
     <p class="goods-name">{{good.name}}</p>
     <p class="goods-descript">{{this.volume}} {{this.sizes}}</p>
-    <nuxt-link :to="'/catalog/' + good.id" class="goods-link"></nuxt-link>
     <div>
       <input v-for="item in good.colors" v-model="good.color" :value="item" type="radio" class="form-checkbox__color" :style="'background-color:' + $store.state.shop.colors[item].color">
     </div>
     <div class="goods__alert" v-if="showAlert">Выберите цвет!</div>
-    <a v-if="good.available == 1" @click.prevent="basketPush()" class="goods-btn btn">В корзину</a>
+    <a v-if="good.available == 1" @click.prevent="basketPush()" class="goods-btn btn">{{added ? 'В корзине +' : 'В корзину'}}</a>
     <a v-else class="goods-btn btn blue">Заказать</a>
   </div>
 </template>
@@ -22,7 +22,8 @@
   export default {
     data: () => ({
       selectedColor: null,
-      showAlert: false
+      showAlert: false,
+      added: false
     }),
     methods: {
       basketPush() {
@@ -33,6 +34,7 @@
         {
           this.showAlert = false
           this.$store.commit('shop/basketPush', this.good)
+          this.added = true
         }
       }
     },

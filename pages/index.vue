@@ -20,7 +20,7 @@
       <img src="../assets/img/paint/bottle.png" alt="" class="paint-bg">
       <div class="container">
         <h2 class="section-title big gradient">Меловая смываемая краска</h2>
-        <p class="subtitle">Сделай свое авто ярким к любому празднику.</p>
+        <p class="subtitle">Сделай свое авто ярким к любому празднику</p>
         <div class="paint-content">
           <p class="subtitle blue">Особенности краски:</p>
           <ul class="home-list">
@@ -95,7 +95,7 @@
             </li>
           </ul>
           <div class="smoke-btn__wrap">
-            <nuxt-link to="/colored-smoke" class="btn smoke-btn">Узнать больше</nuxt-link>
+            <nuxt-link to="/catalog" class="btn smoke-btn">Перейти в магазин</nuxt-link>
             <p class="home-label">от <span>330</span> рублей за шт.</p>
           </div>
         </div>
@@ -235,6 +235,7 @@
     <el-dialog
       :visible.sync="videoDialog"
       custom-class="video-dialog"
+      @closed="videoUrl = ''"
     >
       <iframe
         class="dialog-video"

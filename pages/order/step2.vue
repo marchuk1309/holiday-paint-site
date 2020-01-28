@@ -20,13 +20,13 @@
               </el-form-item>
               <el-row :justify="'space-between'">
                 <el-col :xs="24" :sm="7">
-                  <el-form-item prop="build">
-                    <el-input placeholder="Стр.*" v-model.trim="userData.build"/>
+                  <el-form-item prop="home">
+                    <el-input placeholder="Дом*" v-model.trim="userData.home"/>
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24" :sm="7">
-                  <el-form-item prop="home">
-                    <el-input placeholder="Дом*" v-model.trim="userData.home"/>
+                  <el-form-item prop="build">
+                    <el-input placeholder="Стр.*" v-model.trim="userData.build"/>
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24" :sm="7">
@@ -102,9 +102,6 @@
       Subscription
     },
     computed: {
-      requestInfo(){
-        return this.$store.getters['shop/requestInfo']
-      }
     },
     methods: {
       onSubmit() {
@@ -119,7 +116,7 @@
             }
             try {
               //this.$store.commit('addStatsRecord', {value: request.value})
-              let request = this.requestInfo
+              let request = { ...this.$store.state.shop.request }
               request.city = this.userData.city
               request.address = this.userData.street + ' ' + this.userData.home + ' ' + this.userData.apartment
               this.$store.commit('shop/addRequest', request)

@@ -7,21 +7,21 @@
     </div>
     <p class="goods-price">{{price}}₽</p>
     <p class="goods-name">{{good.name}}</p>
-    <p class="goods-descript">{{this.volume}} {{this.sizes}}</p>
+    <p class="goods-descript">{{this.volume}}</p>
     <nuxt-link :to="'/catalog/' + good.id" class="goods-link"></nuxt-link>
     <div>
       <div v-if="good.sizes !== undefined & good.sizes !== '[]'" class="goods__sizes">
         <div v-for="(size,index) in good.sizes" :key="index"  class="goods__size">
-          <input :id="good.id + '-size-' + size" v-model="good.size" type="radio" class="goods__size--input" :value="index">
-          <label class="goods__size--label" :for="good.id + '-size-' + size">
+          <input :id="good.id + '-size-' + size + '-' + addedClass" v-model="good.size" type="radio" class="goods__size--input" :value="index">
+          <label class="goods__size--label" :for="good.id + '-size-' + size + '-' + addedClass">
             {{size}}
           </label>
         </div>
       </div>
       <input v-for="item in good.colors" v-model="good.color" :value="item" type="radio" class="form-checkbox__color" :style="'background-color:' + $store.state.shop.colors[item].color">
     </div>
-    <div class="goods__alert" v-if="showColorAlert">Выберите цвет!</div>
-    <div class="goods__alert" v-if="showSizeAlert">Выберите размер!</div>
+    <div class="goods__alert" v-if="good.category != 4 && showAlert">Выберите цвет!</div>
+    <div class="goods__alert" v-if="good.category == 4 && showAlert">Выберите размер!</div>
     <a v-if="good.available == 1" @click.prevent="basketPush()" class="goods-btn btn">В корзину</a>
     <a v-else @click.prevent="basketPush()" class="goods-btn btn blue">Заказать</a>
   </div>
@@ -32,27 +32,36 @@
   export default {
     data: () => ({
       selectedColor: null,
-      showColorAlert: false,
-      showSizeAlert: false
+      showAlert: false,
     }),
     methods: {
       basketPush() {
-        if(this.good.category != 4 && this.good.color == null) this.showColorAlert = true
-        else if (this.good.category == 4 && this.good.size == null) this.showSizeAlert = true
-        else
-        {
-          this.showColorAlert = false
-          this.showSizeAlert = false
-          let item = { ...this.good }
-          if (this.good.category == 4) item.price = JSON.parse(this.good.price)[this.good.size]
-          this.$store.commit('shop/basketPush', item)
+        // If it is not kigurumi and have colors
+        if(this.good.category != 4 && this.good.colors.length > 0 && this.good.color == null) {
+          // Check colors quantity, if one, select it
+          if (this.good.colors.length == 1) this.good.color = this.good.colors[0]
+          // If many, show message
+          else { this.showAlert = true; return }
         }
+        // If it is kigurumi and have colors
+        else if (this.good.category == 4 && this.good.sizes.length > 0 && this.good.size == null) {
+          // Check colors quantity, if one, select it
+          if (this.good.sizes.length == 1) this.good.size = this.good.sizes[0]
+          // If many, show message
+          else { this.showAlert = true; return }
+        }
+        // If reached this point - hide alert
+        this.showAlert = false
+        let item = { ...this.good }
+        // If it is kigurumi - select correct price
+        if (this.good.category == 4) item.price = JSON.parse(this.good.price)[this.good.size]
+        this.$store.commit('shop/basketPush', item)
       }
     },
     watch: {
       good() {
-        if (this.good.color != undefined) this.showColorAlert = false
-        if (this.good.size != undefined) this.showSizeAlert = false
+        if (this.good.color != undefined) this.showAlert = false
+        if (this.good.size != undefined) this.showAlert = false
         console.log(this.good.size)
       },
       showItem() {

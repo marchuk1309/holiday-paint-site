@@ -254,9 +254,11 @@
         })
         return total
       },
-      basketCount() {
-        return this.$store.getters['shop/basketInfo'].length
-      }
+      basketCount () {
+        return this.$store.state.shop.basket.reduce(function (count, current) {
+          return count + current.quantity
+        }, 0)
+      },
     }
   }
 </script>

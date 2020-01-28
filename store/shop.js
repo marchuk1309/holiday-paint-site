@@ -126,9 +126,8 @@ export const mutations = {
     },
 
     addRequest (state, request) {
-        request.seller_id = state.user.id
         request.type = 2
-        request.promocode = state.currentPromocode.id
+        if (state.currentPromocode != null) request.promocode = state.currentPromocode.id
         console.log(request);
         axios
             .post(state.apiServer + '/api/requests', request)
@@ -233,7 +232,7 @@ export const mutations = {
                 }
 
                 if (localStorage.getItem('basket') != null) {
-                    //state.basket = JSON.parse(localStorage.getItem('basket'))
+                    state.basket = JSON.parse(localStorage.getItem('basket'))
                 }
 
                 // Getting other data
@@ -259,7 +258,7 @@ export const mutations = {
                 state.content = response.data['content']
                 response.data['promocodes'].forEach((item) => {
 
-                    if (item.items !== null) {
+                    if (item.items != null && item.items !== 'null') {
                         console.log(item.items)
                         if (typeof item.items == "string") item.items = JSON.parse(item.items)
                         item.items.forEach((subitem) => {

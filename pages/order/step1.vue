@@ -106,6 +106,10 @@
     },
     mounted(){
       this.items = this.$store.getters['shop/basketInfo']
+      if(this.$store.state.shop.request.name != undefined) this.userData.name = this.$store.state.shop.request.name
+      if(this.$store.state.shop.request.phone != undefined) this.userData.phone = this.$store.state.shop.request.phone
+      if(this.$store.state.shop.request.email != undefined) this.userData.email = this.$store.state.shop.request.email
+      if(this.$store.state.shop.request.subscription != undefined) this.userData.subscription = this.$store.state.shop.request.subscription
     },
     components: {
       OrderList,
@@ -138,14 +142,14 @@
               request.value = request.value - this.$store.state.shop.discount
               request.product_ids = JSON.stringify(request.product_ids)
               request.quantity = JSON.stringify(request.quantity)
-              request.color = JSON.stringify(request.color)
+              request.colors = JSON.stringify(request.colors)
               if (this.delivery == 0) {
                 this.$store.commit('shop/addRequest', request)
                 this.$store.commit('shop/basketFlush')
                 this.$router.push('/order/thanks')
               }
               else {
-                this.$store.commit('shop/saveRequestInfo', this.userData)
+                this.$store.commit('shop/saveRequestInfo', request)
                 this.$router.push('/order/step2')
               }
 

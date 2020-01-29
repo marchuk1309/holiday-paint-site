@@ -13,15 +13,15 @@
             >
               <h2 class="order-card__title">Введите данные, чтобы продолжить покупку</h2>
               <el-form-item prop="name">
-                <el-input placeholder="Имя*" v-model="name"/>
+                <el-input placeholder="Имя*" v-model="userData.name"/>
               </el-form-item>
               <el-form-item prop="tel">
-                <el-input placeholder="Телефон*"  maxlength="10" v-model="phone">
+                <el-input placeholder="Телефон*"  maxlength="10" v-model="userData.phone">
                   <template slot="prepend">+7</template>
                 </el-input>
               </el-form-item>
               <el-form-item prop="email">
-                <el-input placeholder="E-mail" v-model.trim="email"/>
+                <el-input placeholder="E-mail" v-model.trim="userData.email"/>
               </el-form-item>
               <label class="form-checkbox__wrap">
                 <input class="form-checkbox big" type="checkbox" v-model="subscription"><span class="form-checkbox__label">Подписаться на новости HOLIDAY PAINT</span>
@@ -77,10 +77,12 @@
     data: () => ({
       items: [],
       delivery: 0,
-      name: '',
-      phone: '',
-      email: '',
-      subscription: false,
+      userData: {
+        name: '',
+        phone: '',
+        email: '',
+        subscription: false,
+      },
       rules: {
         name: [
           { required: true, message: 'Введите свое имя', trigger: 'blur' }
@@ -92,11 +94,11 @@
       }
     }),
     watch: {
-      email() {
-        this.email = this.email.replace(/[А-Яа-яЁё\s]/g, "")
+      'userData.email'() {
+        this.userData.email = this.userData.email.replace(/[А-Яа-яЁё\s]/g, "")
       },
-      phone() {
-        this.phone = this.phone.replace(/[A-Za-zА-Яа-яЁё\s]/g, "")
+      'userData.phone'() {
+        this.userData.phone = this.userData.phone.replace(/[A-Za-zА-Яа-яЁё\s]/g, "")
       }
     },
     head: {
@@ -104,6 +106,10 @@
     },
     mounted(){
       this.items = this.$store.getters['shop/basketInfo']
+      if(this.$store.state.shop.request.name != undefined) this.userData.name = this.$store.state.shop.request.name
+      if(this.$store.state.shop.request.phone != undefined) this.userData.phone = this.$store.state.shop.request.phone
+      if(this.$store.state.shop.request.email != undefined) this.userData.email = this.$store.state.shop.request.email
+      if(this.$store.state.shop.request.subscription != undefined) this.userData.subscription = this.$store.state.shop.request.subscription
     },
     components: {
       OrderList,
@@ -115,10 +121,10 @@
         this.$refs.form.validate( async valid => {
           if (valid) {
             const formData = {
-              name: this.name,
-              phone: '+7' + this.phone,
-              email: this.email,
-              subscription: this.subscription
+              name: this.userData.name,
+              phone: '+7' + this.userData.phone,
+              email: this.userData.email,
+              subscription: this.userData.subscription
             }
             try {
               let request = formData
@@ -132,18 +138,18 @@
                 request.colors.push(item.color)
                 request.value += parseInt(item.price)
               });
-              request.product_ids = []
+              request.seller_id = this.$store.state.shop.user.info.id
               request.value = request.value - this.$store.state.shop.discount
               request.product_ids = JSON.stringify(request.product_ids)
               request.quantity = JSON.stringify(request.quantity)
-              request.color = JSON.stringify(request.color)
+              request.colors = JSON.stringify(request.colors)
               if (this.delivery == 0) {
                 this.$store.commit('shop/addRequest', request)
                 this.$store.commit('shop/basketFlush')
                 this.$router.push('/order/thanks')
               }
               else {
-                this.$store.commit('shop/saveRequestInfo', this.userData)
+                this.$store.commit('shop/saveRequestInfo', request)
                 this.$router.push('/order/step2')
               }
 

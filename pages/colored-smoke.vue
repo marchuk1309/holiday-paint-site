@@ -103,7 +103,7 @@
             </li>
           </ul>
         </div>
-        <p @click="$store.commit('shop/filterType', 2)">
+        <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 2)">
           <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
         </p>
       </div>
@@ -178,7 +178,7 @@
     }),
     methods: {
       openVideo(link) {
-        this.videoUrl = link
+        this.videoUrl = 'https://www.youtube.com/embed/' + link.split('/').pop()
         this.videoDialog = true
       }
     },

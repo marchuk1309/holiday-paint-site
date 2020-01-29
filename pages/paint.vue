@@ -71,7 +71,7 @@
             <p class="about-using__text">Розыгрыши и пранки</p>
           </div>
         </div>
-        <p @click="$store.commit('shop/filterType', 0)">
+        <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 0)">
           <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
         </p>
       </div>
@@ -183,7 +183,7 @@
     }),
     methods: {
       openVideo(link) {
-        this.videoUrl = link
+        this.videoUrl = 'https://www.youtube.com/embed/' + link.split('/').pop()
         this.videoDialog = true
       }
     },

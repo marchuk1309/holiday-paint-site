@@ -14,12 +14,13 @@
               <template slot-scope="scope">
                 <div class="basket-item">
                   <div class="basket-image">
-                    <img src="../../assets/img/goods/photo.png" alt="">
+                    <img v-if="scope.row.images != null" :src="'http://hpapi.fobesko.com/public/storage/product/' + scope.row.images[0]" alt="">
+                    <img v-if="scope.row.images == null" :src="$store.state.shop.noPhoto" alt="">
                   </div>
                   <div class="basket-descript">
                     <p class="basket-item__name">{{scope.row.name}}</p>
-                    <p>Цвет: {{$store.state.shop.colors[scope.row.color].label}}</p>
-                  </div>
+                    <p v-if="scope.row.color !== undefined">Цвет: {{$store.state.shop.colors[scope.row.color].label}}</p>
+                    <p v-if="scope.row.size !== undefined">Размер: {{scope.row.sizes[scope.row.size]}}</p>                  </div>
                 </div>
               </template>
             </el-table-column>
@@ -79,7 +80,7 @@
               <p>Сумма: {{totalSum}} р.</p>
               <p>Скидка: {{discountValue}} р.</p>
             </div>
-            <a class="basket-card__link" @click.prevent="promocodeDialog = !promocodeDialog">У меня есть промокод</a>
+            <a class="basket-card__link" @click.prevent="openModal()">У меня есть промокод</a>
             <el-dialog
                     :append-to-body="true"
                     title="Введите промокод"
@@ -87,9 +88,13 @@
                     width="30%"
             >
               <input v-model="promocode" type="text" class="form-input width-100" placeholder="Ваш промокод">
+              <div class="basket-card__alert" v-if="codeIsWrong">Промокод не найден!</div>
+              <div class="basket-card__alert" v-if="codeIsExpired">Срок действия промокода истек!</div>
+              <div class="basket-card__alert" v-if="codeIsUsed">Промокод использован максимальное количество раз!</div>
+              <div class="basket-card__alert" v-if="codeIsNotApplicable">Промокод верен, но не применим ни к одному из товаров в корзине</div>
               <span slot="footer" class="dialog-footer">
                 <a class="btn btn-transparent" @click="promocodeDialog = false">Отменить</a>
-                <a  class="btn" @click="usePromocode()">Применить</a>
+                <a class="btn" @click.prevent="usePromocode()">Применить</a>
               </span>
             </el-dialog>
             <button :disabled="items.length == 0" @click="proceed" style="width:100%" class="btn with-shadow">Оформить</button>
@@ -128,7 +133,13 @@
       promocodeDialog: false,
       removeDialog: false,
       removeItem: {},
-      promocode: ''
+      promocode: '',
+      usedPromocode: '',
+      codeIsFound: false,
+      codeIsWrong: false,
+      codeIsExpired: false,
+      codeIsUsed: false,
+      codeIsNotApplicable: false
     }),
     head: {
       title: 'Holiday Paint | Корзина'
@@ -144,6 +155,11 @@
     },
     beforeDestroy() {
       window.removeEventListener('scroll', this.basketScrolling)
+    },
+    watch: {
+      totalSum(){
+        this.usePromocode()
+      }
     },
     methods: {
       proceed(){
@@ -168,32 +184,74 @@
         console.log(this.items)
         this.removeDialog = false
       },
+      setDiscountValue(promocode, item) {
+        if (promocode.type == 0) this.discountValue += promocode.value * item.quantity
+        else if (promocode.type == 1) this.discountValue += item.price * item.quantity * promocode.value / 100
+        this.$store.commit('shop/setDiscount', this.discountValue)
+        this.$store.commit('shop/setCurrentPromocode', promocode)
+      },
+      openModal() {
+        this.promocodeDialog = !this.promocodeDialog
+        this.codeIsExpired = false
+        this.codeIsUsed = false
+        this.codeIsWrong = false
+        this.codeIsNotApplicable = false
+      },
       usePromocode() {
+        this.discountValue = 0
+        console.log('Using Promocode')
+        console.log(this.promocode)
+        console.log(this.$store.state.shop.promocodes)
+        // Loop through promocodes
         this.$store.state.shop.promocodes.forEach((promocode) => {
+          console.log('Promocode search...')
+          console.log(promocode.code)
+          // If there is a match
           if (promocode.code == this.promocode) {
             console.log('Promocode found')
-            this.$store.state.shop.basket.forEach((item) => {
-              if (promocode.target != 1) {
-                if (promocode.items.includes(item.id)) {
-                  console.log('Target item found by id')
-                  if (promocode.type == 0) this.discountValue = promocode.value * item.quantity
-                  else if (promocode.type == 1) this.discountValue = item.price * item.quantity * promocode.value / 100
-                  this.$store.commit('shop/setDiscount', this.discountValue)
+            // Clear messages before checking
+            this.codeIsFound = true
+            this.codeIsExpired = false
+            this.codeIsUsed = false
+            this.codeIsWrong = false
+            this.codeIsNotApplicable = false
+            // Check remained uses, if zero, show message
+            if (promocode.uses == 0) this.codeIsUsed = true
+            // Check date, if expired, show message
+            else if (new Date(promocode.end_date) < new Date()) this.codeIsExpired = true
+            else {
+              // Loop through basket to apply the discount
+              this.$store.state.shop.basket.forEach((item) => {
+                // If the target is all items
+                if (promocode.target == 0) {
+                  this.setDiscountValue(promocode, item)
                   this.promocodeDialog = false
                 }
-              }
-              else if (promocode.target == 1) {
-                if (promocode.items.includes(item.category)) {
-                  console.log('Target item found by category')
-                  if (promocode.type == 0) this.discountValue = promocode.value * item.quantity
-                  else if (promocode.type == 1) this.discountValue = item.price * item.quantity * promocode.value / 100
-                  this.$store.commit('shop/setDiscount', this.discountValue)
-                  this.promocodeDialog = false
+                // If the target are categories
+                else if (promocode.target == 1) {
+                  if (promocode.items.includes(item.category)) {
+                    console.log('Target item found by category')
+                    this.setDiscountValue(promocode, item)
+                    this.promocodeDialog = false
+                  }
+                  else this.codeIsNotApplicable = true
                 }
-              }
-              else console.log('Target item not found')
-            })
+                // If the target are specific items
+                else if (promocode.target == 2) {
+                  // If the promocode includes the id of current basket item
+                  if (promocode.items.includes(item.id)) {
+                    console.log('Target item found by id')
+                    this.setDiscountValue(promocode, item)
+                    this.promocodeDialog = false
+                  }
+                  else this.codeIsNotApplicable = true
+                } else console.log('Invalid target')
+
+              })
+            }
           }
+          // If match not found, show message
+          if (this.codeIsFound == false) this.codeIsWrong = true
         })
       }
     },
@@ -205,9 +263,11 @@
         })
         return total
       },
-      basketCount() {
-        return this.$store.getters['shop/basketInfo'].length
-      }
+      basketCount () {
+        return this.$store.state.shop.basket.reduce(function (count, current) {
+          return count + current.quantity
+        }, 0)
+      },
     }
   }
 </script>
@@ -270,6 +330,13 @@
       position: absolute
       bottom: 0
       width: 18em
+      &__alert
+        display: flex
+        text-align: center
+        align-items: center
+        justify-content: center
+        color: #ff0000
+        padding: 1em 0 0 0
       &.fixed
         position: fixed
         bottom: auto

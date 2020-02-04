@@ -42,9 +42,7 @@
             </li>
           </ul>
           <div class="paint-buttons">
-            <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 0)">
-            <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
-            </p>
+            <nuxt-link to="/catalog/?category=paint" class="btn">Перейти в магазин</nuxt-link>
             <div class="video-btn">
               <button class="video-btn__body" @click.prevent="openVideo('https://www.youtube.com/embed/ni5hRK1ehzk')"></button>
             </div>
@@ -97,9 +95,7 @@
             </li>
           </ul>
           <div class="smoke-btn__wrap">
-            <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 2)">
-            <nuxt-link to="/catalog" class="btn smoke-btn">Перейти в магазин</nuxt-link>
-            </p>
+            <nuxt-link to="/catalog/?category=colored-smoke" class="btn smoke-btn">Перейти в магазин</nuxt-link>
             <p class="home-label">от <span>330</span> рублей за шт.</p>
           </div>
         </div>
@@ -129,9 +125,7 @@
             </div>
           </div>
           <div class="markers-button__wrap">
-            <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 1)">
-            <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
-            </p>
+            <nuxt-link to="/catalog/?category=markers" class="btn">Перейти в магазин</nuxt-link>
             <p class="home-label">от <span>130</span> рублей за шт.</p>
           </div>
         </div>
@@ -175,9 +169,7 @@
           </div>
         </div>
         <div class="holipaint-button__wrap">
-          <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 3)">
-          <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
-          </p>
+          <nuxt-link to="/catalog/?category=holy-paint" class="btn">Перейти в магазин</nuxt-link>
           <p class="home-label"><span>100</span> рублей за шт.</p>
         </div>
       </div>
@@ -211,9 +203,7 @@
             </li>
           </ul>
           <div class="kigurumi-button__wrap">
-            <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 4)">
-            <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
-            </p>
+            <nuxt-link to="/catalog/?category=kigurumi" class="btn">Перейти в магазин</nuxt-link>
             <p class="home-label"><span>1 990</span> рублей за шт.</p>
           </div>
         </div>

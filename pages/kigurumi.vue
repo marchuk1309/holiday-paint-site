@@ -7,9 +7,7 @@
           <h3 class="main-subtitle">Превратите любую <br>вечеринку в сказку</h3>
           <div class="main-buttons">
             <div class="main-btn__wrap">
-              <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 4)">
-                <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
-              </p>
+              <nuxt-link to="/catalog/?category=kigurumi" class="btn">Перейти в магазин</nuxt-link>
               <p class="landing__label">1990 рублей за штуку</p>
             </div>
           </div>
@@ -49,7 +47,7 @@
           </div>
         </div>
         <p @click="$store.commit('shop/filterType', 4)">
-          <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+          <nuxt-link to="/catalog/?category=kigurumi" class="btn centred">Перейти в магазин</nuxt-link>
         </p>
       </div>
     </section>
@@ -98,7 +96,7 @@
             </li>
           </ul>
         </div>
-        <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        <nuxt-link to="/catalog/?category=kigurumi" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="feedback">
@@ -106,7 +104,7 @@
         <h2 class="section-title big gradient">Фото и видео с кигуруми</h2>
         <p class="subtitle">Мы запечатлели самые яркие жизненные моменты</p>
         <feedbacks/>
-        <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        <nuxt-link to="/catalog/?category=kigurumi" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="faq">

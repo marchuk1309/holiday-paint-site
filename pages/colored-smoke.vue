@@ -7,7 +7,7 @@
           <h3 class="main-subtitle">Сделай фотосессию <br>невероятно <br>завораживающей</h3>
           <div class="main-buttons">
             <div class="main-btn__wrap">
-              <nuxt-link to="/catalog" class="btn">Перейти в магазин</nuxt-link>
+              <nuxt-link to="/catalog/?category=colored-smoke" class="btn">Перейти в магазин</nuxt-link>
               <p class="landing__label">330 рублей за штуку</p>
             </div>
           </div>
@@ -51,9 +51,7 @@
             <p class="about-using__text">Массовые мероприятия</p>
           </div>
         </div>
-        <p @click="$store.commit('shop/filterType', 2)">
-          <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
-        </p>
+        <nuxt-link to="/catalog/?category=colored-smoke" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="about-second">
@@ -104,7 +102,7 @@
           </ul>
         </div>
         <p @click="$store.commit('shop/flushFilter'); $store.commit('shop/filterType', 2)">
-          <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+          <nuxt-link to="/catalog/?category=colored-smoke" class="btn centred">Перейти в магазин</nuxt-link>
         </p>
       </div>
     </section>
@@ -113,7 +111,7 @@
         <h2 class="section-title big gradient">Фото и видео с цветным дымом</h2>
         <p class="subtitle">Мы запечатлели самые яркие жизненные моменты</p>
         <feedbacks/>
-        <nuxt-link to="/catalog" class="btn centred">Перейти в магазин</nuxt-link>
+        <nuxt-link to="/catalog/?category=colored-smoke" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="faq">

@@ -50,7 +50,9 @@
   @import "../assets/sass/variables"
   .partners
     margin-bottom: 8em
-
+    &-wrap
+      > .partners-item
+        width: 19%
 
 </style>
 

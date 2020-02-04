@@ -4,11 +4,11 @@
       <img v-if="good.images != null" :src="'http://hpapi.fobesko.com/public/storage/product/' + good.images[0]" alt="">
       <img v-if="good.images == null" :src="$store.state.shop.noPhoto" alt="">
       <p class="goods-photo__popup" v-if="good.available == 0">Нет в наличии. Потребуется доставка с основного склада</p>
+      <nuxt-link :to="'/catalog/' + good.id" class="goods-link"></nuxt-link>
     </div>
     <p class="goods-price">{{price}}₽</p>
     <p class="goods-name">{{good.name}}</p>
     <p class="goods-descript">{{this.volume}}</p>
-    <nuxt-link :to="'/catalog/' + good.id" class="goods-link"></nuxt-link>
     <div>
       <div v-if="good.sizes !== undefined & good.sizes !== '[]'" class="goods__sizes">
         <div v-for="(size,index) in good.sizes" :key="index"  class="goods__size">
@@ -22,8 +22,8 @@
     </div>
     <div class="goods__alert" v-if="good.category != 4 && showAlert">Выберите цвет!</div>
     <div class="goods__alert" v-if="good.category == 4 && showAlert">Выберите размер!</div>
-    <a v-if="good.available == 1" @click.prevent="basketPush()" class="goods-btn btn">В корзину</a>
-    <a v-else @click.prevent="basketPush()" class="goods-btn btn blue">Заказать</a>
+    <a v-if="good.available == 1" @click.prevent="basketPush()" class="goods-btn btn">{{added ? "В корзине +" :"В корзину"}}</a>
+    <a v-else @click.prevent="basketPush()" class="goods-btn btn blue">"Заказать"</a>
   </div>
 </template>
 
@@ -33,6 +33,7 @@
     data: () => ({
       selectedColor: null,
       showAlert: false,
+      added: false
     }),
     methods: {
       basketPush() {
@@ -56,6 +57,7 @@
         // If it is kigurumi - select correct price
         if (this.good.category == 4) item.price = JSON.parse(this.good.price)[this.good.size]
         this.$store.commit('shop/basketPush', item)
+        this.added = true
       }
     },
     watch: {

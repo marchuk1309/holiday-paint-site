@@ -75,12 +75,31 @@
       })*/
     },
     mounted() {
-      console.log(this.goods)
-      if (this.$route.params.type == 'paint') { this.$store.commit('shop/filterType', 0)}
-      if (this.$route.params.type == 'markers') { this.$store.commit('shop/filterType', 1) }
-      if (this.$route.params.type == 'colored-smoke') { this.$store.commit('shop/filterType', 2) }
-      if (this.$route.params.type == 'holy-paint') { this.$store.commit('shop/filterType', 3) }
-      if (this.$route.params.type == 'kigurumi') { this.$store.commit('shop/filterType', 4) }
+      console.log(this.$route.query.category)
+      this.$store.commit('shop/flushFilter')
+      if (this.$route.query.category) {
+        let filter = ''
+        switch (this.$route.query.category) {
+          case 'paint':
+            filter = 0;
+            break
+          case 'markers':
+            filter = 1;
+            break
+          case 'colored-smoke':
+            filter = 2
+            break
+          case 'holy-paint':
+            filter = 3;
+            break
+          case 'kigurumi':
+            filter = 4
+            break
+        }
+        if (filter !== '') {
+          this.$store.commit('shop/filterType', filter)
+        }
+      }
       this.setupPagination(this.goods.map(good => {
         return {
           ...good

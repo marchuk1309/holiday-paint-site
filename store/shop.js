@@ -105,13 +105,17 @@ export const mutations = {
             state.showType.splice(index, 1)
         }
         else state.showType.push(type)
-        if (state.showType.length == 0 || state.showType.length > 1) history.pushState(null, null, '/catalog')
-        else if (state.showType == 0) history.pushState(null, null, '/catalog/paint')
-        else if (state.showType == 1) history.pushState(null, null, '/catalog/markers')
-        else if (state.showType == 2) history.pushState(null, null, '/catalog/colored-smoke')
-        else if (state.showType == 3) history.pushState(null, null, '/catalog/holy-paint')
-        else if (state.showType == 4) history.pushState(null, null, '/catalog/kigurumi')
-        console.log(state.showType)
+        if (state.showType.length == 0) {
+          $nuxt.$router.replace('/catalog/')
+        }
+        else if (state.showType.length > 1) {
+          $nuxt.$router.replace('/catalog/?category=many')
+        }
+        else if (state.showType == 0) $nuxt.$router.replace('/catalog/?category=paint')
+        else if (state.showType == 1) $nuxt.$router.replace('/catalog/?category=markers')
+        else if (state.showType == 2) $nuxt.$router.replace('/catalog/?category=colored-smoke')
+        else if (state.showType == 3) $nuxt.$router.replace('/catalog/?category=holy-paint')
+        else if (state.showType == 4) $nuxt.$router.replace('/catalog/?category=kigurumi')
     },
     filterColor (state, color) {
         if (state.showColor.includes(color)) {

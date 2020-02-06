@@ -113,22 +113,14 @@
         <p class="subtitle">Часто задаваемые вопросы про меловую краску</p>
         <div class="faq-body">
           <el-collapse v-model="activeCollapses">
-            <el-collapse-item title="Consistency" name="1">
-              <div>Consistent with real life: in line with the process and logic of real life, and comply with languages and habits that the users are used to;</div>
-              <div>Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.</div>
+            <el-collapse-item title="Как стирать костюм?" name="1">
+              <div>Костюм стирается в стиральной машинке на деликатном режиме или ручной стирке. наши костюмы не линяют после стирки.</div>
             </el-collapse-item>
-            <el-collapse-item title="Feedback" name="2">
-              <div>Operation feedback: enable the users to clearly perceive their operations by style updates and interactive effects;</div>
-              <div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
+            <el-collapse-item title="Не сядит ли костюм после стирки?" name="2">
+              <div>При соблюдении температурного режима костюм не изменится в размере так как изготовлен из качественного материала.</div>
             </el-collapse-item>
-            <el-collapse-item title="Efficiency" name="3">
-              <div>Simplify the process: keep operating process simple and intuitive;</div>
-              <div>Definite and clear: enunciate your intentions clearly so that the users can quickly understand and make decisions;</div>
-              <div>Easy to identify: the interface should be straightforward, which helps the users to identify and frees them from memorizing and recalling.</div>
-            </el-collapse-item>
-            <el-collapse-item title="Controllability" name="4">
-              <div>Decision making: giving advices about operations is acceptable, but do not make decisions for the users;</div>
-              <div>Controlled consequences: users should be granted the freedom to operate, including canceling, aborting or terminating current operation.</div>
+            <el-collapse-item title="Какой кигуруми лучше?" name="3">
+              <div>Это довольно сложный вопрос. Ведь все мы разные и всем нравится что-то свое – одному нравится милый тигруля, а другому – волшебный единорог на наш взгляд, лучше тот кигуруми, который заставляет улыбаться вас и тех, кто вас в нем видит.</div>
             </el-collapse-item>
           </el-collapse>
         </div>

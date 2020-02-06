@@ -115,22 +115,17 @@
         <p class="subtitle">Часто задаваемые вопросы про меловую краску</p>
         <div class="faq-body">
           <el-collapse v-model="activeCollapses">
-            <el-collapse-item title="Consistency" name="1">
-              <div>Consistent with real life: in line with the process and logic of real life, and comply with languages and habits that the users are used to;</div>
-              <div>Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.</div>
+            <el-collapse-item title="Где можно использовать ваши меловые маркеры?" name="1">
+              <div>Наши маркеры используются для оформления витрин, ценников, led досок, на коже и волосах.</div>
             </el-collapse-item>
-            <el-collapse-item title="Feedback" name="2">
-              <div>Operation feedback: enable the users to clearly perceive their operations by style updates and interactive effects;</div>
-              <div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
+            <el-collapse-item title="На грифельных досках можно использовать?" name="2">
+              <div>Мы не рекомендуем использовать маркеры на грифельных поверхностях без пробного нанесения не менее суток.</div>
             </el-collapse-item>
-            <el-collapse-item title="Efficiency" name="3">
-              <div>Simplify the process: keep operating process simple and intuitive;</div>
-              <div>Definite and clear: enunciate your intentions clearly so that the users can quickly understand and make decisions;</div>
-              <div>Easy to identify: the interface should be straightforward, which helps the users to identify and frees them from memorizing and recalling.</div>
+            <el-collapse-item title="Как смываются маркеры?" name="3">
+              <div>Наши маркеры легко смываются водой и даже влажными салфетками.</div>
             </el-collapse-item>
-            <el-collapse-item title="Controllability" name="4">
-              <div>Decision making: giving advices about operations is acceptable, but do not make decisions for the users;</div>
-              <div>Controlled consequences: users should be granted the freedom to operate, including canceling, aborting or terminating current operation.</div>
+            <el-collapse-item title="Можно наносить на лпк?" name="4">
+              <div>Мы не рекомендуем клиентам рисовать меловыми маркерами на лпк авто и оставлять рисунок на длительный срок, но если вам нужно всего на сутки тогда можно, но обычно маркерами рисуют на стёклах.</div>
             </el-collapse-item>
           </el-collapse>
         </div>

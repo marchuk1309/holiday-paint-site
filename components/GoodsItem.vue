@@ -23,7 +23,7 @@
     <div class="goods__alert" v-if="good.category != 4 && showAlert">Выберите цвет!</div>
     <div class="goods__alert" v-if="good.category == 4 && showAlert">Выберите размер!</div>
     <a v-if="good.available == 1" @click.prevent="basketPush()" class="goods-btn btn">{{added ? "В корзине +" :"В корзину"}}</a>
-    <a v-else @click.prevent="basketPush()" class="goods-btn btn blue">Заказать</a>
+    <a v-else @click.prevent="basketPush()" class="goods-btn btn blue">{{added ? "В корзине +" :"Заказать"}}</a>
   </div>
 </template>
 
@@ -199,6 +199,7 @@
         position: relative
         transition: .4s
         z-index: 1
+        overflow: hidden
         &::after
           content: ''
           position: absolute

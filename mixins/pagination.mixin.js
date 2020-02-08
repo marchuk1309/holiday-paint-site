@@ -14,6 +14,7 @@ export default {
     pageChangeHandler(page){
       this.items = this.allItems[page - 1] || this.allItems[0]
       this.$router.push(`${this.$route.path}?page=${page}`)
+      document.documentElement.scrollTop = 0;
     },
     setupPagination(allItems){
       this.allItems = chunk(allItems, this.pageSize)

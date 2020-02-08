@@ -114,6 +114,9 @@
                   ...good
               }
           }))
+          console.log('shownGoods')
+          console.log(this.goods)
+          console.log(this.shownGoods)
       }
     },
     methods: {

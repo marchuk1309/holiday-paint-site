@@ -123,22 +123,27 @@
         <p class="subtitle">Часто задаваемые вопросы про меловую краску</p>
         <div class="faq-body">
           <el-collapse v-model="activeCollapses">
-            <el-collapse-item title="Consistency" name="1">
-              <div>Consistent with real life: in line with the process and logic of real life, and comply with languages and habits that the users are used to;</div>
-              <div>Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.</div>
+            <el-collapse-item title="Краска точно смоется? Без следа?" name="1">
+              <div>Да, краска смывается полностью. В редких случаях может остаться ореол в
+                виде лёгкого оттенка, он смывается с помощью спиртовых салфеток или
+                муравьиного спирта, либо можно подождать месяц и ореол сам исчезнет
+                под воздействием солнечных лучей. Главное не использовать агрессивные
+                моющие средства, которые могут увеличить время распада пигментов.</div>
             </el-collapse-item>
-            <el-collapse-item title="Feedback" name="2">
-              <div>Operation feedback: enable the users to clearly perceive their operations by style updates and interactive effects;</div>
-              <div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
+            <el-collapse-item title="На сколько хватает 1 баллона?" name="2">
+              <div>1 баллона хватает примерно на 1,5 м2 окрашивания поверхности
+                одним слоем. 1 баллоном можно расписать крупными буквами по
+                кругу авто</div>
             </el-collapse-item>
-            <el-collapse-item title="Efficiency" name="3">
-              <div>Simplify the process: keep operating process simple and intuitive;</div>
-              <div>Definite and clear: enunciate your intentions clearly so that the users can quickly understand and make decisions;</div>
-              <div>Easy to identify: the interface should be straightforward, which helps the users to identify and frees them from memorizing and recalling.</div>
+              <el-collapse-item title="Сколько можно ездить с рисунком, дождём не смоет?" name="3">
+              <div>Ограничений по времени нет. Под дождём краска не смывается и не
+                течёт, если это конечно не ливень с ежемесячной нормой осадков.</div>
             </el-collapse-item>
-            <el-collapse-item title="Controllability" name="4">
-              <div>Decision making: giving advices about operations is acceptable, but do not make decisions for the users;</div>
-              <div>Controlled consequences: users should be granted the freedom to operate, including canceling, aborting or terminating current operation.</div>
+            <el-collapse-item title="При какой температуре можно наносить краску?" name="4">
+              <div>Запрещено наносить при температуре ниже -10, дожде и ветре. В
+                таких случаях необходимо оформлять в закрытых, отапливаемых
+                помещениях и подождать полного высыхания краски, после этого
+                можно выезжать на мороз.</div>
             </el-collapse-item>
           </el-collapse>
         </div>

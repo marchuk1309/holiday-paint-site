@@ -120,22 +120,17 @@
         <p class="subtitle">Часто задаваемые вопросы про меловую краску</p>
         <div class="faq-body">
           <el-collapse v-model="activeCollapses">
-            <el-collapse-item title="Consistency" name="1">
-              <div>Consistent with real life: in line with the process and logic of real life, and comply with languages and habits that the users are used to;</div>
-              <div>Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.</div>
+            <el-collapse-item title="Сколько дымит дымовая шашка?" name="1">
+              <div>Шашки дымят от 30 до 120 секунд, в зависимости от модели, но в основном у нас представлены шашки с дымлением 60 секунд.</div>
             </el-collapse-item>
-            <el-collapse-item title="Feedback" name="2">
-              <div>Operation feedback: enable the users to clearly perceive their operations by style updates and interactive effects;</div>
-              <div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
+            <el-collapse-item title="Сколько видов цвета дыма?" name="2">
+              <div>У нас представлены более 9 видов цвета дыма.</div>
             </el-collapse-item>
-            <el-collapse-item title="Efficiency" name="3">
-              <div>Simplify the process: keep operating process simple and intuitive;</div>
-              <div>Definite and clear: enunciate your intentions clearly so that the users can quickly understand and make decisions;</div>
-              <div>Easy to identify: the interface should be straightforward, which helps the users to identify and frees them from memorizing and recalling.</div>
+            <el-collapse-item title="Пачкает дым одежду?" name="3">
+              <div>Цветной дым не пачкает одежду если соблюдать инструкцию по применению. не направляйте факел дыма близко к человеку и не держите его в направлении одежды более 2 секунд.</div>
             </el-collapse-item>
-            <el-collapse-item title="Controllability" name="4">
-              <div>Decision making: giving advices about operations is acceptable, but do not make decisions for the users;</div>
-              <div>Controlled consequences: users should be granted the freedom to operate, including canceling, aborting or terminating current operation.</div>
+            <el-collapse-item title="Можно держать в руке?" name="4">
+              <div>Производитель не рекомендует держать шашку в руке, но её можно взять за нижнюю часть где она не будет нагреваться и держать на вытянутой руке под углом. Мощные шашки нужно использовать только на земле согласно инструкции по пременению.</div>
             </el-collapse-item>
           </el-collapse>
         </div>

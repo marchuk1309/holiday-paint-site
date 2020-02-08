@@ -5,7 +5,7 @@
                 <nuxt-link no-prefetch to="/" class="header-logo"><img src="@/assets/img/logo.png" alt=""></nuxt-link>
                 <div class="header__contacts">
                     <a :href="'tel:' + userInfo.info.phone" class="header__contacts-link">{{userPhone}}</a>
-                    <a target="_blank" :href="'mailto:' + userInfo.info.corp_email" class="header__contacts-link">{{userInfo.info.corp_email}}</a>
+                    <a target="_blank" :href="'mailto:' + userInfo.info.email" class="header__contacts-link">{{userInfo.info.email}}</a>
                     <div v-if="currentCity == 'Москва'" @click="changeDistrict = !changeDistrict" class="header-address">
                         <span>Район {{currentDistrict}}</span>
                     </div>
@@ -15,9 +15,10 @@
                 </div>
 
                 <div class="header__socials">
-                    <a :href="userInfo.socials.ids.vk" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
-                    <a :href="userInfo.socials.ids.instagram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
-                    <a href="https://youtube.com" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/youtube.svg" alt=""></a>
+                    <a v-if="userInfo.socials.ids.vk != undefined && userInfo.socials.active.vk == 1" :href="'https://vk.com/'+userInfo.socials.ids.vk" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
+                    <a v-if="userInfo.socials.ids.instagram != undefined && userInfo.socials.active.instagram == 1" :href="'https://instagram.com/'+userInfo.socials.ids.instagram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
+                    <a v-if="userInfo.socials.ids.whatsapp != undefined && userInfo.socials.active.whatsapp == 1" :href="'https://api.whatsapp.com/send?phone='+userInfo.socials.ids.whatsapp" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
+                    <a v-if="userInfo.socials.ids.telegram != undefined && userInfo.socials.active.telegram == 1" :href="'https://t.me/'+userInfo.socials.ids.telegram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
                 </div>
                 <ul class="header__menu flex jc-sb">
                     <li class="header__menu-link">

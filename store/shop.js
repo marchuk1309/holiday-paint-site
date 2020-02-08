@@ -24,6 +24,7 @@ export const state = () => ({
     userphoto: [],
     showAvailable: false,
     showType: [],
+    showSize: false,
     showSale: false,
     showColor: [],
     currentCity: '',
@@ -50,7 +51,13 @@ export const getters = {
     partnersInfo (state) { return state.partners },
     userInfo (state) { return state.user },
     requestInfo (state) { return state.request },
-    isLoaded (state) { return state.isLoaded }
+    isLoaded (state) { return state.isLoaded },
+    filters (state) { return [
+        state.showAvailable,
+        state.showSale,
+        state.showType,
+        state.showColor
+    ]}
 }
 
 export const mutations = {
@@ -66,6 +73,7 @@ export const mutations = {
             let index = state.shownProducts.findIndex(element => element.id === item.id)
             state.shownProducts.splice(index, 1)
         }
+        console.log(state.shownProducts)
     },
 
     flushFilter(state) {
@@ -73,6 +81,7 @@ export const mutations = {
         state.showSale = false
         state.showType = []
         state.showColor = []
+        state.shownProducts = []
     },
 
     addCities(cities) {
@@ -116,6 +125,7 @@ export const mutations = {
         else if (state.showType == 2) $nuxt.$router.replace('/catalog/?category=colored-smoke')
         else if (state.showType == 3) $nuxt.$router.replace('/catalog/?category=holy-paint')
         else if (state.showType == 4) $nuxt.$router.replace('/catalog/?category=kigurumi')
+
     },
     filterColor (state, color) {
         if (state.showColor.includes(color)) {
@@ -128,7 +138,9 @@ export const mutations = {
     filterSale (state) {
         state.showSale = !state.showSale
     },
-
+    filterSize (state, size) {
+        state.showSize = size
+    },
     addRequest (state, request) {
         request.type = 2
         if (state.currentPromocode != null) request.promocode = state.currentPromocode.id
@@ -263,7 +275,6 @@ export const mutations = {
                 response.data['promocodes'].forEach((item) => {
 
                     if (item.items != null && item.items !== 'null') {
-                        console.log(item.items)
                         if (typeof item.items == "string") item.items = JSON.parse(item.items)
                         item.items.forEach((subitem) => {
                             saleproducts.push(subitem)

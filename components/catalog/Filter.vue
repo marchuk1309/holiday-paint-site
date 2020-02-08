@@ -4,7 +4,7 @@
     <div class="catalog-filter__box active">
       <div class="catalog-filter__box-title">
         <p @click="openFilterBox()">Товар</p>
-        <a @click.prevent="clearCheckboxes()" class="catalog-filter__clean-btn">Очистить</a>
+        <a @click.prevent="clearCheckboxes()" :style="'color:' + typeString" class="catalog-filter__clean-btn">Очистить</a>
       </div>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
         <input :checked="$store.state.shop.showType.includes(0)" @click="$store.commit('shop/filterType', 0)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые краски</span>
@@ -37,14 +37,14 @@
     <div class="catalog-filter__box active">
       <div class="catalog-filter__box-title">
         <p @click="openFilterBox()">Цвет</p>
-        <a @click.prevent="clearCheckboxes()" class="catalog-filter__clean-btn">Очистить</a>
+        <a @click.prevent="clearCheckboxes()" :style="'color:' + colorString" class="catalog-filter__clean-btn">Очистить</a>
       </div>
         <input v-for="item in $store.state.shop.colors" @click="$store.commit('shop/filterColor', item.id)" type="checkbox" class="form-checkbox__color" :style="'background-color:' + item.color">
     </div>
     <div class="catalog-filter__box">
       <div class="catalog-filter__box-title">
         <p @click="openFilterBox()">Размер</p>
-        <a @click.prevent="clearCheckboxes()" class="catalog-filter__clean-btn">Очистить</a>
+        <a @click.prevent="clearCheckboxes()" :style="'color:' + sizeString" class="catalog-filter__clean-btn">Очистить</a>
       </div>
       <p class="catalog-filter__box-text">Ваш рост (см)</p>
       <div class="form-range__wrap">
@@ -60,7 +60,7 @@
     <div class="catalog-filter__box">
       <div class="catalog-filter__box-title">
         <p @click="openFilterBox()">Другое</p>
-        <a @click.prevent="clearCheckboxes()" class="catalog-filter__clean-btn">Очистить</a>
+        <a @click.prevent="clearCheckboxes()" :style="'color:' + otherString" class="catalog-filter__clean-btn">Очистить</a>
       </div>
       <label class="catalog-filter__checkbox form-checkbox__wrap">
         <input :checked="$store.state.shop.showAvailable" @click="$store.commit('shop/filterAvailable')" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">В наличии</span>
@@ -85,7 +85,30 @@
         190: '190'
       }
     }),
+    computed: {
+      typeString() {
+        if (this.$store.state.shop.showType.length == 0) return 'gray'
+        else return 'red'
+      },
+      sizeString() {
+        if (this.$store.state.shop.showSize == 90) return 'gray'
+        else return 'red'
+      },
+      colorString() {
+        if (this.$store.state.shop.showColor == false) return 'gray'
+        else return 'red'
+      },
+      otherString() {
+        if (this.$store.state.shop.showAvailable == false && this.$store.state.shop.showSale == false) return 'gray'
+        else return 'red'
+      }
+  },
     props: ['addedFilter'],
+    watch:{
+      value1(){
+        this.$store.commit('shop/filterSize', this.value1)
+      }
+    },
     methods: {
       openFilterBox() {
         const element = event.target.parentNode.parentNode

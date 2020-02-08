@@ -63,9 +63,6 @@
         shownGoods(){
             return this.$store.getters['shop/shownProductsInfo']
         },
-      isLoaded(){
-        return this.$store.getters['isLoaded']
-      }
     },
     created(){
       /*
@@ -107,7 +104,7 @@
       }))
     },
     watch: {
-      isLoaded(){
+      '$store.state.shop.isLoaded'(){
         console.log('LOADING COMPLETE')
         this.$forceUpdate()
       },

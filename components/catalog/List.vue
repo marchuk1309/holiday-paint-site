@@ -14,10 +14,10 @@
     components: {
       CatalogItem
     },
-    props: {
-      goods: {
-        required: true,
-        type: Array
+    props: ['goods'],
+    watch: {
+      '$store.state.shop.isLoaded'(){
+        this.$forceUpdate()
       }
     }
   }

@@ -14,7 +14,7 @@
         <div v-for="(size,index) in good.sizes" :key="index"  class="goods__size">
           <input :id="good.id + '-size-' + size + '-' + addedClass" v-model="good.size" type="radio" class="goods__size--input" :value="index">
           <label class="goods__size--label" :for="good.id + '-size-' + size + '-' + addedClass">
-            {{size}}
+            {{ size }}
           </label>
         </div>
       </div>
@@ -23,7 +23,7 @@
     <div class="goods__alert" v-if="good.category != 4 && showAlert">Выберите цвет!</div>
     <div class="goods__alert" v-if="good.category == 4 && showAlert">Выберите размер!</div>
     <a v-if="good.available == 1" @click.prevent="basketPush()" class="goods-btn btn">{{added ? "В корзине +" :"В корзину"}}</a>
-    <a v-else @click.prevent="basketPush()" class="goods-btn btn blue">"Заказать"</a>
+    <a v-else @click.prevent="basketPush()" class="goods-btn btn blue">Заказать</a>
   </div>
 </template>
 
@@ -55,7 +55,9 @@
         this.showAlert = false
         let item = { ...this.good }
         // If it is kigurumi - select correct price
-        if (this.good.category == 4) item.price = JSON.parse(this.good.price)[this.good.size]
+        if (this.good.category == 4) {
+          item.price = this.price
+        }
         this.$store.commit('shop/basketPush', item)
         this.added = true
       }
@@ -64,7 +66,6 @@
       good() {
         if (this.good.color != undefined) this.showAlert = false
         if (this.good.size != undefined) this.showAlert = false
-        console.log(this.good.size)
       },
       showItem() {
         if (this.addedClass !== 'popular-item') this.$store.commit('shop/checkShownProducts', [this.good, this.showItem])
@@ -113,11 +114,15 @@
         if (typeof JSON.parse(this.good.price) == 'object') {
           if (this.good.size != undefined) {
             let price = JSON.parse(this.good.price)
-            return price[this.good.size]
+            if (price[this.good.size] == undefined) return 0
+            else return price[this.good.size]
           }
           else {
             let price = JSON.parse(this.good.price)
-            return price[0] + '-' + price[2]
+            let length = price.length
+            if (price[0] == undefined) return 0
+            if (price.length == 1) return price[0]
+            else return price[0] + '-' + price[price.length-1]
           }
         }
         else return this.good.price

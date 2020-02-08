@@ -8,9 +8,10 @@
           <p>ОГРНИП 000 000 000</p>
         </div>
         <div class="footer-socials">
-          <a :href="$store.state.shop.user.socials.ids.vk" target="_blank" class="socials-item footer__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
-          <a :href="$store.state.shop.user.socials.ids.instagram" target="_blank" class="socials-item footer__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
-          <a href="https://youtube.com" target="_blank" class="socials-item footer__socials-item"><img src="@/assets/img/icons/youtube.svg" alt=""></a>
+          <a v-if="$store.state.shop.user.socials.ids.vk != undefined && $store.state.shop.user.socials.active.vk == 1" :href="'https://vk.com/'+$store.state.shop.user.socials.ids.vk" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
+          <a v-if="$store.state.shop.user.socials.ids.instagram != undefined && $store.state.shop.user.socials.active.instagram == 1" :href="'https://instagram.com/'+$store.state.shop.user.socials.ids.instagram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
+          <a v-if="$store.state.shop.user.socials.ids.whatsapp != undefined && $store.state.shop.user.socials.active.whatsapp == 1" :href="'https://api.whatsapp.com/send?phone='+$store.state.shop.user.socials.ids.whatsapp" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
+          <a v-if="$store.state.shop.user.socials.ids.telegram != undefined && $store.state.shop.user.socials.active.telegram == 1" :href="'https://t.me/'+$store.state.shop.user.socials.ids.telegram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
         </div>
       </div>
       <div class="footer-col">

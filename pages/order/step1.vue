@@ -136,7 +136,7 @@
                 request.product_ids.push(item.id)
                 request.quantity.push(item.quantity)
                 request.colors.push(item.color)
-                request.value += parseInt(item.price)
+                request.value += parseInt(item.price) * parseInt(item.quantity)
               });
               request.seller_id = this.$store.state.shop.user.info.id
               request.value = request.value - this.$store.state.shop.discount

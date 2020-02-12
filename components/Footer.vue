@@ -4,14 +4,14 @@
       <div class="footer-col">
         <div class="footer-logo"><img src="@/assets/img/logo-white.png" alt=""></div>
         <div class="footer-text">
-          <p>ИНН 000 000 000</p>
-          <p>ОГРНИП 000 000 000</p>
+          <p>ИНН 230 906 897 754</p>
+          <p>ОГРНИП 319 237 500 081 080</p>
         </div>
         <div class="footer-socials">
-          <a v-if="$store.state.shop.user.socials.ids.vk != undefined && $store.state.shop.user.socials.active.vk == 1" :href="'https://vk.com/'+$store.state.shop.user.socials.ids.vk" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
-          <a v-if="$store.state.shop.user.socials.ids.instagram != undefined && $store.state.shop.user.socials.active.instagram == 1" :href="'https://instagram.com/'+$store.state.shop.user.socials.ids.instagram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
-          <a v-if="$store.state.shop.user.socials.ids.whatsapp != undefined && $store.state.shop.user.socials.active.whatsapp == 1" :href="'https://api.whatsapp.com/send?phone='+$store.state.shop.user.socials.ids.whatsapp" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
-          <a v-if="$store.state.shop.user.socials.ids.telegram != undefined && $store.state.shop.user.socials.active.telegram == 1" :href="'https://t.me/'+$store.state.shop.user.socials.ids.telegram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
+          <a href="https://vk.com/holidaypaint" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
+          <a href="https://www.instagram.com/holidaypaint/" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
+          <a href="'https://api.whatsapp.com/send?phone=" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
+          <a href="https://t.me/Roman_HP" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
         </div>
       </div>
       <div class="footer-col">
@@ -33,7 +33,7 @@
         <nuxt-link to="/about" class="footer-link">О компании</nuxt-link>
         <a @click="$emit('changeCity')" class="footer-link">Найти представителя</a>
         <nuxt-link to="/discounts" class="footer-link">Акции</nuxt-link>
-        <a href="https://franchise.holiday-paint.biz" target="_blank" class="btn footer-btn">Стать партнером</a>
+        <a href="http://holiday-paint.tilda.ws/#rec65327385" target="_blank" class="btn footer-btn">Стать партнером</a>
       </div>
     </div>
     <div class="footer-after">

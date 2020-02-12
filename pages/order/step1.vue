@@ -62,14 +62,12 @@
       </el-row>
     </div>
     <popular-goods/>
-    <subscription/>
   </section>
 </template>
 
 <script>
   import OrderList from "../../components/OrderList";
   import PopularGoods from "../../components/PopularGoods";
-  import Subscription from '../../components/Subscription';
   import localdata from "../../assets/localdata";
 
   export default {
@@ -113,8 +111,7 @@
     },
     components: {
       OrderList,
-      PopularGoods,
-      Subscription
+      PopularGoods
     },
     methods: {
       onSubmit() {

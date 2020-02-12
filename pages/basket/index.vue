@@ -115,13 +115,11 @@
       </span>
     </el-dialog>
     <popular-goods />
-    <subscription/>
   </section>
 </template>
 
 <script>
   import PopularGoods from "../../components/PopularGoods";
-  import Subscription from '../../components/Subscription';
 
   export default {
     name: "basket",
@@ -145,8 +143,7 @@
       title: 'Holiday Paint | Корзина'
     },
     components: {
-      PopularGoods,
-      Subscription
+      PopularGoods
     },
     mounted() {
       window.addEventListener('scroll', this.basketScrolling)

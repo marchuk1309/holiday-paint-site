@@ -26,7 +26,7 @@
       </parallax-container>
       <div class="container">
         <h2 class="section-title big gradient">Что такое меловая краска?</h2>
-        <p class="subtitle">Яркое настроение даже в самы серые будни</p>
+        <p class="subtitle">Яркое настроение даже в самые серые будни</p>
         <p class="about-text">Смываемая меловая краска — это краска для авто волос и тела. Смывается простой водой. Безопасна для здоровья и окружающей среды.</p>
         <div class="about-facts">
           <div class="about-fact">
@@ -92,7 +92,7 @@
         <p class="subtitle">Чем краска собственного производства отличается от аналогов</p>
         <div class="features-body flex jc-sb">
           <ul class="features-list">
-            <li class="features-item plus">11 ярких цветов</li>
+            <li class="features-item plus">более 10 ярких цветов</li>
             <li class="features-item plus">Не смывается в осадки</li>
             <li class="features-item plus">Гарантия на смываемость</li>
             <li class="features-item plus">Не токсична, пахнет яблоком</li>
@@ -111,7 +111,7 @@
     </section>
     <section class="feedback">
       <div class="container">
-        <h2 class="section-title big gradient">Фото и видео с красками</h2>
+        <h2 class="section-title big gradient">Фото с красками</h2>
         <p class="subtitle">Мы запечатлели самые яркие жизненные моменты</p>
         <feedbacks/>
         <nuxt-link to="/catalog/?category=paint" class="btn centred">Перейти в магазин</nuxt-link>
@@ -153,6 +153,7 @@
     <el-dialog
       :visible.sync="videoDialog"
       custom-class="video-dialog"
+      @closed="videoUrl = ''"
     >
       <iframe
         class="dialog-video"

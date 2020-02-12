@@ -43,13 +43,11 @@
       </div>
     </div>
     <PopularGoods />
-    <Subscription />
   </section>
 </template>
 
 <script>
   import PopularGoods from "@/components/PopularGoods";
-  import Subscription from "@/components/Subscription"
   import localData from "@/assets/localdata";
 
   export default {
@@ -58,8 +56,7 @@
       title: `Holiday Paint | Товар`
     },
     components: {
-      PopularGoods,
-      Subscription
+      PopularGoods
     },
     data: () => ({
       showColorAlert: false,

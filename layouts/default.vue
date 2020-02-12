@@ -12,11 +12,17 @@
     <el-dialog
       :modal-append-to-body="false"
       :center="true"
-      title="Выберите город"
       :visible.sync="changeCity"
-      width="300px"
+      width="400px"
+      class="modal"
     >
-      <a v-for="city in cities" :key="city" @click="changeCurrentCity(city)"  class="dialog-link">{{city}}</a>
+      <div class="flex mb2 ai-c">
+        <p>Выберите город</p>
+        <input placeholder="Поиск" v-model="citiesFind" class="form-input" type="text">
+      </div>
+      <div class="cities-list">
+        <a v-for="city in cities" :key="city" @click="changeCurrentCity(city)"  class="dialog-link">{{city}}</a>
+      </div>
     </el-dialog>
   </el-container>
 </template>
@@ -28,7 +34,8 @@
   export default {
     data: () => ({
       mobileMenu: false,
-      changeCity: false
+      changeCity: false,
+      citiesFind: ''
     }),
     components: {
       Header,
@@ -36,7 +43,11 @@
     },
     computed: {
       cities(){
-        return this.$store.getters['shop/citiesInfo'];
+        let result = this.$store.getters['shop/citiesInfo']
+        if (this.citiesFind !== '') {
+          result = result.filter(el => el.toLowerCase().includes(this.citiesFind.toLowerCase()))
+        }
+        return result
       },
     },
     methods: {
@@ -44,7 +55,13 @@
         this.$store.commit('shop/setCurrentCity', city);
         this.$store.commit('shop/getPartnerInfo', city);
         this.changeCity = false
+        this.citiesFind = ''
       },
+    },
+    watch: {
+      citiesFind() {
+        this.citiesFind = this.citiesFind.replace(/\s/g, '')
+      }
     }
   }
 </script>
@@ -54,8 +71,7 @@
   .dialog-link
     display: block
     width: fit-content
-    margin-left: auto
-    margin-right: auto
+    margin-right: 1em
     margin-bottom: .5em
   .el-header, .el-footer, .el-main
     padding: 0
@@ -72,4 +88,20 @@
       padding-top: 6em
   .el-container
     min-height: 100vh
+</style>
+
+<style lang="scss">
+  .modal {
+    .el-dialog {
+      max-width: 95%;
+    }
+    .cities-list {
+      width: auto;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      height: 12em;
+      flex-wrap: wrap;
+    }
+  }
 </style>

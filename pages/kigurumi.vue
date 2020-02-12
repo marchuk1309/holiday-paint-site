@@ -8,7 +8,7 @@
           <div class="main-buttons">
             <div class="main-btn__wrap">
               <nuxt-link to="/catalog/?category=kigurumi" class="btn">Перейти в магазин</nuxt-link>
-              <p class="landing__label">1990 рублей за штуку</p>
+              <p class="landing__label">от 1490 рублей за штуку</p>
             </div>
           </div>
         </div>
@@ -46,9 +46,7 @@
             <p class="about-using__text">Повседневная жизнь</p>
           </div>
         </div>
-        <p @click="$store.commit('shop/filterType', 4)">
-          <nuxt-link to="/catalog/?category=kigurumi" class="btn centred">Перейти в магазин</nuxt-link>
-        </p>
+        <nuxt-link to="/catalog/?category=kigurumi" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="about-second">
@@ -101,7 +99,7 @@
     </section>
     <section class="feedback">
       <div class="container">
-        <h2 class="section-title big gradient">Фото и видео с кигуруми</h2>
+        <h2 class="section-title big gradient">Фото с кигуруми</h2>
         <p class="subtitle">Мы запечатлели самые яркие жизненные моменты</p>
         <feedbacks/>
         <nuxt-link to="/catalog/?category=kigurumi" class="btn centred">Перейти в магазин</nuxt-link>
@@ -130,6 +128,7 @@
     <el-dialog
       :visible.sync="videoDialog"
       custom-class="video-dialog"
+      @closed="videoUrl = ''"
     >
       <iframe
         class="dialog-video"

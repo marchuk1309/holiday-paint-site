@@ -103,7 +103,7 @@
     </section>
     <section class="feedback">
       <div class="container">
-        <h2 class="section-title big gradient">Фото и видео с меловыми маркерами</h2>
+        <h2 class="section-title big gradient">Фото с меловыми маркерами</h2>
         <p class="subtitle">Мы запечатлели самые яркие жизненные моменты</p>
         <feedbacks/>
         <nuxt-link to="/catalog/?category=markers" class="btn centred">Перейти в магазин</nuxt-link>
@@ -135,6 +135,7 @@
     <el-dialog
       :visible.sync="videoDialog"
       custom-class="video-dialog"
+      @closed="videoUrl = ''"
     >
       <iframe
         class="dialog-video"

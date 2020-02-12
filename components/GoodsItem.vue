@@ -6,7 +6,7 @@
       <p class="goods-photo__popup" v-if="good.available == 0">Нет в наличии. Потребуется доставка с основного склада</p>
       <nuxt-link :to="'/catalog/' + good.id" class="goods-link"></nuxt-link>
     </div>
-    <p class="goods-price">{{price}}₽</p>
+    <p class="goods-price">{{price || 0}}₽</p>
     <p class="goods-name">{{good.name}}</p>
     <p class="goods-descript">{{this.volume}}</p>
     <div>
@@ -118,8 +118,8 @@
             else return price[this.good.size]
           }
           else {
-            let price = JSON.parse(this.good.price)
-            let length = price.length
+            let price = JSON.parse(this.good.price) || 0
+            let length = price ? price.length : 0
             if (price[0] == undefined) return 0
             if (price.length == 1) return price[0]
             else return price[0] + '-' + price[price.length-1]

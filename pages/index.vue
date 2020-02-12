@@ -134,14 +134,14 @@
     <section class="holipaint">
       <div class="holipaint-video">
         <video autoplay loop muted>
-          <source src="../assets/video/holipaint.mp4" type="video/mp4">
+          <source ref="holipaintVideo" src="../assets/video/holipaint.mp4" type="video/mp4">
         </video>
       </div>
       <div class="container">
         <h2 class="section-title big gradient">Фестивальные краски холи</h2>
         <p class="subtitle">Сделайте небо над головой ярким</p>
         <div class="video-btn-2">
-          <button class="video-btn-2__body" @click.prevent="openVideo('/_nuxt/videos/d60c6b2.mp4')">
+          <button class="video-btn-2__body" @click.prevent="openVideo($refs.holipaintVideo.src)">
             <svg id="play"  viewBox="0 0 163 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px">
               <g fill="none">
                   <g  transform="translate(2.000000, 2.000000)" stroke-width="4">
@@ -204,7 +204,7 @@
           </ul>
           <div class="kigurumi-button__wrap">
             <nuxt-link to="/catalog/?category=kigurumi" class="btn">Перейти в магазин</nuxt-link>
-            <p class="home-label"><span>1 990</span> рублей за шт.</p>
+            <p class="home-label"><span>от 1 490</span> рублей за шт.</p>
           </div>
         </div>
       </div>
@@ -278,7 +278,12 @@ export default {
       return this.$store.state.shop.markers.filter(item => item.coords != null)
     },
     openVideo(link) {
-      this.videoUrl = 'https://www.youtube.com/embed/' + link.split('/').pop()
+      if (link.indexOf('youtu') === -1) {
+        this.videoUrl = link
+      }
+      else {
+        this.videoUrl = 'https://www.youtube.com/embed/' + link.split('/').pop()
+      }
       this.videoDialog = true
     }
   },

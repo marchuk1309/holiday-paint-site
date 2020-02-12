@@ -28,7 +28,6 @@
       </div>
     </div>
     <popular-goods />
-    <subscription />
   </article>
 </template>
 
@@ -37,7 +36,6 @@
   import CatalogNav from '@/components/catalog/Nav'
   import CatalogList from "@/components/catalog/List"
   import PopularGoods from '@/components/PopularGoods'
-  import Subscription from '@/components/Subscription'
   import paginationMixin from '@/mixins/pagination.mixin.js'
 
 
@@ -52,7 +50,6 @@
       CatalogFilter,
       CatalogNav,
       CatalogList,
-      Subscription,
       PopularGoods,
     },
     mixins: [paginationMixin],

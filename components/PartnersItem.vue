@@ -9,10 +9,10 @@
       <p class="partners-rating">{{partner.rating}}</p>
     </div>
     <div class="partners-socials">
-      <a :href="partner.vk" class="partners-social__box"><img src="@/assets/img/icons/vk.svg" alt=""></a>
-      <a :href="partner.instagram" class="partners-social__box"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
-      <a :href="partner.whatsapp" class="partners-social__box"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
-      <a :href="partner.telegram" class="partners-social__box"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
+      <a v-if="partner.vk" :href="'https://vk.com/' + partner.vk" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/vk.svg" alt=""></a>
+      <a v-if="partner.instagram" :href="'https://instagram.com/' + partner.instagram" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
+      <a v-if="partner.whatsapp" :href="'https://wa.me/' + partner.whatsapp" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
+      <a v-if="partner.telegram" :href="'https://t.me/' + partner.telegram" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
     </div>
   </div>
 </template>

@@ -92,7 +92,7 @@
         <p class="subtitle">Чем краска собственного производства отличается от аналогов</p>
         <div class="features-body flex jc-sb">
           <ul class="features-list">
-            <li class="features-item plus">более 10 ярких цветов</li>
+            <li class="features-item plus">Более 10 ярких цветов</li>
             <li class="features-item plus">Не смывается в осадки</li>
             <li class="features-item plus">Гарантия на смываемость</li>
             <li class="features-item plus">Не токсична, пахнет яблоком</li>

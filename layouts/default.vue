@@ -95,6 +95,11 @@
     .el-dialog {
       max-width: 95%;
     }
+    .form-input {
+      border-radius: 10px;
+      padding: 0 2em;
+      height: 50px;
+    }
     .cities-list {
       width: auto;
       display: flex;

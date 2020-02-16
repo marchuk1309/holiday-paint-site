@@ -41,6 +41,8 @@
       Header,
       Footer
     },
+    created(){
+    },
     computed: {
       cities(){
         let result = this.$store.getters['shop/citiesInfo']
@@ -53,7 +55,7 @@
     methods: {
       changeCurrentCity(city) {
         this.$store.commit('shop/setCurrentCity', city);
-        this.$store.commit('shop/getPartnerInfo', city);
+        this.$store.dispatch('shop/getPartnerInfo', city);
         this.changeCity = false
         this.citiesFind = ''
       },
@@ -61,7 +63,11 @@
     watch: {
       citiesFind() {
         this.citiesFind = this.citiesFind.replace(/\s/g, '')
-      }
+      },
+      '$store.state.shop.isLoaded'() {
+        setTimeout(() => this.$nuxt.$loading.finish(), 250)
+        this.$forceUpdate()
+      },
     }
   }
 </script>

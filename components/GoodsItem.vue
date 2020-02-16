@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showItem === true" class="goods-item" :class="addedClass">
+  <div class="goods-item" :class="addedClass">
     <div class="goods-photo">
       <img v-if="good.images != null" :src="'http://hpapi.fobesko.com/public/storage/product/' + good.images[0]" alt="">
       <img v-if="good.images == null" :src="$store.state.shop.noPhoto" alt="">
@@ -18,11 +18,11 @@
           </label>
         </div>
       </div>
-      <input v-for="item in good.colors" v-model="good.color" :value="item" type="radio" class="form-checkbox__color" :style="'background-color:' + $store.state.shop.colors[item].color">
+      <input v-for="item in good.colors" v-model="good.color" :value="item" type="radio" class="form-checkbox__color" :style="'background-color:' + $store.state.shop.colors[colorIndex(item)].color">
     </div>
     <div class="goods__alert" v-if="good.category != 4 && showAlert">Выберите цвет!</div>
     <div class="goods__alert" v-if="good.category == 4 && showAlert">Выберите размер!</div>
-    <a v-if="good.available == 1" @click.prevent="basketPush()" class="goods-btn btn">{{added ? "В корзине +" :"В корзину"}}</a>
+    <a v-if="available" @click.prevent="basketPush()" class="goods-btn btn">{{added ? "В корзине +" :"В корзину"}}</a>
     <a v-else @click.prevent="basketPush()" class="goods-btn btn blue">{{added ? "В корзине +" :"Заказать"}}</a>
   </div>
 </template>
@@ -60,6 +60,9 @@
         }
         this.$store.commit('shop/basketPush', item)
         this.added = true
+      },
+      colorIndex(color) {
+        return this.$store.state.shop.colors.findIndex(element => element.id === color)
       }
     },
     watch: {
@@ -67,40 +70,15 @@
         if (this.good.color != undefined) this.showAlert = false
         if (this.good.size != undefined) this.showAlert = false
       },
-      showItem() {
-        if (this.addedClass !== 'popular-item') this.$store.commit('shop/checkShownProducts', [this.good, this.showItem])
-      }
     },
     mounted(){
-      if (this.addedClass !== 'popular-item') this.$store.commit('shop/checkShownProducts', [this.good, this.showItem])
-      //console.log(this.promocodes)
-      /*
-      if (this.showItem == true) {
-        this.$store.commit('shop/pushFilter', this.good)
-      }*/
     },
     computed: {
-      /*
-      photo() {
-        let index = this.$store.state.shop.products_photos.findIndex(product => product.id == this.good.id)
-        if (index != -1) return this.$store.state.shop.products_photos[index].value
-        else return this.$store.state.shop.noPhoto
-      },*/
-      showItem(){
-        if (this.addedClass == 'popular-item') return true
-        // Availability filter
-        if (this.good.available == 0 && this.$store.state.shop.showAvailable) return false
-        // Type filter
-        if (this.$store.state.shop.showType.includes(this.good.category) !== true && this.$store.state.shop.showType.length > 0) return false
-        // Color filter
-        if (this.good.colors === null) this.good.colors = []
-        if (this.good.colors === undefined) this.good.colors = []
-        if (this.$store.state.shop.showColor.filter(value => this.good.colors.includes(value)).length === 0 && this.$store.state.shop.showColor.length > 0) return false
-        // Search filter
-        if (this.$store.state.shop.searchString.length > 0 && !this.good.name.includes(this.$store.state.shop.searchString) && !this.good.name.toLowerCase().includes(this.$store.state.shop.searchString)) return false
-        // Sale filter
-        if (this.$store.state.shop.showSale == true && this.$store.state.shop.saleproducts.length > 0 && !this.$store.state.shop.saleproducts.includes(this.good.id)) return false
-        else { return true }
+      available() {
+        let stock = this.good[this.$store.state.shop.user.info.id]
+        if (stock.length > 0) stock = stock.reduce((a, b) => a + b, 0)
+        if (stock > 0) return true
+        else return false
       },
       volume() {
         if (this.good.volume == null) return ''

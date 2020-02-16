@@ -6,33 +6,14 @@
         <p @click="openFilterBox()">Товар</p>
         <a @click.prevent="clearCheckboxes()" :style="'color:' + typeString" class="catalog-filter__clean-btn">Очистить</a>
       </div>
-      <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input :checked="$store.state.shop.showType.includes(0)" @click="$store.commit('shop/filterType', 0)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые краски</span>
-      </label>
-      <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input :checked="$store.state.shop.showType.includes(1)" @click="$store.commit('shop/filterType', 1)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Меловые маркеры</span>
-      </label>
-      <div>
+      <div v-for="item in $store.state.shop.categories" >
         <label class="catalog-filter__checkbox form-checkbox__wrap">
-          <input :checked="$store.state.shop.showType.includes(2)" @click="$store.commit('shop/filterType', 2)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Цветной дым</span>
+          <input :checked="$store.state.shop.showType.includes(item.id)" @click="$store.commit('shop/filterType', item.id)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">{{item.label}}</span>
         </label>
-        <!-- SUB -->
-        <label class="catalog-filter__checkbox form-checkbox__wrap sub">
-          <input @click="" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">30 сек</span>
-        </label>
-        <label class="catalog-filter__checkbox form-checkbox__wrap sub">
-          <input @click="" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">60 сек</span>
-        </label>
-        <label class="catalog-filter__checkbox form-checkbox__wrap sub">
-          <input @click="" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">120 сек</span>
+        <label v-for="subitem in item.subtabs" class="catalog-filter__checkbox form-checkbox__wrap sub">
+          <input :checked="$store.state.shop.showSubType.includes(subitem.id)" @click="$store.commit('shop/filterSubType', subitem.id)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">{{subitem.label}}</span>
         </label>
       </div>
-      <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input :checked="$store.state.shop.showType.includes(3)" @click="$store.commit('shop/filterType', 3)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Краски Холи</span>
-      </label>
-      <label class="catalog-filter__checkbox form-checkbox__wrap">
-        <input :checked="$store.state.shop.showType.includes(4)" @click="$store.commit('shop/filterType', 4)" class="form-checkbox" type="checkbox"><span class="form-checkbox__label">Кигуруми</span>
-      </label>
     </div>
     <div class="catalog-filter__box active">
       <div class="catalog-filter__box-title">
@@ -91,7 +72,7 @@
         else return 'red'
       },
       sizeString() {
-        if (this.$store.state.shop.showSize == 90) return 'gray'
+        if (this.$store.state.shop.showSize == 0) return 'gray'
         else return 'red'
       },
       colorString() {

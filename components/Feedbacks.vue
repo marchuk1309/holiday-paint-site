@@ -44,25 +44,30 @@
         this.sliderType = document.body.clientWidth > 767 ? 'card' : '';
       },
     },
-    mounted() {
-      window.addEventListener('resize', this.onResize);
-      this.onResize();
-      //if (this.$route.name == "colored-smoke")
+    watch: {
+      '$store.state.shop.content'() {
+        var arr = [ [],[],[],[],[],[] ]
+        for (let x in this.$store.state.shop.content) {
+          for (let y in this.$store.state.shop.content[x].images) {
+            arr[x].push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[x].images[y]})
+          }
+        }
+        for (let i = 0; i < 6; i++) {
+          this.imageArr[i] = arr[i]
+
+        }
+        this.$forceUpdate()
+        console.log(this.$store.state.shop.content)
+        console.log(this.imageArr[this.number])
+      }
+    },
+    created() {
       var arr = [ [],[],[],[],[],[] ]
       for (let x in this.$store.state.shop.content) {
         for (let y in this.$store.state.shop.content[x].images) {
           arr[x].push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[x].images[y]})
         }
       }
-      /*
-      this.$store.state.shop.content.forEach(function (element) {
-        if (element.id < 5) arr[0].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
-        if (element.id > 4 && element.id < 10) arr[1].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
-        if (element.id > 9 && element.id < 15) arr[2].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
-        if (element.id > 14 && element.id < 20) arr[3].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
-        if (element.id > 19 && element.id < 25) arr[4].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
-        if (element.id > 24 && element.id < 30) arr[5].push('http://hpapi.fobesko.com/public/storage/content/'+element.id+'.' + element.imgext)
-      })*/
       for (let i = 0; i < 6; i++) {
         this.imageArr[i] = arr[i]
 
@@ -70,6 +75,11 @@
       this.$forceUpdate()
       console.log(this.$store.state.shop.content)
       console.log(this.imageArr[this.number])
+    },
+    mounted() {
+      window.addEventListener('resize', this.onResize);
+      this.onResize();
+      //if (this.$route.name == "colored-smoke")
     },
   }
 </script>

@@ -16,7 +16,7 @@
         <div class="catalog-list">
           <catalog-nav @search="search" @changePageSize="changePageSize" />
           <catalog-list :goods="items"/>
-          <h3 class="subtitle" v-if="this.$store.state.shop.shownProducts.length == 0">Ничего не найдено!</h3>
+          <h3 class="subtitle" v-if="goods.filter(good => checkItem(good)).length == 0">Ничего не найдено!</h3>
           <el-pagination
             :current-page.sync="page"
             @current-change="pageChangeHandler"
@@ -72,27 +72,10 @@
       console.log(this.$route.query.category)
       this.$store.commit('shop/flushFilter')
       if (this.$route.query.category) {
-        let filter = ''
-        switch (this.$route.query.category) {
-          case 'paint':
-            filter = 0;
-            break
-          case 'markers':
-            filter = 1;
-            break
-          case 'colored-smoke':
-            filter = 2
-            break
-          case 'holy-paint':
-            filter = 3;
-            break
-          case 'kigurumi':
-            filter = 4
-            break
-        }
-        if (filter !== '') {
-          this.$store.commit('shop/filterType', filter)
-        }
+          this.$store.commit('shop/filterType', this.$route.query.category)
+      }
+      if (this.$route.query.subcategory) {
+        this.$store.commit('shop/filterSubType', this.$route.query.subcategory)
       }
       this.setupPagination(this.goods.map(good => {
         return {
@@ -105,16 +88,13 @@
         console.log('LOADING COMPLETE')
         this.$forceUpdate()
       },
-        shownGoods(){
-          this.setupPagination(this.goods.map(good => {
-              return {
-                  ...good
-              }
-          }))
-          console.log('shownGoods')
-          console.log(this.goods)
-          console.log(this.shownGoods)
-      }
+      '$store.state.shop.showType'(){ this.setupPagination(this.goods.filter(good => this.checkItem(good))) },
+      '$store.state.shop.showSubType'(){ this.setupPagination(this.goods.filter(good => this.checkItem(good))) },
+      '$store.state.shop.showColor'(){ this.setupPagination(this.goods.filter(good => this.checkItem(good))) },
+      '$store.state.shop.showSize'(){ this.setupPagination(this.goods.filter(good => this.checkItem(good))) },
+      '$store.state.shop.searchString'(){ this.setupPagination(this.goods.filter(good => this.checkItem(good))) },
+      '$store.state.shop.showSale'(){ this.setupPagination(this.goods.filter(good => this.checkItem(good))) },
+      '$store.state.shop.showAvailable'(){ this.setupPagination(this.goods.filter(good => this.checkItem(good))) }
     },
     methods: {
       changePageSize(newPageSize){
@@ -124,6 +104,27 @@
             ...good
           }
         }))
+      },
+      checkItem(item){
+        // Stock availability filter
+        if (item[this.$store.state.shop.user.info.id].reduce((a, b) => a + b, 0) <= 0 && this.$store.state.shop.showAvailable) return false
+        // Type filter
+        if (this.$store.state.shop.showType.includes(item.category) !== true && this.$store.state.shop.showType.length > 0) return false
+        // SubType filter
+        if (this.$store.state.shop.showSubType.includes(item.sub) !== true && this.$store.state.shop.showSubType.length > 0) return false
+        // Color filter
+        if (item.colors === null) item.colors = []
+        if (item.colors === undefined) item.colors = []
+        if (this.$store.state.shop.showColor.filter(value => item.colors.includes(value)).length === 0 && this.$store.state.shop.showColor.length > 0) return false
+        // Size filter
+        if (item.sizes === null) item.sizes = []
+        if (item.sizes === undefined) item.sizes = []
+        if (!item.sizes.includes(this.$store.state.shop.showSize.toString()) && this.$store.state.shop.showSize > 0) return false
+        // Search filter
+        if (this.$store.state.shop.searchString.length > 0 && !item.name.includes(this.$store.state.shop.searchString) && !item.name.toLowerCase().includes(this.$store.state.shop.searchString)) return false
+        // Sale filter
+        if (this.$store.state.shop.showSale == true && this.$store.state.shop.saleproducts.length > 0 && !this.$store.state.shop.saleproducts.includes(item.id)) return false
+        else { return true }
       },
       addFilter() {
         console.log('filter add')

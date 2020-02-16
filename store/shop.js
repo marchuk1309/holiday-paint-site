@@ -24,7 +24,8 @@ export const state = () => ({
     userphoto: [],
     showAvailable: false,
     showType: [],
-    showSize: false,
+    showSubType: [],
+    showSize: 0,
     showSale: false,
     showColor: [],
     currentCity: '',
@@ -79,9 +80,11 @@ export const mutations = {
     flushFilter(state) {
         state.showAvailable = false
         state.showSale = false
+        state.showSize = 0
         state.showType = []
         state.showColor = []
         state.shownProducts = []
+        $nuxt.$router.replace('/catalog/')
     },
 
     addCities(cities) {
@@ -118,14 +121,17 @@ export const mutations = {
           $nuxt.$router.replace('/catalog/')
         }
         else if (state.showType.length > 1) {
-          $nuxt.$router.replace('/catalog/?category=many')
+          $nuxt.$router.replace('/catalog/')
         }
-        else if (state.showType == 0) $nuxt.$router.replace('/catalog/?category=paint')
-        else if (state.showType == 1) $nuxt.$router.replace('/catalog/?category=markers')
-        else if (state.showType == 2) $nuxt.$router.replace('/catalog/?category=colored-smoke')
-        else if (state.showType == 3) $nuxt.$router.replace('/catalog/?category=holy-paint')
-        else if (state.showType == 4) $nuxt.$router.replace('/catalog/?category=kigurumi')
-
+        else $nuxt.$router.replace('/catalog/?category='+state.showType)
+    },
+    filterSubType (state, type) {
+        if (state.showSubType.includes(type)) {
+            let index = state.showSubType.findIndex(element => element === type)
+            state.showSubType.splice(index, 1)
+        }
+        else state.showSubType.push(type)
+        if (state.showSubType.length == 1) $nuxt.$router.replace('/catalog/?subcategory='+state.showSubType)
     },
     filterColor (state, color) {
         if (state.showColor.includes(color)) {
@@ -225,15 +231,16 @@ export const mutations = {
         console.log('Getting data...')
         axios
             .get(state.apiServer + '/api/data/1')
-            .then(function (response) {
+            .then(async function (response) {
 
                 // Getting cities
+                state.cities = []
                 response.data['cities'].forEach(function (element) {
                     state.cities.push(element.city);
                 });
                 if (localStorage.getItem('city') != null) {
                     state.currentCity = localStorage.getItem('city');
-                    axios
+                    await axios
                         .get(state.apiServer + '/api/user/city/' + state.currentCity)
                         .then(function (response) {
                             state.user = response.data
@@ -257,6 +264,9 @@ export const mutations = {
                     if (typeof item.sizes == "string") item.sizes = JSON.parse(item.sizes)
                     if (typeof item.sold == "string") item.sold = JSON.parse(item.sold)
                     if (typeof item.images == "string") item.images = JSON.parse(item.images)
+                    for (let x of response.data['coordinates']) {
+                        if (typeof item[x.id] === "string") item[x.id] = JSON.parse(item[x.id])
+                    }
                 })
                 state.products = response.data['products']
                 //state.products_photos = response.data['products_photo']
@@ -271,6 +281,7 @@ export const mutations = {
                 state.markers = response.data['coordinates']
                 state.partners = response.data['partners']
                 state.settings = response.data['settings']
+                state.categories = response.data['categories']
                 state.content = response.data['content']
                 response.data['promocodes'].forEach((item) => {
 
@@ -283,6 +294,12 @@ export const mutations = {
                 })
                 state.saleproducts = saleproducts
                 state.promocodes = response.data['promocodes']
+                state.showAvailable = false
+                state.showSale = false
+                state.showType = []
+                state.showSubType = []
+                state.showColor = []
+                state.showSize = 0
                 console.log(state)
             }).then(function () {
             state.isLoaded = true
@@ -295,16 +312,8 @@ export const mutations = {
         localStorage.setItem('city', city)
             state.currentCity = city
     },
-    getPartnerInfo (state, city) {
-        console.log(city);
-        axios
-            .get(this.state.apiServer + '/api/user/city/' + city)
-            .then(function (response) {
-                state.user = response.data
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
+    updatePartnerInfo (state, info) {
+        state.user = info
     },
 
 
@@ -313,7 +322,16 @@ export const actions = {
     setIndex({rootState}) {
         let index = rootState.apiServer
     },
-    reloadPartnerInfo(city) {
-        this.$store.commit('getPartnerInfo', city)
+    getPartnerInfo({commit}, city) {
+        console.log(city)
+        axios
+            .get(this.state.apiServer + '/api/user/city/' + city)
+            .then(function (response) {
+                console.log(response.data);
+                commit('updatePartnerInfo', response.data)
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
     }
-   }
+}

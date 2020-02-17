@@ -27,7 +27,7 @@
       <div class="container">
         <h2 class="section-title big gradient">Что такое меловая краска?</h2>
         <p class="subtitle">Яркое настроение даже в самые серые будни</p>
-        <p class="about-text">Смываемая меловая краска — это краска для авто волос и тела. Смывается простой водой. Безопасна для здоровья и окружающей среды.</p>
+        <p class="about-text">Смываемая меловая краска — это краска для авто, волос и тела. Смывается простой водой. Безопасна для здоровья и окружающей среды.</p>
         <div class="about-facts">
           <div class="about-fact">
             <div class="about-fact__img"><img src="../assets/img/landings/paint/fact-1.png" alt=""></div>

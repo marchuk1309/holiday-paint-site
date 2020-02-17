@@ -25,7 +25,7 @@
                         <nuxt-link no-prefetch active-class="active" to="/about">О проекте</nuxt-link>
                     </li>
                     <li class="header__menu-link">
-                        <a target="_blank" href="https://franchise.holiday-paint.biz/">Франшиза</a>
+                        <a href="http://holiday-paint.tilda.ws/#rec65327385" target="_blank">Франшиза</a>
                     </li>
                     <li class="header__menu-link">
                         <nuxt-link no-prefetch active-class="active" to="/feedback">Отзывы</nuxt-link>
@@ -46,7 +46,7 @@
         <div class="mobile-menu" :class="{active: mobileMenu}">
             <div class="mobile-menu__list">
                 <a @click.prevent="goTo('/about')" class="mobile-menu__link">О проекте</a>
-                <a @click.prevent="goTo('https://franchise.holiday-paint.biz/')" class="mobile-menu__link">Франшиза</a>
+                <a href="http://holiday-paint.tilda.ws/#rec65327385" target="_blank" class="mobile-menu__link">Франшиза</a>
                 <a @click.prevent="goTo('/feedback')" class="mobile-menu__link">Отзывы</a>
                 <a @click.prevent="goTo('/discounts')" class="mobile-menu__link">Акции и скидки</a>
                 <a @click.prevent="goTo('/catalog')" class="mobile-menu__link">Магазин</a>

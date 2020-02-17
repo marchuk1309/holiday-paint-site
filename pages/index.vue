@@ -104,7 +104,7 @@
     <section class="markers">
       <div class="container">
         <h2 class="section-title big gradient">Меловые смываемые маркеры</h2>
-        <p class="subtitle">Пишите на маркерных led-досказ, витринах, окнах и даже на холодильнике</p>
+        <p class="subtitle">Пишите на маркерных led-досках, витринах, окнах и даже на холодильнике</p>
         <div class="markers-right">
           <div class="markers__wrap">
             <div class="markers-item">

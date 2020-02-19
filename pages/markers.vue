@@ -8,7 +8,7 @@
           <div class="main-buttons">
             <div class="main-btn__wrap">
               <nuxt-link to="/catalog/?category=markers" class="btn">Перейти в магазин</nuxt-link>
-              <p class="landing__label">100 рублей за штуку</p>
+              <p class="landing__label">от 130 рублей за штуку</p>
             </div>
           </div>
         </div>
@@ -18,7 +18,7 @@
       <div class="container">
         <h2 class="section-title big gradient">Что такое меловые маркеры?</h2>
         <p class="subtitle">Яркие рисунки, привлекающие внимание окружающих</p>
-        <p class="about-text">Меловые маркеры — это маркеры на водной основе, жидкого мела и пигментов. Легко смывается простой водой с гладких поверхностей: стекло, металл, пластик.</p>
+        <p class="about-text">Меловые маркеры — это маркеры на водной основе, жидкого мела и пигментов. Легко смываются простой водой с гладких поверхностей: стекло, металл, пластик.</p>
         <p class="subtitle blue">Где можно рисовать маркерами</p>
         <div class="about-using">
           <div class="about-using__item">
@@ -112,7 +112,7 @@
     <section class="faq">
       <div class="container">
         <h2 class="section-title big gradient">FAQ</h2>
-        <p class="subtitle">Часто задаваемые вопросы про меловую краску</p>
+        <p class="subtitle">Часто задаваемые вопросы про меловые маркеры</p>
         <div class="faq-body">
           <el-collapse v-model="activeCollapses">
             <el-collapse-item title="Где можно использовать ваши меловые маркеры?" name="1">

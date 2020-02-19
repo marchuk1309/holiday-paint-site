@@ -1,47 +1,54 @@
 <template>
-  <el-container>
-    <el-header height="auto">
-      <Header @changeCity="changeCity = !changeCity" />
-    </el-header>
-    <el-main>
-      <nuxt/>
-    </el-main>
-    <el-footer height="auto">
-      <Footer @changeCity="changeCity = !changeCity"/>
-    </el-footer>
-    <el-dialog
-      :modal-append-to-body="false"
-      :center="true"
-      :visible.sync="changeCity"
-      width="400px"
-      class="modal"
-    >
-      <div class="flex mb2 ai-c">
-        <p>Выберите город</p>
-        <input placeholder="Поиск" v-model="citiesFind" class="form-input" type="text">
-      </div>
-      <div class="cities-list">
-        <a v-for="city in cities" :key="city" @click="changeCurrentCity(city)"  class="dialog-link">{{city}}</a>
-      </div>
-    </el-dialog>
-  </el-container>
+  <div class="content-wrap">
+    <el-container v-if="dataLoaded">
+      <el-header height="auto">
+        <Header @changeCity="changeCity = !changeCity" />
+      </el-header>
+      <el-main>
+        <nuxt/>
+      </el-main>
+      <el-footer height="auto">
+        <Footer @changeCity="changeCity = !changeCity"/>
+      </el-footer>
+      <el-dialog
+        :modal-append-to-body="false"
+        :center="true"
+        :visible.sync="changeCity"
+        width="400px"
+        class="modal"
+      >
+        <div class="flex mb2 ai-c">
+          <p>Выберите город</p>
+          <input placeholder="Поиск" v-model="citiesFind" class="form-input" type="text">
+        </div>
+        <div class="cities-list">
+          <a v-for="city in cities" :key="city" @click="changeCurrentCity(city)"  class="dialog-link">{{city}}</a>
+        </div>
+      </el-dialog>
+    </el-container>
+  </div>
 </template>
 
 
 <script>
   import Header from "../components/Header";
   import Footer from "../components/Footer";
+  import Loader from "../components/Loader";
   export default {
     data: () => ({
       mobileMenu: false,
       changeCity: false,
-      citiesFind: ''
+      citiesFind: '',
+      dataLoaded: false,
     }),
     components: {
+      Loader,
       Header,
       Footer
     },
-    created(){
+    async created(){
+      await this.getAllData()
+      this.dataLoaded = true
     },
     computed: {
       cities(){
@@ -53,9 +60,12 @@
       },
     },
     methods: {
-      changeCurrentCity(city) {
+      async getAllData() {
+        await this.$store.dispatch('shop/getData')
+      },
+      async changeCurrentCity(city) {
         this.$store.commit('shop/setCurrentCity', city);
-        this.$store.dispatch('shop/getPartnerInfo', city);
+        await this.$store.dispatch('shop/getPartnerInfo', city);
         this.changeCity = false
         this.citiesFind = ''
       },

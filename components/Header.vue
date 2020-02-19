@@ -56,7 +56,7 @@
                 <a @click.prevent="goTo('/holy-paint')" class="mobile-menu__link">Краски холи</a>
                 <a @click.prevent="goTo('/kigurumi')" class="mobile-menu__link">Кигуруми</a>
             </div>
-            <a :href="'tel:' + userInfo.info.phone" class="mobile-menu__tel">{{userInfo.info.phone}}</a>
+            <a :href="'tel:' + userInfo.info.phone" class="mobile-menu__tel">{{userPhone}}</a>
         </div>
         <div class="header-bottom" :class="{fixed: this.headerFixed}">
             <div class="container flex ai-c jc-sb">
@@ -137,7 +137,6 @@
             },
         },
         mounted() {
-            this.$store.commit('shop/getData');
             window.addEventListener('scroll', this.scrolled);
         },
         methods: {
@@ -193,6 +192,8 @@
                 width: 100%
                 background-color: rgba(#fff, .9)
                 transition: .5s
+                .passive-white
+                  color: $textColor
         &-logo
             width: 8em
             img

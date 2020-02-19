@@ -10,15 +10,9 @@
         <div class="footer-socials">
           <a href="https://vk.com/holidaypaint" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
           <a href="https://www.instagram.com/holidaypaint/" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
-          <a href="'https://api.whatsapp.com/send?phone=" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
+          <a href="'https://api.whatsapp.com/send?phone=89385040674" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
           <a href="https://t.me/Roman_HP" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
         </div>
-      </div>
-      <div class="footer-col">
-        <p class="footer-header">Документация</p>
-        <a href="" class="footer-link">Товарный знак</a>
-        <a href="" class="footer-link">Сертификаты</a>
-        <a href="" class="footer-link">Политика конфиденциальности</a>
       </div>
       <div class="footer-col">
         <p class="footer-header">Товары</p>

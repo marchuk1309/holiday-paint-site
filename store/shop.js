@@ -51,6 +51,7 @@ export const getters = {
     colorsInfo (state) { return state.colors },
     partnersInfo (state) { return state.partners },
     userInfo (state) { return state.user },
+    userInfoId (state) {return state.user.info.id},
     requestInfo (state) { return state.request },
     isLoaded (state) { return state.isLoaded },
     filters (state) { return [
@@ -226,87 +227,63 @@ export const mutations = {
     setCurrentPromocode (state, code) {
         state.currentPromocode = code
     },
-    getData (state) {
+    getData (state, response) {
         state.isLoaded = false
-        console.log('Getting data...')
-        axios
-            .get(state.apiServer + '/api/data/1')
-            .then(async function (response) {
-
-                // Getting cities
-                state.cities = []
-                response.data['cities'].forEach(function (element) {
-                    state.cities.push(element.city);
-                });
-                if (localStorage.getItem('city') != null) {
-                    state.currentCity = localStorage.getItem('city');
-                    await axios
-                        .get(state.apiServer + '/api/user/city/' + state.currentCity)
-                        .then(function (response) {
-                            state.user = response.data
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        });
-                }
-                else {
-                    state.currentCity = 'Москва';
-                    state.user = response.data['user']
-                }
-
-                if (localStorage.getItem('basket') != null) {
-                    state.basket = JSON.parse(localStorage.getItem('basket'))
-                }
-
-                // Getting other data
-                response.data['products'].forEach((item) => {
-                    if (typeof item.colors == "string") item.colors = JSON.parse(item.colors)
-                    if (typeof item.sizes == "string") item.sizes = JSON.parse(item.sizes)
-                    if (typeof item.sold == "string") item.sold = JSON.parse(item.sold)
-                    if (typeof item.images == "string") item.images = JSON.parse(item.images)
-                    for (let x of response.data['coordinates']) {
-                        if (typeof item[x.id] === "string") item[x.id] = JSON.parse(item[x.id])
-                    }
-                })
-                state.products = response.data['products']
-                //state.products_photos = response.data['products_photo']
-                //state.discounts.posts = response.data['discounts']
-                let saleproducts = []
-
-                response.data['content'].forEach(function (item) {
-                    item.images = JSON.parse(item.images)
-                });
-
-                state.colors = response.data['colors']
-                state.markers = response.data['coordinates']
-                state.partners = response.data['partners']
-                state.settings = response.data['settings']
-                state.categories = response.data['categories']
-                state.content = response.data['content']
-                response.data['promocodes'].forEach((item) => {
-
-                    if (item.items != null && item.items !== 'null') {
-                        if (typeof item.items == "string") item.items = JSON.parse(item.items)
-                        item.items.forEach((subitem) => {
-                            saleproducts.push(subitem)
-                        })
-                    }
-                })
-                state.saleproducts = saleproducts
-                state.promocodes = response.data['promocodes']
-                state.showAvailable = false
-                state.showSale = false
-                state.showType = []
-                state.showSubType = []
-                state.showColor = []
-                state.showSize = 0
-                console.log(state)
-            }).then(function () {
-            state.isLoaded = true
+        // Getting cities
+        state.cities = []
+        response.data['cities'].forEach(function (element) {
+            state.cities.push(element.city);
         })
-            .catch(function (error) {
-                console.log(error)
-            })
+        state.currentCity = state.cities[0]
+
+        if (localStorage.getItem('basket') != null) {
+            state.basket = JSON.parse(localStorage.getItem('basket'))
+        }
+
+        // Getting other data
+        response.data['products'].forEach((item) => {
+            if (typeof item.colors == "string") item.colors = JSON.parse(item.colors)
+            if (typeof item.sizes == "string") item.sizes = JSON.parse(item.sizes)
+            if (typeof item.sold == "string") item.sold = JSON.parse(item.sold)
+            if (typeof item.images == "string") item.images = JSON.parse(item.images)
+            for (let x of response.data['coordinates']) {
+                if (typeof item[x.id] === "string") item[x.id] = JSON.parse(item[x.id])
+            }
+        })
+        state.products = response.data['products']
+        //state.products_photos = response.data['products_photo']
+        //state.discounts.posts = response.data['discounts']
+        let saleproducts = []
+
+        response.data['content'].forEach(function (item) {
+            item.images = JSON.parse(item.images)
+        });
+
+        state.colors = response.data['colors']
+        state.markers = response.data['coordinates']
+        state.partners = response.data['partners']
+        state.settings = response.data['settings']
+        state.categories = response.data['categories']
+        state.content = response.data['content']
+        response.data['promocodes'].forEach((item) => {
+
+            if (item.items != null && item.items !== 'null') {
+                if (typeof item.items == "string") item.items = JSON.parse(item.items)
+                item.items.forEach((subitem) => {
+                    saleproducts.push(subitem)
+                })
+            }
+        })
+        state.saleproducts = saleproducts
+        state.promocodes = response.data['promocodes']
+        state.showAvailable = false
+        state.showSale = false
+        state.showType = []
+        state.showSubType = []
+        state.showColor = []
+        state.showSize = 0
+        state.isLoaded = true
+                console.log(state)
     },
     setCurrentCity(state, city) {
         localStorage.setItem('city', city)
@@ -322,16 +299,30 @@ export const actions = {
     setIndex({rootState}) {
         let index = rootState.apiServer
     },
-    getPartnerInfo({commit}, city) {
+    async getPartnerInfo({commit}, city) {
         console.log(city)
-        axios
-            .get(this.state.apiServer + '/api/user/city/' + city)
+        await axios.get(this.state.apiServer + '/api/user/city/' + city)
             .then(function (response) {
                 console.log(response.data);
                 commit('updatePartnerInfo', response.data)
+                console.log('1 data is ready!!!')
+
             })
             .catch(function (error) {
                 console.log(error)
             });
+    },
+    async getData({commit, dispatch, state}) {
+        console.log('Getting data...')
+        await axios
+            .get(state.apiServer + '/api/data/1')
+            .then(async function (response) {
+                commit('getData', response)
+                await dispatch('getPartnerInfo', state.currentCity);
+                console.log('2 data is ready!!!')
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
     }
 }

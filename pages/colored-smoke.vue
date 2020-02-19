@@ -8,7 +8,7 @@
           <div class="main-buttons">
             <div class="main-btn__wrap">
               <nuxt-link to="/catalog/?category=colored-smoke" class="btn">Перейти в магазин</nuxt-link>
-              <p class="landing__label">330 рублей за штуку</p>
+              <p class="landing__label">от 330 рублей за штуку</p>
             </div>
           </div>
         </div>
@@ -117,7 +117,7 @@
     <section class="faq">
       <div class="container">
         <h2 class="section-title big gradient">FAQ</h2>
-        <p class="subtitle">Часто задаваемые вопросы про меловую краску</p>
+        <p class="subtitle">Часто задаваемые вопросы про цветной дым</p>
         <div class="faq-body">
           <el-collapse v-model="activeCollapses">
             <el-collapse-item title="Сколько дымит дымовая шашка?" name="1">

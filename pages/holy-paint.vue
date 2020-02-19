@@ -15,15 +15,15 @@
       </div>
     </main>
     <section class="about">
-      <parallax-container class="about-bg">
+      <parallax-container style="z-index: -1" class="about-bg">
         <parallax-element :factor=".4">
           <img src="../assets/img/landings/holipaint/about-paint.png" class="about-bg--img" alt="">
         </parallax-element>
       </parallax-container>
-      <div class="container">
+      <div class="container" style="z-index: 1">
         <h2 class="section-title big gradient">Что такое краски холи?</h2>
         <p class="subtitle">Яркая атмосфера на любом мероприятии</p>
-        <p class="about-text">Краски холи — это порошковая краска из крахмала и пищевых красителей. Легко смывается с кожи и волос, а также без труда удаляется с одежды во время стирки. Гипоаллергеная и абсолютно безвредная для человека.</p>
+        <p class="about-text">Краски холи — это порошковая краска из крахмала и пищевых красителей. Легко смывается с кожи и волос, а также без труда удаляется с одежды во время стирки. Гипоаллергенная и абсолютно безвредная для человека.</p>
         <p class="subtitle blue">Где и когда пригодится краска</p>
         <div class="about-using">
           <div class="about-using__item">
@@ -109,7 +109,7 @@
     <section class="faq">
       <div class="container">
         <h2 class="section-title big gradient">FAQ</h2>
-        <p class="subtitle">Часто задаваемые вопросы про меловую краску</p>
+        <p class="subtitle">Часто задаваемые вопросы про краски Холи</p>
         <div class="faq-body">
           <el-collapse v-model="activeCollapses">
             <el-collapse-item title="Сколько цветов красок холи?" name="1">

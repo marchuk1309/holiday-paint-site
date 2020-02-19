@@ -137,7 +137,7 @@
             },
         },
         mounted() {
-            this.$store.commit('shop/getData');
+            this.$store.dispatch('shop/getData');
             window.addEventListener('scroll', this.scrolled);
         },
         methods: {

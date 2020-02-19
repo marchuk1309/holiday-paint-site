@@ -7,7 +7,7 @@
           <h3 class="main-subtitle">Наносите на авто, <br>волосы и тело <br> Смывается простой водой</h3>
           <div class="main-buttons">
             <div class="main-btn__wrap">
-              <nuxt-link to="/catalog/?category=paint" class="btn">Перейти в магазин</nuxt-link>
+              <nuxt-link to="/catalog/?category=0" class="btn">Перейти в магазин</nuxt-link>
               <p class="landing__label">590 рублей за штуку</p>
             </div>
             <div class="video-btn">
@@ -69,7 +69,7 @@
             <p class="about-using__text">Розыгрыши и пранки</p>
           </div>
         </div>
-        <nuxt-link to="/catalog/?category=paint" class="btn centred">Перейти в магазин</nuxt-link>
+        <nuxt-link to="/catalog/?category=0" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="about-second">
@@ -106,7 +106,7 @@
             <li class="features-item minus">Цена на 30% выше</li>
           </ul>
         </div>
-        <nuxt-link to="/catalog/?category=paint" class="btn centred">Перейти в магазин</nuxt-link>
+        <nuxt-link to="/catalog/?category=0" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="feedback">
@@ -114,7 +114,7 @@
         <h2 class="section-title big gradient">Фото с красками</h2>
         <p class="subtitle">Мы запечатлели самые яркие жизненные моменты</p>
         <feedbacks/>
-        <nuxt-link to="/catalog/?category=paint" class="btn centred">Перейти в магазин</nuxt-link>
+        <nuxt-link to="/catalog/?category=0" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="faq">

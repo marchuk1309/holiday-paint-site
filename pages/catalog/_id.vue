@@ -16,11 +16,11 @@
         </div>
         <form class="item-card__right">
           <p class="item-card__name">{{element.name}}</p>
-          <div v-if="element.colors !== null" class="item-card__form-box">
+          <div v-if="element.colors.length > 0" class="item-card__form-box">
             <p class="item-card__label">Цвет:</p>
             <input v-for="item in element.colors" v-model="element.color" :value="item" type="radio" class="form-checkbox__color" :style="'background-color:' + $store.state.shop.colors[item].color">
           </div>
-          <div v-if="element.sizes !== null" class="item-card__sizes">
+          <div v-if="element.sizes.length > 0" class="item-card__sizes">
             <p class="item-card__label">Размер:</p>
             <div v-for="(size,index) in element.sizes" :key="index" class="item-card__size">
               <input :id="element.id + '-size-' + size" v-model="element.size" type="radio" class="item-card__size--input" :value="index">

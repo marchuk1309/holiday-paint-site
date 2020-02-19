@@ -57,36 +57,35 @@
       goods(){
         return this.$store.getters['shop/productsInfo']
       },
-        shownGoods(){
-            return this.$store.getters['shop/shownProductsInfo']
-        },
+      shownGoods(){
+        return this.$store.getters['shop/shownProductsInfo']
+      },
     },
     created(){
-      /*
-      this.$nextTick(() => {
-        this.$nuxt.$loading.start()
-        setTimeout(() => {this.$nuxt.$loading.finish(); this.$forceUpdate()}, 2000)
-      })*/
     },
     mounted() {
-      console.log(this.$route.query.category)
-      this.$store.commit('shop/flushFilter')
+
       if (this.$route.query.category) {
-          this.$store.commit('shop/filterType', this.$route.query.category)
+        this.$store.commit('shop/flushFilter')
+        this.$store.commit('shop/filterType', parseInt(this.$route.query.category))
       }
-      if (this.$route.query.subcategory) {
-        this.$store.commit('shop/filterSubType', this.$route.query.subcategory)
+      else if (this.$route.query.subcategory) {
+        this.$store.commit('shop/flushFilter')
+        this.$store.commit('shop/filterSubType', parseInt(this.$route.query.subcategory))
       }
-      this.setupPagination(this.goods.map(good => {
-        return {
-          ...good
-        }
-      }))
+      else {
+        this.setupPagination(this.goods.map(good => {
+          return {
+            ...good
+          }
+        }))
+      }
+      console.log(this.setupPagination(this.goods.filter(good => this.checkItem(good))))
     },
     watch: {
-      '$store.state.shop.isLoaded'(){
+      '$store.state.shop.user.info.id'(){
         console.log('LOADING COMPLETE')
-        this.$forceUpdate()
+        this.$store.commit('shop/flushFilter');
       },
       '$store.state.shop.showType'(){ this.setupPagination(this.goods.filter(good => this.checkItem(good))) },
       '$store.state.shop.showSubType'(){ this.setupPagination(this.goods.filter(good => this.checkItem(good))) },
@@ -99,19 +98,14 @@
     methods: {
       changePageSize(newPageSize){
         this.pageSize = newPageSize
-        this.setupPagination(this.goods.map(good => {
-          return {
-            ...good
-          }
-        }))
+        this.setupPagination(this.goods.filter(good => this.checkItem(good)))
       },
       checkItem(item){
         // Stock availability filter
-        if (item[this.$store.state.shop.user.info.id].reduce((a, b) => a + b, 0) <= 0 && this.$store.state.shop.showAvailable) return false
-        // Type filter
-        if (this.$store.state.shop.showType.includes(item.category) !== true && this.$store.state.shop.showType.length > 0) return false
-        // SubType filter
-        if (this.$store.state.shop.showSubType.includes(item.sub) !== true && this.$store.state.shop.showSubType.length > 0) return false
+        if (item[this.$store.state.shop.user.info.id] == null || (item[this.$store.state.shop.user.info.id].reduce((a, b) => a + b, 0) <= 0 && this.$store.state.shop.showAvailable)) {
+          console.log('Not available')
+          return false
+        }
         // Color filter
         if (item.colors === null) item.colors = []
         if (item.colors === undefined) item.colors = []
@@ -124,7 +118,17 @@
         if (this.$store.state.shop.searchString.length > 0 && !item.name.includes(this.$store.state.shop.searchString) && !item.name.toLowerCase().includes(this.$store.state.shop.searchString)) return false
         // Sale filter
         if (this.$store.state.shop.showSale == true && this.$store.state.shop.saleproducts.length > 0 && !this.$store.state.shop.saleproducts.includes(item.id)) return false
-        else { return true }
+        // Type filter
+        if (this.$store.state.shop.showType.includes(item.category) != true && this.$store.state.shop.showType.length > 0) {
+          console.log(this.$store.state.shop.showType.includes(item.category))
+          return false
+        }
+        // SubType filter
+        if (this.$store.state.shop.showSubType.includes(item.sub) != true && this.$store.state.shop.showSubType.length > 0) {
+          console.log('Wrong subtype')
+          return false
+        }
+        return true
       },
       addFilter() {
         console.log('filter add')

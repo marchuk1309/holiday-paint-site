@@ -41,7 +41,11 @@
       Header,
       Footer
     },
-    created(){
+    mounted(){
+      this.$nextTick(() => {
+        this.$nuxt.$loading.start()
+        setTimeout(() => {this.$nuxt.$loading.finish(); this.$forceUpdate()}, 2000)
+      })
     },
     computed: {
       cities(){
@@ -65,7 +69,7 @@
         this.citiesFind = this.citiesFind.replace(/\s/g, '')
       },
       '$store.state.shop.isLoaded'() {
-        setTimeout(() => this.$nuxt.$loading.finish(), 250)
+        //setTimeout(() => this.$nuxt.$loading.finish(), 250)
         this.$forceUpdate()
       },
     }

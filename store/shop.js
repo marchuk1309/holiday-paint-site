@@ -17,7 +17,6 @@ export const state = () => ({
     partners: [],
     settings: [],
     content: [],
-    shownProducts: [],
     searchString: '',
     products: [],
     products_photos: [],
@@ -83,24 +82,24 @@ export const mutations = {
         state.showSize = 0
         state.showType = []
         state.showColor = []
-        state.shownProducts = []
         $nuxt.$router.replace('/catalog/')
     },
 
-    addCities(cities) {
+    addCities(state, cities) {
+        // Getting cities
+        state.cities = []
         cities.forEach(function (element) {
-            this.cities.push(element.city);
-        });
-
+            state.cities.push(element.city);
+        })
         console.log(localStorage.getItem('cityindex'));
-        if (localStorage.getItem('cityindex') > this.cities.length) {
+        let index = 0
+        if (localStorage.getItem('cityindex') > cities.length) {
             localStorage.removeItem('cityindex');
         }
         if (localStorage.getItem('cityindex') != null) {
-            this.selectedIndex = localStorage.getItem('cityindex');
-        } else {
-            this.selectedIndex = 0;
+            index = localStorage.getItem('cityindex');
         }
+        state.currentCity = state.cities[index]
     },
 
     filterSearch (state, string) {
@@ -117,13 +116,9 @@ export const mutations = {
             state.showType.splice(index, 1)
         }
         else state.showType.push(type)
-        if (state.showType.length == 0) {
-          $nuxt.$router.replace('/catalog/')
-        }
-        else if (state.showType.length > 1) {
-          $nuxt.$router.replace('/catalog/')
-        }
-        else $nuxt.$router.replace('/catalog/?category='+state.showType)
+        if (state.showType.length == 1) $nuxt.$router.replace('/catalog/?category='+state.showType)
+        else $nuxt.$router.replace('/catalog/')
+        console.log(state.showType)
     },
     filterSubType (state, type) {
         if (state.showSubType.includes(type)) {
@@ -132,6 +127,7 @@ export const mutations = {
         }
         else state.showSubType.push(type)
         if (state.showSubType.length == 1) $nuxt.$router.replace('/catalog/?subcategory='+state.showSubType)
+        else $nuxt.$router.replace('/catalog/')
     },
     filterColor (state, color) {
         if (state.showColor.includes(color)) {
@@ -226,87 +222,54 @@ export const mutations = {
     setCurrentPromocode (state, code) {
         state.currentPromocode = code
     },
-    getData (state) {
-        state.isLoaded = false
-        console.log('Getting data...')
-        axios
-            .get(state.apiServer + '/api/data/1')
-            .then(async function (response) {
+    getData (state, response) {
 
-                // Getting cities
-                state.cities = []
-                response.data['cities'].forEach(function (element) {
-                    state.cities.push(element.city);
-                });
-                if (localStorage.getItem('city') != null) {
-                    state.currentCity = localStorage.getItem('city');
-                    await axios
-                        .get(state.apiServer + '/api/user/city/' + state.currentCity)
-                        .then(function (response) {
-                            state.user = response.data
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        });
-                }
-                else {
-                    state.currentCity = 'Москва';
-                    state.user = response.data['user']
-                }
+        if (localStorage.getItem('basket') != null) {
+            state.basket = JSON.parse(localStorage.getItem('basket'))
+        }
 
-                if (localStorage.getItem('basket') != null) {
-                    state.basket = JSON.parse(localStorage.getItem('basket'))
-                }
-
-                // Getting other data
-                response.data['products'].forEach((item) => {
-                    if (typeof item.colors == "string") item.colors = JSON.parse(item.colors)
-                    if (typeof item.sizes == "string") item.sizes = JSON.parse(item.sizes)
-                    if (typeof item.sold == "string") item.sold = JSON.parse(item.sold)
-                    if (typeof item.images == "string") item.images = JSON.parse(item.images)
-                    for (let x of response.data['coordinates']) {
-                        if (typeof item[x.id] === "string") item[x.id] = JSON.parse(item[x.id])
-                    }
-                })
-                state.products = response.data['products']
-                //state.products_photos = response.data['products_photo']
-                //state.discounts.posts = response.data['discounts']
-                let saleproducts = []
-
-                response.data['content'].forEach(function (item) {
-                    item.images = JSON.parse(item.images)
-                });
-
-                state.colors = response.data['colors']
-                state.markers = response.data['coordinates']
-                state.partners = response.data['partners']
-                state.settings = response.data['settings']
-                state.categories = response.data['categories']
-                state.content = response.data['content']
-                response.data['promocodes'].forEach((item) => {
-
-                    if (item.items != null && item.items !== 'null') {
-                        if (typeof item.items == "string") item.items = JSON.parse(item.items)
-                        item.items.forEach((subitem) => {
-                            saleproducts.push(subitem)
-                        })
-                    }
-                })
-                state.saleproducts = saleproducts
-                state.promocodes = response.data['promocodes']
-                state.showAvailable = false
-                state.showSale = false
-                state.showType = []
-                state.showSubType = []
-                state.showColor = []
-                state.showSize = 0
-                console.log(state)
-            }).then(function () {
-            state.isLoaded = true
+        // Getting other data
+        response.data['products'].forEach((item) => {
+            if (typeof item.colors == "string") item.colors = JSON.parse(item.colors)
+            if (typeof item.sizes == "string") item.sizes = JSON.parse(item.sizes)
+            if (typeof item.sold == "string") item.sold = JSON.parse(item.sold)
+            if (typeof item.images == "string") item.images = JSON.parse(item.images)
+            for (let x of response.data['coordinates']) {
+                if (typeof item[x.id] === "string") item[x.id] = JSON.parse(item[x.id])
+            }
         })
-            .catch(function (error) {
-                console.log(error)
-            })
+        state.products = response.data['products']
+        //state.products_photos = response.data['products_photo']
+        //state.discounts.posts = response.data['discounts']
+        let saleproducts = []
+
+        response.data['content'].forEach(function (item) {
+            item.images = JSON.parse(item.images)
+        });
+
+        state.colors = response.data['colors']
+        state.markers = response.data['coordinates']
+        state.partners = response.data['partners']
+        state.settings = response.data['settings']
+        state.categories = response.data['categories']
+        state.content = response.data['content']
+        response.data['promocodes'].forEach((item) => {
+
+            if (item.items != null && item.items !== 'null') {
+                if (typeof item.items == "string") item.items = JSON.parse(item.items)
+                item.items.forEach((subitem) => {
+                    saleproducts.push(subitem)
+                })
+            }
+        })
+        state.saleproducts = saleproducts
+        state.promocodes = response.data['promocodes']
+        state.showAvailable = false
+        state.showSale = false
+        state.showSize = 0
+        state.showType = []
+        state.showColor = []
+        console.log(state)
     },
     setCurrentCity(state, city) {
         localStorage.setItem('city', city)
@@ -315,7 +278,9 @@ export const mutations = {
     updatePartnerInfo (state, info) {
         state.user = info
     },
-
+    isLoaded (state) {
+        state.isLoaded = true
+    },
 
 }
 export const actions = {
@@ -333,5 +298,21 @@ export const actions = {
             .catch(function (error) {
                 console.log(error)
             });
-    }
+    },
+    async getData({commit, dispatch, state}) {
+        console.log('Getting data...')
+        await axios
+            .get(state.apiServer + '/api/data/1')
+            .then(function (response) {
+                commit('addCities', response.data['cities'])
+                dispatch('getPartnerInfo', state.currentCity);
+                commit('getData', response)
+            })
+            .then(function (response) {
+                commit('isLoaded')
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    },
 }

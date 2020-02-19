@@ -30,6 +30,7 @@
       <p class="catalog-filter__box-text">Ваш рост (см)</p>
       <div class="form-range__wrap">
         <el-slider
+          @change="sizeChanged = true"
           :step="10"
           :min="90"
           :max="190"
@@ -60,11 +61,12 @@
     },
     data: () => ({
       showAvailable: false,
-      value1: 10,
+      sizeChanged: false,
+      value1: 0,
       marks: {
         90: '90',
         190: '190'
-      }
+      },
     }),
     computed: {
       typeString() {
@@ -87,7 +89,7 @@
     props: ['addedFilter'],
     watch:{
       value1(){
-        this.$store.commit('shop/filterSize', this.value1)
+        if(this.sizeChanged == true) this.$store.commit('shop/filterSize', this.value1)
       }
     },
     methods: {

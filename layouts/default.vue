@@ -44,11 +44,13 @@
       Header,
       Footer
     },
-    async created(){
-      this.$nuxt.$loading.start()
-      await this.getAllData()
-      this.dataLoaded = true
-      this.$nuxt.$loading.finish()
+    mounted(){
+      this.$nextTick(async () => {
+        this.$nuxt.$loading.start()
+        await this.getAllData()
+        this.dataLoaded = true
+        this.$nuxt.$loading.finish()
+      })
     },
     computed: {
       cities(){

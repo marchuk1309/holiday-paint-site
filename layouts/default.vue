@@ -14,7 +14,7 @@
         :modal-append-to-body="false"
         :center="true"
         :visible.sync="changeCity"
-        width="400px"
+        width="360px"
         class="modal"
       >
         <div class="flex mb2 ai-c">

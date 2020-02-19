@@ -15,6 +15,12 @@
         </div>
       </div>
       <div class="footer-col">
+        <p class="footer-header">Документация</p>
+        <a @click.prevent="dialog1Visible = true" class="footer-link">Товарный знак</a>
+        <a @click.prevent="dialog2Visible = true" class="footer-link">Сертификаты</a>
+        <a @click.prevent="dialog3Visible = true" class="footer-link">Политика конфиденциальности</a>
+      </div>
+      <div class="footer-col">
         <p class="footer-header">Товары</p>
         <nuxt-link to="/paint" class="footer-link">Меловая краска</nuxt-link>
         <nuxt-link to="/colored-smoke" class="footer-link">Цветной дым</nuxt-link>
@@ -35,6 +41,29 @@
         <p>&copy; Holiday Paint {{currentYear}}. <a target="_blank" href="https://wa.me/79146000900">Разработано Fobesko Team</a></p>
       </div>
     </div>
+
+    <el-dialog
+      class="images-dialog"
+      :visible.sync="dialog1Visible"
+      width="100%"
+      >
+      <el-carousel height="100vh" :autoplay="false">
+        <el-carousel-item v-for="item in 4" :key="item">
+          <img :src="`https://via.placeholder.com/768x1366.png?text=Товарный+знак+${item}`" alt="">
+        </el-carousel-item>
+      </el-carousel>
+    </el-dialog>
+    <el-dialog
+      class="images-dialog"
+      :visible.sync="dialog2Visible"
+      width="100%"
+    >
+      <el-carousel height="100vh" :autoplay="false">
+        <el-carousel-item v-for="item in 4" :key="item">
+          <img :src="`https://via.placeholder.com/768x1366.png?text=Сертификат+номер+${item}`" alt="">
+        </el-carousel-item>
+      </el-carousel>
+    </el-dialog>
   </footer>
 </template>
 
@@ -42,7 +71,9 @@
   export default {
     name: "Footer",
     data: () => ({
-      currentYear: new Date().getFullYear()
+      currentYear: new Date().getFullYear(),
+      dialog1Visible: false,
+      dialog2Visible: false
     })
   }
 </script>
@@ -91,4 +122,29 @@
           text-align: center
         &:nth-child(3), &:nth-child(4), &:nth-child(2)
           display: none
+</style>
+
+<style lang="scss">
+  @import "../assets/sass/variables";
+  .images-dialog {
+    .el-dialog {
+      margin: 0!important;
+      &__header {
+        z-index: 100;
+      }
+      &__header, &__body {
+        padding: 0;
+        position: relative;
+      }
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+    .el-carousel__arrow:hover {
+      background-color: $primaryColor;
+    }
+  }
 </style>

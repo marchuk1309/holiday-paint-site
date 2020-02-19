@@ -7,7 +7,7 @@
           <h3 class="main-subtitle">Превратите любую <br>вечеринку в сказку</h3>
           <div class="main-buttons">
             <div class="main-btn__wrap">
-              <nuxt-link to="/catalog/?category=kigurumi" class="btn">Перейти в магазин</nuxt-link>
+              <nuxt-link to="/catalog/?category=4" class="btn">Перейти в магазин</nuxt-link>
               <p class="landing__label">от 1490 рублей за штуку</p>
             </div>
           </div>
@@ -46,7 +46,7 @@
             <p class="about-using__text">Повседневная жизнь</p>
           </div>
         </div>
-        <nuxt-link to="/catalog/?category=kigurumi" class="btn centred">Перейти в магазин</nuxt-link>
+        <nuxt-link to="/catalog/?category=4" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="about-second">
@@ -94,7 +94,7 @@
             </li>
           </ul>
         </div>
-        <nuxt-link to="/catalog/?category=kigurumi" class="btn centred">Перейти в магазин</nuxt-link>
+        <nuxt-link to="/catalog/?category=4" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="feedback">
@@ -102,7 +102,7 @@
         <h2 class="section-title big gradient">Фото с кигуруми</h2>
         <p class="subtitle">Мы запечатлели самые яркие жизненные моменты</p>
         <feedbacks/>
-        <nuxt-link to="/catalog/?category=kigurumi" class="btn centred">Перейти в магазин</nuxt-link>
+        <nuxt-link to="/catalog/?category=4" class="btn centred">Перейти в магазин</nuxt-link>
       </div>
     </section>
     <section class="faq">

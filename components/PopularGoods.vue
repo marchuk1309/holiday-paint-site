@@ -7,7 +7,7 @@
         <div class="popular-goods__body">
           <goods-item v-if="clientWidth >= 1025" v-for="(good, index) in popular" :good="good" :key="index + '-norm'" :addedClass="'popular-item'"/>
           <agile :slidesToShow="1" :responsive="[{breakpoint: 600, settings: {slidesToShow: 2}}, {breakpoint: 767, settings: {slidesToShow: 3}}]" :dots="false"  v-if="clientWidth < 1025">
-            <div class="popular-items__slide" v-for="(good, index) in popularGoods" :key="index">
+            <div class="popular-items__slide" v-for="(good, index) in popular" :key="index">
               <goods-item :good="good" :addedClass="'popular-item'"/>
             </div>
           </agile>
@@ -20,6 +20,7 @@
 <script>
   import GoodsItem from '@/components/GoodsItem'
   import { mapGetters } from 'vuex'
+
   export default {
     data: () => ({
       popularGoods: [],
@@ -45,11 +46,12 @@
           item.sold = element.sold.reduce((a, b) => a + b, 0)
           array.push(item)
         })
-        return array.sort((a,b) => b-a).slice(0,5);
+        console.log(array)
+        return array.sort((a,b) => b.sold-a.sold).slice(0,5);
       }
     },
     mounted() {
-      this.popularGoods = this.$store.state.shop.items.slice(0, 5);
+      //this.popularGoods = this.$store.state.shop.items.slice(0, 5);
       window.addEventListener('resize', this.updateWidth);
       this.updateWidth();
     },

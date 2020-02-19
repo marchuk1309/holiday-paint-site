@@ -17,7 +17,6 @@ export const state = () => ({
     partners: [],
     settings: [],
     content: [],
-    shownProducts: [],
     searchString: '',
     products: [],
     products_photos: [],
@@ -84,24 +83,24 @@ export const mutations = {
         state.showSize = 0
         state.showType = []
         state.showColor = []
-        state.shownProducts = []
         $nuxt.$router.replace('/catalog/')
     },
 
-    addCities(cities) {
+    addCities(state, cities) {
+        // Getting cities
+        state.cities = []
         cities.forEach(function (element) {
-            this.cities.push(element.city);
-        });
-
+            state.cities.push(element.city);
+        })
         console.log(localStorage.getItem('cityindex'));
-        if (localStorage.getItem('cityindex') > this.cities.length) {
+        let index = 0
+        if (localStorage.getItem('cityindex') > cities.length) {
             localStorage.removeItem('cityindex');
         }
         if (localStorage.getItem('cityindex') != null) {
-            this.selectedIndex = localStorage.getItem('cityindex');
-        } else {
-            this.selectedIndex = 0;
+            index = localStorage.getItem('cityindex');
         }
+        state.currentCity = state.cities[index]
     },
 
     filterSearch (state, string) {
@@ -118,13 +117,9 @@ export const mutations = {
             state.showType.splice(index, 1)
         }
         else state.showType.push(type)
-        if (state.showType.length == 0) {
-          $nuxt.$router.replace('/catalog/')
-        }
-        else if (state.showType.length > 1) {
-          $nuxt.$router.replace('/catalog/')
-        }
-        else $nuxt.$router.replace('/catalog/?category='+state.showType)
+        if (state.showType.length == 1) $nuxt.$router.replace('/catalog/?category='+state.showType)
+        else $nuxt.$router.replace('/catalog/')
+        console.log(state.showType)
     },
     filterSubType (state, type) {
         if (state.showSubType.includes(type)) {
@@ -133,6 +128,7 @@ export const mutations = {
         }
         else state.showSubType.push(type)
         if (state.showSubType.length == 1) $nuxt.$router.replace('/catalog/?subcategory='+state.showSubType)
+        else $nuxt.$router.replace('/catalog/')
     },
     filterColor (state, color) {
         if (state.showColor.includes(color)) {
@@ -228,13 +224,6 @@ export const mutations = {
         state.currentPromocode = code
     },
     getData (state, response) {
-        state.isLoaded = false
-        // Getting cities
-        state.cities = []
-        response.data['cities'].forEach(function (element) {
-            state.cities.push(element.city);
-        })
-        state.currentCity = state.cities[0]
 
         if (localStorage.getItem('basket') != null) {
             state.basket = JSON.parse(localStorage.getItem('basket'))
@@ -278,12 +267,10 @@ export const mutations = {
         state.promocodes = response.data['promocodes']
         state.showAvailable = false
         state.showSale = false
-        state.showType = []
-        state.showSubType = []
-        state.showColor = []
         state.showSize = 0
-        state.isLoaded = true
-                console.log(state)
+        state.showType = []
+        state.showColor = []
+        console.log(state)
     },
     setCurrentCity(state, city) {
         localStorage.setItem('city', city)
@@ -292,7 +279,9 @@ export const mutations = {
     updatePartnerInfo (state, info) {
         state.user = info
     },
-
+    isLoaded (state) {
+        state.isLoaded = true
+    },
 
 }
 export const actions = {
@@ -317,9 +306,10 @@ export const actions = {
         await axios
             .get(state.apiServer + '/api/data/1')
             .then(async function (response) {
-                commit('getData', response)
-                await dispatch('getPartnerInfo', state.currentCity);
-                console.log('2 data is ready!!!')
+              commit('addCities', response.data['cities'])
+              commit('getData', response)
+              await dispatch('getPartnerInfo', state.currentCity);
+              console.log('2 data is ready!!!')
             })
             .catch(function (error) {
                 console.log(error)

@@ -33,7 +33,6 @@
 <script>
   import Header from "../components/Header";
   import Footer from "../components/Footer";
-  import Loader from "../components/Loader";
   export default {
     data: () => ({
       mobileMenu: false,
@@ -42,13 +41,14 @@
       dataLoaded: false,
     }),
     components: {
-      Loader,
       Header,
       Footer
     },
     async created(){
+      this.$nuxt.$loading.start()
       await this.getAllData()
       this.dataLoaded = true
+      this.$nuxt.$loading.finish()
     },
     computed: {
       cities(){
@@ -75,7 +75,7 @@
         this.citiesFind = this.citiesFind.replace(/\s/g, '')
       },
       '$store.state.shop.isLoaded'() {
-        setTimeout(() => this.$nuxt.$loading.finish(), 250)
+        //setTimeout(() => this.$nuxt.$loading.finish(), 250)
         this.$forceUpdate()
       },
     }

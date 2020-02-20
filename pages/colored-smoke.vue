@@ -8,7 +8,7 @@
           <div class="main-buttons">
             <div class="main-btn__wrap">
               <nuxt-link to="/catalog/?category=2" class="btn">Перейти в магазин</nuxt-link>
-              <p class="landing__label">330 рублей за штуку</p>
+              <p class="landing__label">от 330 рублей за штуку</p>
             </div>
           </div>
         </div>

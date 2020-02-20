@@ -58,6 +58,7 @@
         if (this.citiesFind !== '') {
           result = result.filter(el => el.toLowerCase().includes(this.citiesFind.toLowerCase()))
         }
+        result = result.sort()
         return result
       },
     },

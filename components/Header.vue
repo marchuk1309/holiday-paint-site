@@ -25,7 +25,7 @@
                         <nuxt-link no-prefetch active-class="active" to="/about">О проекте</nuxt-link>
                     </li>
                     <li class="header__menu-link">
-                        <a href="http://holiday-paint.tilda.ws/#rec65327385" target="_blank">Франшиза</a>
+                        <a href="http://holiday-paint.tilda.ws/" target="_blank">Франшиза</a>
                     </li>
                     <li class="header__menu-link">
                         <nuxt-link no-prefetch active-class="active" to="/feedback">Отзывы</nuxt-link>

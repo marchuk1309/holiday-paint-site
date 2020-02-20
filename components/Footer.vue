@@ -33,7 +33,7 @@
         <nuxt-link to="/about" class="footer-link">О компании</nuxt-link>
         <a @click="$emit('changeCity')" class="footer-link">Найти представителя</a>
         <nuxt-link to="/discounts" class="footer-link">Акции</nuxt-link>
-        <a href="http://holiday-paint.tilda.ws/#rec65327385" target="_blank" class="btn footer-btn">Стать партнером</a>
+        <a href="http://holiday-paint.tilda.ws/" target="_blank" class="btn footer-btn">Стать партнером</a>
       </div>
     </div>
     <div class="footer-after">

@@ -307,6 +307,7 @@
     &-image
       width: 8em
       height: 8em
+      min-width: 8em
       border-radius: 5px
       border: 1px solid #dcdcdc
       margin-right: 1em

@@ -77,9 +77,7 @@
     computed: {
       available() {
         let id = this.$store.getters['shop/userInfoId']
-        console.log('id')
-        console.log(id)
-        let stock = this.good[this.$store.state.shop.user.info.id]
+        let stock = this.good[id]
         if (stock != undefined && stock.length > 0) stock = stock.reduce((a, b) => a + b, 0)
         if (stock > 0) return true
         else return false

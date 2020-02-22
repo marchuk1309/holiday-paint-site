@@ -44,7 +44,7 @@
       Header,
       Footer
     },
-    mounted(){
+    created(){
       this.$nextTick(async () => {
         this.$nuxt.$loading.start()
         await this.getAllData()
@@ -78,7 +78,6 @@
         this.citiesFind = this.citiesFind.replace(/\s/g, '')
       },
       '$store.state.shop.isLoaded'() {
-        //setTimeout(() => this.$nuxt.$loading.finish(), 250)
         this.$forceUpdate()
       },
     }

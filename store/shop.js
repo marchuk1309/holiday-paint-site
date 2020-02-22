@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { loadYmap } from 'vue-yandex-maps'
 import {arrayFindIndex} from "element-ui/src/utils/util";
 
 export const state = () => ({
@@ -28,6 +29,13 @@ export const state = () => ({
     showSale: false,
     showColor: [],
     currentCity: '',
+    geolocationCity: '',
+    mapSettings: {
+        apiKey: '51dd1116-29b8-4a97-ac52-d4d1197d0d80',
+        lang: 'ru_RU',
+        coordorder: 'longlat',
+        version: '2.1'
+    },
     currentPromocode: null,
     basket: [],
     isLoaded: false,
@@ -45,6 +53,7 @@ export const getters = {
     basketInfo (state) { return state.basket },
     citiesInfo (state) { return state.cities },
     currentCity (state) { return state.currentCity },
+    geolocationCity (state) { return state.geolocationCity },
     shownProductsInfo (state) { return state.shownProducts },
     productsInfo (state) { return state.products },
     colorsInfo (state) { return state.colors },
@@ -83,7 +92,6 @@ export const mutations = {
         state.showSize = 0
         state.showType = []
         state.showColor = []
-        $nuxt.$router.replace('/catalog/')
     },
 
     addCities(state, cities) {
@@ -100,7 +108,10 @@ export const mutations = {
         if (localStorage.getItem('cityindex') != null) {
             index = localStorage.getItem('cityindex');
         }
-        state.currentCity = state.cities[index]
+        if (state.cities.includes(state.geolocationCity)) {
+            state.currentCity = state.geolocationCity
+        }
+        else state.currentCity = state.cities[index]
     },
 
     filterSearch (state, string) {
@@ -274,7 +285,7 @@ export const mutations = {
     },
     setCurrentCity(state, city) {
         localStorage.setItem('city', city)
-            state.currentCity = city
+        state.currentCity = city
     },
     updatePartnerInfo (state, info) {
         state.user = info
@@ -306,7 +317,32 @@ export const actions = {
         await axios
             .get(state.apiServer + '/api/data/1')
             .then(async function (response) {
-              commit('addCities', response.data['cities'])
+                commit('addCities', response.data['cities'])
+                await loadYmap({ ...state.mapSettings, debug: true });
+                ymaps.ready(() => {
+                    let geolocation = ymaps.geolocation
+                    geolocation.get({
+                        provider: 'yandex',
+                        mapStateAutoApply: true
+                    }).then(function (result) {
+                        console.log(result.geoObjects)
+                        result = result.geoObjects.get(0).properties.get('text');
+                        let n = result.lastIndexOf(',')
+                        let city = result.substring(n + 1)
+                        state.geolocationCity = city.trim()
+                        if (state.cities.includes(state.geolocationCity)) {
+                            commit('setCurrentCity', state.geolocationCity);
+                            dispatch('getPartnerInfo', state.geolocationCity);
+                        }
+                    });
+
+                    geolocation.get({
+                        provider: 'browser',
+                        mapStateAutoApply: true
+                    }).then(function (result) {
+                        console.log(result)
+                    });
+                });
               commit('getData', response)
               await dispatch('getPartnerInfo', state.currentCity);
               console.log('2 data is ready!!!')

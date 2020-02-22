@@ -33,7 +33,8 @@
                   <div class="order-delivery__label-border"></div>
                   <div class="order-delivery__label-text">
                     <p>Самовывоз</p>
-                    <span>Москва, 3-я улица Строителей, 25</span>
+                    <span v-if="$store.state.shop.user.info.street != null">{{$store.state.shop.user.info.street + ', ' + $store.state.shop.user.info.building}}</span>
+                    <span v-else>Адрес уточните по телефону</span>
                   </div>
                 </label>
                 <label class="order-delivery__label">

@@ -66,23 +66,16 @@
     mounted() {
 
       if (this.$route.query.category) {
-        this.$store.commit('shop/flushFilter')
         this.$store.commit('shop/filterType', parseInt(this.$route.query.category))
       }
       else if (this.$route.query.subcategory) {
-        this.$store.commit('shop/flushFilter')
         this.$store.commit('shop/filterSubType', parseInt(this.$route.query.subcategory))
       }
-      else {
-        this.setupPagination(this.goods.map(good => {
-          return {
-            ...good
-          }
-        }))
-      }
-      console.log(this.setupPagination(this.goods.filter(good => this.checkItem(good))))
     },
     watch: {
+      'items'(){
+        if (this.items != undefined && this.items.length == 0) this.setupPagination(this.goods.filter(good => this.checkItem(good)))
+      },
       '$store.state.shop.user.info.id'(){
         console.log('LOADING COMPLETE')
         this.$store.commit('shop/flushFilter');
@@ -101,33 +94,26 @@
         this.setupPagination(this.goods.filter(good => this.checkItem(good)))
       },
       checkItem(item){
+        let shop = this.$store.state.shop
         // Stock availability filter
-        if (item[this.$store.state.shop.user.info.id] == null || (item[this.$store.state.shop.user.info.id].reduce((a, b) => a + b, 0) <= 0 && this.$store.state.shop.showAvailable)) {
-          console.log('Not available')
-          return false
-        }
+        if (item[shop.user.info.id] == null || (item[shop.user.info.id].reduce((a, b) => a + b, 0) <= 0 && shop.showAvailable)) return false
         // Color filter
         if (item.colors === null) item.colors = []
         if (item.colors === undefined) item.colors = []
-        if (this.$store.state.shop.showColor.filter(value => item.colors.includes(value)).length === 0 && this.$store.state.shop.showColor.length > 0) return false
+        if (shop.showColor.filter(value => item.colors.includes(value)).length === 0 && shop.showColor.length > 0) return false
         // Size filter
         if (item.sizes === null) item.sizes = []
         if (item.sizes === undefined) item.sizes = []
-        if (!item.sizes.includes(this.$store.state.shop.showSize.toString()) && this.$store.state.shop.showSize > 0) return false
+        if (!item.sizes.includes(shop.showSize.toString()) && shop.showSize > 0) return false
         // Search filter
-        if (this.$store.state.shop.searchString.length > 0 && !item.name.includes(this.$store.state.shop.searchString) && !item.name.toLowerCase().includes(this.$store.state.shop.searchString)) return false
+        if (shop.searchString.length > 0 && !item.name.includes(shop.searchString) && !item.name.toLowerCase().includes(shop.searchString)) return false
         // Sale filter
-        if (this.$store.state.shop.showSale == true && this.$store.state.shop.saleproducts.length > 0 && !this.$store.state.shop.saleproducts.includes(item.id)) return false
+        if (shop.showSale == true && this.$store.state.shop.saleproducts.length > 0 && !shop.saleproducts.includes(item.id)) return false
         // Type filter
-        if (this.$store.state.shop.showType.includes(item.category) != true && this.$store.state.shop.showType.length > 0) {
-          console.log(this.$store.state.shop.showType.includes(item.category))
+        if (shop.showType.includes(item.category) != true && shop.showSubType.includes(item.sub) != true && (shop.showType.length > 0 || shop.showSubType.length > 0)) {
           return false
         }
-        // SubType filter
-        if (this.$store.state.shop.showSubType.includes(item.sub) != true && this.$store.state.shop.showSubType.length > 0) {
-          console.log('Wrong subtype')
-          return false
-        }
+        //if (shop.showSubType.includes(item.sub) != true && shop.showSubType.length > 0) return false
         return true
       },
       addFilter() {

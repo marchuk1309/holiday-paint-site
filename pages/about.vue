@@ -36,13 +36,17 @@
         <template v-for="(item,index) in markers()">
 
           <ymap-marker
-                       :markerId="index"
-                       marker-type="placemark"
-                       :coords="item.coords.split(' ')"
-                       :hint-content="item.city"
-                       :balloon="{header: item.city, body: item.name+' ('+item.corp_email+')', footer: item.phone}"
-                       :icon="{color: 'purple'}"
-                       cluster-name="1"
+             :markerId="index"
+             marker-type="placemark"
+             :coords="item.coords.split(' ')"
+             :hint-content="item.city"
+             :balloon="{
+                header: item.city,
+                body: item.name + ' ('+item.email+') - ' + nullCheck(item.street) + ', ' + nullCheck(item.building),
+                footer: item.phone
+             }"
+             :icon="{color: 'purple'}"
+             cluster-name="1"
           ></ymap-marker>
         </template>
 
@@ -78,6 +82,10 @@
       parseCoords(coords) {
         console.log(coords)
         return coords.split(',')
+      },
+      nullCheck(string) {
+        if (string == null) return ''
+        else return string
       }
     },
     mounted() {

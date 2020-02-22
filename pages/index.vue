@@ -225,7 +225,11 @@
             marker-type="placemark"
             :coords="item.coords.split(' ')"
             :hint-content="item.city"
-            :balloon="{header: item.city, body: item.name+' ('+item.corp_email+')', footer: item.phone}"
+            :balloon="{
+              header: item.city,
+              body: item.name + ' ('+item.email+') - ' + nullCheck(item.street) + ', ' + nullCheck(item.building),
+              footer: item.phone
+            }"
             :icon="{color: 'purple'}"
             cluster-name="1"
         ></ymap-marker>
@@ -285,6 +289,10 @@ export default {
         this.videoUrl = 'https://www.youtube.com/embed/' + link.split('/').pop()
       }
       this.videoDialog = true
+    },
+    nullCheck(string) {
+      if (string == null) return ''
+      else return string
     }
   },
   mounted() {

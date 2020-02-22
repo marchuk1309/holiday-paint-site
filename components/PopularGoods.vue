@@ -46,7 +46,6 @@
           item.sold = element.sold.reduce((a, b) => a + b, 0)
           array.push(item)
         })
-        console.log(array)
         return array.sort((a,b) => b.sold-a.sold).slice(0,5);
       }
     },

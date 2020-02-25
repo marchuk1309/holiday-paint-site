@@ -1,18 +1,18 @@
 <template>
   <div class="partners-item">
     <div class="partners-photo">
-      <img :src="'http://hpapi.fobesko.com/public/storage/profile/' + partner.id + '.' + partner.imgext" alt="">
-      <p class="partners-city">{{partner.city}}</p>
+      <img :src="'http://hpapi.fobesko.com/public/storage/profile/' + partner.info.id + '.' + partner.info.imgext" alt="">
+      <p class="partners-city">{{partner.info.city}}</p>
     </div>
     <div class="partners-descript">
-      <p class="partners-name">{{partner.name}}</p>
-      <p class="partners-rating">{{partner.rating}}</p>
+      <p class="partners-name">{{partner.info.name}}</p>
+      <p class="partners-rating">{{partner.info.rating}}</p>
     </div>
     <div class="partners-socials">
-      <a v-if="partner.vk" :href="'https://vk.com/' + partner.vk" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/vk.svg" alt=""></a>
-      <a v-if="partner.instagram" :href="'https://instagram.com/' + partner.instagram" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
-      <a v-if="partner.whatsapp" :href="'https://wa.me/' + partner.whatsapp" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
-      <a v-if="partner.telegram" :href="'https://t.me/' + partner.telegram" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
+      <a v-if="partner.socials.active.vk" :href="'https://vk.com/' + partner.socials.ids.vk" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/vk.svg" alt=""></a>
+      <a v-if="partner.socials.active.instagram" :href="'https://instagram.com/' + partner.socials.ids.instagram" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
+      <a v-if="partner.socials.active.whatsapp" :href="'https://wa.me/' + partner.socials.ids.whatsapp" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
+      <a v-if="partner.socials.active.telegram" :href="'https://t.me/' + partner.socials.ids.telegram" target="_blank" class="partners-social__box"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
     </div>
   </div>
 </template>

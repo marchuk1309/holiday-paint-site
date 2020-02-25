@@ -3,7 +3,7 @@
     <div class="goods-photo">
       <img v-if="good.images != null" :src="'http://hpapi.fobesko.com/public/storage/product/' + good.images[0]" alt="">
       <img v-if="good.images == null" :src="$store.state.shop.noPhoto" alt="">
-      <p class="goods-photo__popup" v-if="good.available == 0">Нет в наличии. Потребуется доставка с основного склада</p>
+      <p class="goods-photo__popup" v-if="!available">Нет в наличии. Потребуется доставка с основного склада</p>
       <nuxt-link :to="'/catalog/' + good.id" class="goods-link"></nuxt-link>
     </div>
     <p class="goods-price">{{price || 0}}₽</p>

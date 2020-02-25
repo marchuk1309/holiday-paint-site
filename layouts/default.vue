@@ -68,7 +68,7 @@
       },
       async changeCurrentCity(city) {
         this.$store.commit('shop/setCurrentCity', city);
-        await this.$store.dispatch('shop/getPartnerInfo', city);
+        await this.$store.dispatch('shop/getPartnerInfo', {city: city});
         this.changeCity = false
         this.citiesFind = ''
       },

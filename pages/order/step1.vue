@@ -133,8 +133,8 @@
               this.items.forEach( function(item, index) {
                 request.product_ids.push(item.id)
                 request.quantity.push(item.quantity)
-                if (item.color != null) request.colors.push(item.color)
-                if (item.size != null) request.colors.push(item.sizes[item.size].toString())
+                if (item.category == 4) request.colors.push(item.sizes[item.size])
+                else request.colors.push(item.color)
                 request.value += parseInt(item.price) * parseInt(item.quantity)
               });
               request.seller_id = this.$store.state.shop.user.info.id

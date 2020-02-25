@@ -29,6 +29,10 @@
               </label>
             </div>
           </div>
+          <div class="item-card__sizes">
+            <p class="item-card__label">Цена:</p>
+            <div class="item-card__label">{{price || 0}}₽</div>
+          </div>
           <div class="goods__alert" v-if="showColorAlert">Выберите цвет!</div>
           <div class="goods__alert" v-if="showSizeAlert">Выберите размер!</div>
           <div class="item-card__form-box">
@@ -98,6 +102,23 @@
         return this.$store.getters['shop/productsInfo'].filter((el) => {
           return el.id === +this.$route.params.id
         })[0]
+      },
+      price() {
+        if (typeof JSON.parse(this.element.price) == 'object') {
+          if (this.element.size != undefined) {
+            let price = JSON.parse(this.element.price)
+            if (price[this.element.size] == undefined) return 0
+            else return price[this.element.size]
+          }
+          else {
+            let price = JSON.parse(this.element.price) || 0
+            let length = price ? price.length : 0
+            if (price[0] == undefined) return 0
+            if (price.length == 1) return price[0]
+            else return price[0] + '-' + price[price.length-1]
+          }
+        }
+        else return this.element.price
       }
     },
   }

@@ -36,7 +36,19 @@
     },
     computed: {
       partners() {
-        return this.$store.getters['shop/partnersInfo']
+        let partnersInfo = this.$store.getters['shop/partnersInfo']
+        let partners = []
+        for (let x in partnersInfo.info) {
+          let partner = {
+            info: partnersInfo.info[x],
+            socials: {
+              ids: partnersInfo.socials.ids[x],
+              active: partnersInfo.socials.active[x]
+            }
+          }
+          partners.push(partner)
+        }
+        return partners.slice(0,5)
       }
     },
     mounted() {

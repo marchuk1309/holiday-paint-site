@@ -3,7 +3,7 @@ import { loadYmap } from 'vue-yandex-maps'
 import {arrayFindIndex} from "element-ui/src/utils/util";
 
 export const state = () => ({
-    apiServer: 'http://hpapi.fobesko.com/public',
+    apiServer: 'https://hpapi.fobesko.com/public',
     user: {
         info:{},
         socials:{ ids:{}, active:{} }
@@ -11,6 +11,7 @@ export const state = () => ({
     request: [],
     list: [],
     cities: [],
+    districts: [],
     promocodes: [],
     discount: 0,
     colors: [],
@@ -29,6 +30,7 @@ export const state = () => ({
     showSale: false,
     showColor: [],
     currentCity: '',
+    currentDistrict: '',
     geolocationCity: '',
     mapSettings: {
         apiKey: '51dd1116-29b8-4a97-ac52-d4d1197d0d80',
@@ -40,11 +42,6 @@ export const state = () => ({
     basket: [],
     isLoaded: false,
     noPhoto: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACNCAIAAADq/gXMAAAAA3NCSVQICAjb4U/gAAAFWklEQVR4nO3d61MTVwDG4ZPdhGxIbC4grToVRCkXMzCMtjqIdNRSpo6Obf/QjtO7DqUVixesAlG5WCiEi1YCSSTJkmTZ3X7Ysd1CRERY8jrv8yksZ89Z9sduFr7EZZqmoPIm7fUB0Ou5U6nUXh8DvYZbCOELvLfXh0GvtJpd4e0OACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEgBGAsBIABgJACMBYCQAjASAkQAwEoB3JNJSIrH4/PleH8VucSiSmst9d/UbXdftGwfv3Jp8MrEj8y8tJRKLjkbSNK33+s8vXqQdWOsduZKc92RivLp6fzAYcmAttwNrbIVhGKOPHi7Mzwkhat7/INra5vF4fvj2qmEY9mGXv/x6475qLpfNZEzTWFVVX2Wlfc6x0ccLc7OapoXCkWhrazAYSiaXB/pv2Hevqt7f0Xm25OB1Cw3c7K+pqWlobNJ1fS4+c6rjzI79/Jsql0gT42Oqmus6d0GSpEex4djw0ImPP7l4+YoQ4vHDmGma0da2jXsVi8WRofvpdFqWZdM0f+//LRyJtLWf8Hg8QojxsdHU8nJHZ5dXUWbjM3dvDZzv7olEqi5d+UoI0f9rX0Nj44GDh6ypSg52u/93fmRZkt1uIcTy0pIsy+FwZLdPi8XRSNd+/N7+pWEYkUiV9WJ6avLchW6fzyeE+Kip+UbfL4ZhSJIkhHC5XKZpulyujRPGhockSb7Q3fNkYlxfW2s+Hn3wx+Cj2Ej7iZPWnB1nuwL79gkhjh5r+PvZs9n4TP3RY7apXNbrTQbblzvd0Wm9SKWSoXB4Z0/OJhyNdPbTc9Z5t4wMP7BerKqqrut9vdftgwv5vP3etZGmac+eLpz/7PN/55Qkqbkl2td7PdraVsjnDcOw37KCoVA2kyk5lZrLbX2wdcA+32bHtrMcjVTp98uy/N/aL28m1gcS91y8tO72sjlVzVlz2jf6AwGXy6WquY1XXokr8SXDNNZt2WSwEELX1xSfb+uH+pbK4umu0u+XJCmVTL7RXl6vIoQoFov2jZqmmabp9Sp+f0CWZfsjcjqd9gcCJad6o8FCCFl2r2naGx3t2yiLSJIk1R9reBgbTi4vaZq2svJifm72tXspihIKhedn4/aNs/GZYDCkKIosy7VH6h/HYtlMRtO0qck/s5mVw7V1Jafa4uB7d2//NTUphPAqSj6/ur0fdhvK5emusalZCHH/3mChUPAqyqvO5jqt7e2Dd25nMplCIW8YxsjQg8Ti85OnTlvfbTkeHR8bvT1ws1gshsKRUx1nrKe+krYyuJAvGLouhAiHI+t+OXaVK5lMQn9ic7FYfLowH5+eFkLU1dcfOHiooqJitxfVNK332k+nz3Q68BS+ml0plytp2yoqKuqO1OeyWSFEbd0RZxb1eDwfHq6NT08786dSWbwnIWpsbkkkFp353x38lbRXPB5Pd88XzqwF/570zlvNrvB2B4CRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASAEYCwEgAGAkAIwFgJACMBICRADASgH8A4wDbCRoU9yoAAAAASUVORK5CYII=',
-    items: [
-        {id: 1, name: 'Меловая краска', price: '590', color: '0', info: '210 мл', img: '../img/goods/photo.png', inStock: true}, /* TODO: Пути к изображения не определяются корректно с локальными данными */
-        {id: 2, name: 'Меловые маркеры', price: '800', color: '0', info: '5 шт.', img: '../img/goods/photo.png', inStock: true},
-    ]
-
 })
 
 export const getters = {
@@ -60,6 +57,8 @@ export const getters = {
     partnersInfo (state) { return state.partners },
     userInfo (state) { return state.user },
     userInfoId (state) {return state.user.info.id},
+    districtsInfo (state) {return state.districts},
+    currentDistrict (state) {return state.currentDistrict},
     requestInfo (state) { return state.request },
     isLoaded (state) { return state.isLoaded },
     filters (state) { return [
@@ -76,6 +75,11 @@ export const mutations = {
         console.log(info)
         state.request = info
     },
+
+    updateDistricts(state, districts){
+        state.districts = districts
+    },
+    setCurrentDistrict(state, district){ state.currentDistrict = district },
 
     checkShownProducts(state, [item, status]) {
         if (status == true && !state.shownProducts.includes(item)) state.shownProducts.push(item)
@@ -287,6 +291,10 @@ export const mutations = {
         localStorage.setItem('city', city)
         state.currentCity = city
     },
+    setGeolocationCity(state, city) {
+        localStorage.setItem('city', city)
+        state.geolocationCity = city
+    },
     updatePartnerInfo (state, info) {
         state.user = info
     },
@@ -299,18 +307,43 @@ export const actions = {
     setIndex({rootState}) {
         let index = rootState.apiServer
     },
-    async getPartnerInfo({commit}, city) {
-        console.log(city)
-        await axios.get(this.state.apiServer + '/api/user/city/' + city)
+    getPartnerInfo({commit, state}, location) {
+        if (location.district == undefined) location.district = null
+        console.log(location.city)
+        console.log(location.district)
+        let users = []
+        let districts = []
+        for (let x in Array.from(state.partners.info)) {
+            let user = {
+                info: state.partners.info[x],
+                socials: {
+                    ids: state.partners.socials.ids[x],
+                    active: state.partners.socials.active[x]
+                }
+            }
+            if (state.partners.info[x].city == location.city) {
+                console.log(user)
+                users.push(user)
+                if (user.info.area != null) districts.push(user.info.area)
+            }
+        }
+        if (location.district == null) commit('updatePartnerInfo', users[0])
+        else {
+            for (let x of users) if (x.info.area == location.district) commit('updatePartnerInfo', x)
+        }
+        commit('updateDistricts', districts)
+        commit('setCurrentDistrict', districts[0])
+        /*
+        await axios.get(this.state.apiServer + '/api/user/city/'+location.city+'/'+location.district)
             .then(function (response) {
                 console.log(response.data);
                 commit('updatePartnerInfo', response.data)
-                console.log('1 data is ready!!!')
 
             })
             .catch(function (error) {
                 console.log(error)
             });
+        */
     },
     async getData({commit, dispatch, state}) {
         console.log('Getting data...')
@@ -325,15 +358,11 @@ export const actions = {
                         provider: 'yandex',
                         mapStateAutoApply: true
                     }).then(function (result) {
-                        console.log(result.geoObjects)
                         result = result.geoObjects.get(0).properties.get('text');
                         let n = result.lastIndexOf(',')
                         let city = result.substring(n + 1)
-                        state.geolocationCity = city.trim()
-                        if (state.cities.includes(state.geolocationCity)) {
-                            commit('setCurrentCity', state.geolocationCity);
-                            dispatch('getPartnerInfo', state.geolocationCity);
-                        }
+                        commit('setGeolocationCity', city.trim());
+                        console.log(city.trim())
                     });
 
                     geolocation.get({
@@ -343,9 +372,12 @@ export const actions = {
                         console.log(result)
                     });
                 });
-              commit('getData', response)
-              await dispatch('getPartnerInfo', state.currentCity);
-              console.log('2 data is ready!!!')
+                commit('getData', response)
+                if (state.cities.includes(state.geolocationCity)) {
+                    commit('setCurrentCity', state.geolocationCity);
+                    dispatch('getPartnerInfo', {city: state.geolocationCity});
+                }
+                else dispatch('getPartnerInfo', {city: state.currentCity});
             })
             .catch(function (error) {
                 console.log(error)

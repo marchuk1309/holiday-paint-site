@@ -6,7 +6,7 @@
                 <div class="header__contacts">
                     <a :href="'tel:' + userInfo.info.phone" class="header__contacts-link">{{userPhone}}</a>
                     <a target="_blank" :href="'mailto:' + userInfo.info.email" class="header__contacts-link">{{userInfo.info.email}}</a>
-                    <div v-if="currentCity == 'Москва'" @click="changeDistrict = !changeDistrict" class="header-address">
+                    <div v-if="districts.length > 0" @click="changeDistrict = !changeDistrict" class="header-address">
                         <span>Район {{currentDistrict}}</span>
                     </div>
                 </div>
@@ -107,18 +107,17 @@
         data: () => ({
             changeDistrict: false,
             mobileMenu: false,
-            currentDistrict: 'Химки',
             headerFixed: false,
-            districts: [
-                'Химки',
-                'Марьино',
-                'Солнцено',
-                'Ясенево'
-            ],
         }),
         computed: {
             userInfo(){
                 return this.$store.getters['shop/userInfo'];
+            },
+            districts(){
+                return this.$store.getters['shop/districtsInfo']
+            },
+            currentDistrict(){
+                return this.$store.getters['shop/currentDistrict']
             },
             currentCity() {
                 return this.$store.getters['shop/currentCity'];
@@ -145,10 +144,13 @@
                     this.headerFixed = true
                 } else this.headerFixed = false
             },
-            changeCurrentDistrict(district) {
-                this.currentDistrict = district
+            async changeCurrentDistrict(district) {
+                if (district == undefined) district = null
                 this.changeDistrict = false
-            }, toggleMenu() {
+                await this.$store.dispatch('shop/getPartnerInfo', {city: this.currentCity, district: district});
+                this.$store.commit('shop/setCurrentDistrict', district);
+            },
+            toggleMenu() {
                 this.mobileMenu = !this.mobileMenu;
                 this.$emit('mobileMenu')
             },

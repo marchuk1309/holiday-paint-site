@@ -85,7 +85,7 @@
                     :append-to-body="true"
                     title="Введите промокод"
                     :visible.sync="promocodeDialog"
-                    width="30%"
+                    class="custom-modal"
             >
               <input v-model="promocode" type="text" class="form-input width-100" placeholder="Ваш промокод">
               <div class="basket-card__alert" v-if="codeIsWrong">Промокод не найден!</div>
@@ -273,6 +273,11 @@
 
 <style lang="sass">
   @import "../../assets/sass/variables"
+  .custom-modal
+    .el-dialog
+      width: 360px
+      @media (max-width: 768px)
+        width: 310px
   .dialog-text
     word-break: break-word
   .basket

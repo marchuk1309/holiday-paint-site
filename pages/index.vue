@@ -306,12 +306,17 @@ export default {
   .video-dialog {
     width: 64em;
     max-height: 100vh;
+    max-width: 95vw;
     .el-dialog__body {
       padding-right: 0;
       padding-left: 0;
       padding-bottom: 0;
       height: 36em;
       width: 100%;
+      @media (max-width: 500px) {
+        height: 60vw
+
+      }
     }
   }
 </style>

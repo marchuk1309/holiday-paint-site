@@ -10,7 +10,7 @@
         <div class="footer-socials">
           <a href="https://vk.com/holidaypaint" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
           <a href="https://www.instagram.com/holidaypaint/" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
-          <a href="'https://api.whatsapp.com/89385040674" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
+          <a href="https://wa.me/79385040674" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
           <a href="https://t.me/Roman_HP" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
         </div>
       </div>

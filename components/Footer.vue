@@ -18,7 +18,7 @@
         <p class="footer-header">Документация</p>
         <a @click.prevent="dialog1Visible = true" class="footer-link">Товарный знак</a>
         <a @click.prevent="dialog2Visible = true" class="footer-link">Сертификаты</a>
-        <a @click.prevent="dialog3Visible = true" class="footer-link">Политика конфиденциальности</a>
+        <a href="policy.pdf" target="_blank" class="footer-link">Политика конфиденциальности</a>
       </div>
       <div class="footer-col">
         <p class="footer-header">Товары</p>
@@ -48,8 +48,8 @@
       width="100%"
       >
       <el-carousel height="100vh" :autoplay="false">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <img :src="`https://via.placeholder.com/768x1366.png?text=Товарный+знак+${item}`" alt="">
+        <el-carousel-item v-for="item in imageArr2" :key="item">
+          <img :src="item.url" alt="">
         </el-carousel-item>
       </el-carousel>
     </el-dialog>
@@ -59,8 +59,8 @@
       width="100%"
     >
       <el-carousel height="100vh" :autoplay="false">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <img :src="`https://via.placeholder.com/768x1366.png?text=Сертификат+номер+${item}`" alt="">
+        <el-carousel-item v-for="item in imageArr1" :key="item">
+          <img :src="item.url" alt="">
         </el-carousel-item>
       </el-carousel>
     </el-dialog>
@@ -73,8 +73,20 @@
     data: () => ({
       currentYear: new Date().getFullYear(),
       dialog1Visible: false,
-      dialog2Visible: false
-    })
+      dialog2Visible: false,
+      imageArr1: [],
+      imageArr2: []
+    }),
+    created() {
+      for (let y in this.$store.state.shop.content[0].images) {
+        this.imageArr1.push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[0].images[y]})
+      }
+      for (let y in this.$store.state.shop.content[6].images) {
+        this.imageArr2.push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[6].images[y]})
+      }
+      this.$forceUpdate()
+      console.log(this.imageArr)
+    },
   }
 </script>
 

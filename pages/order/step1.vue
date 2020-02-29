@@ -23,9 +23,11 @@
               <el-form-item prop="email">
                 <el-input placeholder="E-mail" v-model.trim="userData.email"/>
               </el-form-item>
+              <!--
               <label class="form-checkbox__wrap">
                 <input class="form-checkbox big" type="checkbox" v-model="subscription"><span class="form-checkbox__label">Подписаться на новости HOLIDAY PAINT</span>
               </label>
+              -->
               <p class="order-card__text">Контактные данные под надежной защитой</p>
               <div class="order-delivery__wrap">
                 <label class="order-delivery__label">

@@ -44,7 +44,7 @@
           <div class="paint-buttons">
             <nuxt-link to="/catalog/?category=paint" class="btn">Перейти в магазин</nuxt-link>
             <div class="video-btn">
-              <button class="video-btn__body" @click.prevent="openVideo('https://www.youtube.com/embed/ni5hRK1ehzk')"></button>
+              <button class="video-btn__body" @click.prevent="openVideo($store.state.shop.settings[5].value)"></button>
             </div>
           </div>
           <p class="home-label"><span>590</span> рублей за шт.</p>

@@ -9,12 +9,6 @@
 </template>
 
 <script>
-  function checkImage(url) {
-    var img = new Image();
-    img.onload = function(){ alert("good"); };
-    img.onerror = function(){ alert("bad") };
-    img.src = url;
-  }
 
   export default {
     name: "Feedbacks",
@@ -46,13 +40,14 @@
     },
     watch: {
       '$store.state.shop.content'() {
-        var arr = [ [],[],[],[],[],[] ]
+        let arr = []
         for (let x in this.$store.state.shop.content) {
+          arr.push([])
           for (let y in this.$store.state.shop.content[x].images) {
             arr[x].push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[x].images[y]})
           }
         }
-        for (let i = 0; i < 6; i++) {
+        for (let x in arr) {
           this.imageArr[i] = arr[i]
 
         }
@@ -62,13 +57,14 @@
       }
     },
     created() {
-      var arr = [ [],[],[],[],[],[] ]
+      let arr = []
       for (let x in this.$store.state.shop.content) {
+        arr.push([])
         for (let y in this.$store.state.shop.content[x].images) {
           arr[x].push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[x].images[y]})
         }
       }
-      for (let i = 0; i < 6; i++) {
+      for (let x in arr) {
         this.imageArr[i] = arr[i]
 
       }

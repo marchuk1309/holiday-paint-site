@@ -23,6 +23,7 @@ export const state = () => ({
     products: [],
     products_photos: [],
     userphoto: [],
+    saleproducts: [],
     showAvailable: false,
     showType: [],
     showSubType: [],
@@ -244,8 +245,29 @@ export const mutations = {
             state.basket = JSON.parse(localStorage.getItem('basket'))
         }
 
+        let saleIDs = []
+        let saleCategories = []
+        response.data['promocodes'].forEach((item) => {
+
+            if (item.items != null && item.items !== 'null') {
+                if (typeof item.items == "string") item.items = JSON.parse(item.items)
+                if (item.target == 1) {
+                    item.items.forEach((subitem) => {
+                        saleCategories.push(subitem)
+                    })
+                }
+                if (item.target == 2) {
+                    item.items.forEach((subitem) => {
+                        saleIDs.push(subitem)
+                    })
+                }
+            }
+        })
+        console.log(saleIDs)
+        console.log(saleCategories)
+
         // Getting other data
-        response.data['products'].forEach((item) => {
+        for (let item of response.data['products']) {
             if (typeof item.colors == "string") item.colors = JSON.parse(item.colors)
             if (typeof item.sizes == "string") item.sizes = JSON.parse(item.sizes)
             if (typeof item.sold == "string") item.sold = JSON.parse(item.sold)
@@ -253,11 +275,11 @@ export const mutations = {
             for (let x of response.data['coordinates']) {
                 if (typeof item[x.id] === "string") item[x.id] = JSON.parse(item[x.id])
             }
-        })
+            if (saleIDs.includes(item.id) || saleCategories.includes(item.category)) state.saleproducts.push(item.id)
+        }
         state.products = response.data['products']
         //state.products_photos = response.data['products_photo']
         //state.discounts.posts = response.data['discounts']
-        let saleproducts = []
 
         response.data['content'].forEach(function (item) {
             item.images = JSON.parse(item.images)
@@ -269,16 +291,6 @@ export const mutations = {
         state.settings = response.data['settings']
         state.categories = response.data['categories']
         state.content = response.data['content']
-        response.data['promocodes'].forEach((item) => {
-
-            if (item.items != null && item.items !== 'null') {
-                if (typeof item.items == "string") item.items = JSON.parse(item.items)
-                item.items.forEach((subitem) => {
-                    saleproducts.push(subitem)
-                })
-            }
-        })
-        state.saleproducts = saleproducts
         state.promocodes = response.data['promocodes']
         state.showAvailable = false
         state.showSale = false

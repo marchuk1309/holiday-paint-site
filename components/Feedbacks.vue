@@ -65,7 +65,7 @@
         }
       }
       for (let x in arr) {
-        this.imageArr[i] = arr[i]
+        this.imageArr[x] = arr[x]
 
       }
       this.$forceUpdate()

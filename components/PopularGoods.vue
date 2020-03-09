@@ -37,15 +37,11 @@
     computed: {
       ...mapGetters(['productsInfo', 'colorsInfo']),
       popular() {
-        //let index = this.productsInfo.findIndex(ideas => ideas.id === idea.id)
-        var colors = this.$store.state.shop.colors
         var array = []
-        this.$store.state.shop.products.forEach(function (element) {
-          //console.log()
-          let item = { ...element }
-          item.sold = element.sold.reduce((a, b) => a + b, 0)
-          array.push(item)
-        })
+        array = [ ...this.$store.state.shop.products ]
+        for (let item of array) {
+          if (item.sold.length > 1) item.sold = item.sold.reduce((a, b) => a + b, 0)
+        }
         return array.sort((a,b) => b.sold-a.sold).slice(0,5);
       }
     },

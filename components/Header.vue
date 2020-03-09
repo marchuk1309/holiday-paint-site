@@ -27,9 +27,11 @@
                     <li class="header__menu-link">
                         <a href="http://holiday-paint.tilda.ws/" target="_blank">Франшиза</a>
                     </li>
+                    <!--
                     <li class="header__menu-link">
                         <nuxt-link no-prefetch active-class="active" to="/feedback">Отзывы</nuxt-link>
                     </li>
+                    -->
                     <li @click="$store.commit('shop/filterSale')" class="header__menu-link">
                         <nuxt-link  no-prefetch to="/catalog">Акции и скидки</nuxt-link>
                     </li>

@@ -10,7 +10,7 @@
     <p class="goods-name">{{good.name}}</p>
     <p class="goods-descript">{{this.volume}}</p>
     <div>
-      <div v-if="good.sizes !== undefined & good.sizes !== '[]'" class="goods__sizes">
+      <div v-if="good.sizes !== undefined && good.sizes !== '[]'" class="goods__sizes">
         <div v-for="(size,index) in good.sizes" :key="index"  class="goods__size">
           <input :id="good.id + '-size-' + size + '-' + addedClass" v-model="good.size" type="radio" class="goods__size--input" :value="index">
           <label class="goods__size--label" :for="good.id + '-size-' + size + '-' + addedClass">
@@ -77,10 +77,14 @@
     computed: {
       available() {
         let id = this.$store.getters['shop/userInfoId']
-        let stock = this.good[id]
-        if (stock != undefined && stock.length > 0) stock = stock.reduce((a, b) => a + b, 0)
-        if (stock > 0) return true
-        else return false
+        //let stock = this.good[id]
+        //if (stock != undefined && stock.length > 0) stock = stock.reduce((a, b) => a + b, 0)
+        if (this.good.sizes.length > 1) if (this.good[id][this.good.size] > 0) return true
+        else if (this.good.colors.length > 1) if (this.good[id][this.good.size] > 0) return true
+        else {
+          if (this.good[id][0] > 0) return true
+        }
+        return false
       },
       volume() {
         if (this.good.volume == null) return ''

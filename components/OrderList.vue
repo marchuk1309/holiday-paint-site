@@ -37,7 +37,7 @@
     </el-table>
     <h2 class="order-card__title order-card__amount uppercase flex jc-sb">
       <span>Итого: {{totalCount}} товара</span>
-      <span>{{totalSum - $store.state.shop.discount}} р.</span>
+      <span>{{totalSum}} р.</span>
     </h2>
     <nuxt-link class="order-card__link" to="/basket">Редактировать</nuxt-link>
   </el-card>

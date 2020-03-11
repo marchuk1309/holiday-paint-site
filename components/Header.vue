@@ -49,7 +49,7 @@
             <div class="mobile-menu__list">
                 <a @click.prevent="goTo('/about')" class="mobile-menu__link">О проекте</a>
                 <a href="http://holiday-paint.tilda.ws/" target="_blank" class="mobile-menu__link">Франшиза</a>
-                <a @click.prevent="goTo('/feedback')" class="mobile-menu__link">Отзывы</a>
+                <!--<a @click.prevent="goTo('/feedback')" class="mobile-menu__link">Отзывы</a>-->
                 <a @click.prevent="goTo('/discounts')" class="mobile-menu__link">Акции и скидки</a>
                 <a @click.prevent="goTo('/catalog')" class="mobile-menu__link">Магазин</a>
                 <a @click.prevent="goTo('/paint')" class="mobile-menu__link">Смываемая краска</a>

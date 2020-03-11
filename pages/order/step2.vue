@@ -116,8 +116,7 @@
               let request = { ...this.$store.state.shop.request }
               request.city = this.userData.city
               request.address = this.userData.street + ' ' + this.userData.home + ' ' + this.userData.apartment
-              this.$store.commit('shop/addRequest', request)
-              this.$store.commit('shop/basketFlush')
+              this.$store.dispatch('shop/addRequest', request)
               this.$router.push('/order/thanks');
             } catch (e) {
               console.log(e)

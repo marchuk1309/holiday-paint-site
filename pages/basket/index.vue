@@ -75,12 +75,12 @@
         </div>
         <div class="basket-right">
           <el-card class="basket-card" ref="totalBasket" :class="{fixed: totalBaskedFixed}">
-            <p class="basket-card__title">Итого: {{totalSum - discountValue}} р.</p>
+            <p class="basket-card__title">Итого: {{totalSum}} р.</p>
             <div class="basket-card__paragraphs">
-              <p>Сумма: {{totalSum}} р.</p>
+              <p>Сумма: {{initialPrice}} р.</p>
               <p>Скидка: {{discountValue}} р.</p>
             </div>
-            <a class="basket-card__link" @click.prevent="openModal()">У меня есть промокод</a>
+            <a v-if="this.$store.state.shop.currentPromocode == null" class="basket-card__link" @click.prevent="openModal()">У меня есть промокод</a>
             <el-dialog
                     :append-to-body="true"
                     title="Введите промокод"
@@ -125,6 +125,7 @@
     name: "basket",
     data: () => ({
       items: [],
+      initialPrice: 0,
       discountValue: 0,
       discountType: 0,
       totalBaskedFixed: true,
@@ -149,14 +150,12 @@
       window.addEventListener('scroll', this.basketScrolling)
       console.log(this.$store.getters['shop/basketInfo'])
       this.items = this.$store.getters['shop/basketInfo']
+      this.initialPrice = this.totalSum
     },
     beforeDestroy() {
       window.removeEventListener('scroll', this.basketScrolling)
     },
     watch: {
-      totalSum(){
-        this.usePromocode()
-      }
     },
     methods: {
       proceed(){
@@ -182,10 +181,18 @@
         this.removeDialog = false
       },
       setDiscountValue(promocode, item) {
-        if (promocode.type == 0) this.discountValue += promocode.value * item.quantity
-        else if (promocode.type == 1) this.discountValue += item.price * item.quantity * promocode.value / 100
+        console.log(promocode)
+        if (promocode.type == 0) {
+          item.price = item.price - promocode.value
+          //this.discountValue += item.price - promocode.value * item.quantity
+        }
+        else if (promocode.type == 1) {
+          item.price = item.price * promocode.value / 100
+          //this.discountValue += item.price - item.price * promocode.value / 100 * item.quantity
+        }
+        this.discountValue = this.initialPrice - this.totalSum
         this.$store.commit('shop/setDiscount', this.discountValue)
-        this.$store.commit('shop/setCurrentPromocode', promocode)
+        this.$store.commit('shop/setCurrentPromocode', promocode.code)
       },
       openModal() {
         this.promocodeDialog = !this.promocodeDialog
@@ -200,8 +207,8 @@
         console.log(this.promocode)
         console.log(this.$store.state.shop.promocodes)
         // Loop through promocodes
+        console.log('Promocode search...')
         this.$store.state.shop.promocodes.forEach((promocode) => {
-          console.log('Promocode search...')
           console.log(promocode.code)
           // If there is a match
           if (promocode.code == this.promocode) {
@@ -213,14 +220,16 @@
             this.codeIsWrong = false
             this.codeIsNotApplicable = false
             // Check remained uses, if zero, show message
-            if (promocode.uses == 0) this.codeIsUsed = true
+            if (promocode.uses <= 0) this.codeIsUsed = true
             // Check date, if expired, show message
             else if (new Date(promocode.end_date) < new Date()) this.codeIsExpired = true
             else {
               // Loop through basket to apply the discount
-              this.$store.state.shop.basket.forEach((item) => {
+              for (let item of this.$store.state.shop.basket) {
                 // If the target is all items
                 if (promocode.target == 0) {
+                  console.log('Targeted all items')
+                  console.log(this.$store.state.shop.basket)
                   this.setDiscountValue(promocode, item)
                   this.promocodeDialog = false
                 }
@@ -244,7 +253,7 @@
                   else this.codeIsNotApplicable = true
                 } else console.log('Invalid target')
 
-              })
+              }
             }
           }
           // If match not found, show message

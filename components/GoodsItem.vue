@@ -79,10 +79,14 @@
         let id = this.$store.getters['shop/userInfoId']
         //let stock = this.good[id]
         //if (stock != undefined && stock.length > 0) stock = stock.reduce((a, b) => a + b, 0)
-        if (this.good.sizes.length > 1) if (this.good[id][this.good.size] > 0) return true
-        else if (this.good.colors.length > 1) if (this.good[id][this.good.size] > 0) return true
+        if (this.good.sizes.length > 1) {
+          if (this.good[id][this.good.size] > 0) return true
+        }
+        else if (this.good.colors.length > 1) {
+          if (this.good[id][this.good.color] > 0) return true
+        }
         else {
-          if (this.good[id][0] > 0) return true
+          if (this.good[id] > 0) return true
         }
         return false
       },

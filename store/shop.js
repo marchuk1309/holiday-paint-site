@@ -160,34 +160,6 @@ export const mutations = {
     filterSize (state, size) {
         state.showSize = size
     },
-    addRequest (state, request) {
-        request.type = 2
-        if (state.currentPromocode != null) request.promocode = state.currentPromocode.id
-        console.log(request);
-        axios
-            .post(state.apiServer + '/api/requests', request)
-            .then(function(response) {
-                console.log('addRequest RESPONSE');
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-
-        /*
-        axios
-            .post(API_SERVER + '/api/user/notify', request)
-            .then(function(response) {
-              console.log('notify RESPONSE');
-              console.log(response.data)
-            })
-            .catch(function (error) {
-              console.log(error)
-            })
-
-         */
-    },
-
 
 
     // BASKET
@@ -318,6 +290,21 @@ export const mutations = {
 export const actions = {
     setIndex({rootState}) {
         let index = rootState.apiServer
+    },
+    addRequest ({commit, state}, request) {
+        request.type = 2
+        console.log(request);
+        axios
+          .post(state.apiServer + '/api/requests', request)
+          .then(function(response) {
+              console.log('addRequest RESPONSE');
+              console.log(response.data);
+              commit('basketFlush')
+              commit('setCurrentPromocode', null)
+          })
+          .catch(function (error) {
+              console.log(error)
+          });
     },
     getPartnerInfo({commit, state}, location) {
         if (location.district == undefined) location.district = null

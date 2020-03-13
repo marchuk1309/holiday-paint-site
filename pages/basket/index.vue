@@ -19,8 +19,9 @@
                   </div>
                   <div class="basket-descript">
                     <p class="basket-item__name">{{scope.row.name}}</p>
-                    <p v-if="scope.row.color !== undefined">Цвет: {{$store.state.shop.colors[scope.row.color].label}}</p>
-                    <p v-if="scope.row.size !== undefined">Размер: {{scope.row.sizes[scope.row.size]}}</p>                  </div>
+                    <p v-if="scope.row.color !== undefined">Цвет: {{$store.state.shop.colors[$store.state.shop.colors.findIndex(item => item.id == scope.row.color)].label}}</p>
+                    <p v-if="scope.row.size !== undefined">Размер: {{scope.row.sizes[scope.row.size]}}</p>
+                  </div>
                 </div>
               </template>
             </el-table-column>
@@ -77,7 +78,7 @@
           <el-card class="basket-card" ref="totalBasket" :class="{fixed: totalBaskedFixed}">
             <p class="basket-card__title">Итого: {{totalSum}} р.</p>
             <div class="basket-card__paragraphs">
-              <p>Сумма: {{initialPrice}} р.</p>
+              <p>Сумма: {{initSum}} р.</p>
               <p>Скидка: {{discountValue}} р.</p>
             </div>
             <a v-if="this.$store.state.shop.currentPromocode == null" class="basket-card__link" @click.prevent="openModal()">У меня есть промокод</a>
@@ -125,7 +126,6 @@
     name: "basket",
     data: () => ({
       items: [],
-      initialPrice: 0,
       discountValue: 0,
       discountType: 0,
       totalBaskedFixed: true,
@@ -150,12 +150,17 @@
       window.addEventListener('scroll', this.basketScrolling)
       console.log(this.$store.getters['shop/basketInfo'])
       this.items = this.$store.getters['shop/basketInfo']
-      this.initialPrice = this.totalSum
+      for (let item of this.items) {
+        item.initPrice = item.price;
+      }
     },
     beforeDestroy() {
       window.removeEventListener('scroll', this.basketScrolling)
     },
     watch: {
+      totalSum(){
+        this.discountValue = this.initSum - this.totalSum
+      }
     },
     methods: {
       proceed(){
@@ -190,8 +195,8 @@
           item.price = item.price * promocode.value / 100
           //this.discountValue += item.price - item.price * promocode.value / 100 * item.quantity
         }
-        this.discountValue = this.initialPrice - this.totalSum
-        this.$store.commit('shop/setDiscount', this.discountValue)
+        this.discountValue = this.initSum - this.totalSum
+        //this.$store.commit('shop/setDiscount', this.discountValue)
         this.$store.commit('shop/setCurrentPromocode', promocode.code)
       },
       openModal() {
@@ -266,6 +271,13 @@
         let total = 0
         this.items.forEach((item) => {
           total += item.price * item.quantity;
+        })
+        return total
+      },
+      initSum() {
+        let total = 0
+        this.items.forEach((item) => {
+          total += item.initPrice * item.quantity;
         })
         return total
       },

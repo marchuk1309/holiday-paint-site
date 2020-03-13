@@ -28,6 +28,15 @@ export default {
     }
   ],
   buildModules: [
+    ['@nuxtjs/yandex-metrika',
+      {
+        id: '60723838',
+        webvisor: true,
+        clickmap:true,
+        // useCDN:false,
+        trackLinks:true,
+        accurateTrackBounce:true,
+      }]
   ],
   modules: [
     ['@nuxtjs/axios'],

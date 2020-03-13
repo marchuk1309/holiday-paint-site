@@ -117,6 +117,8 @@
               request.city = this.userData.city
               request.address = this.userData.street + ' ' + this.userData.home + ' ' + this.userData.apartment
               this.$store.dispatch('shop/addRequest', request)
+              this.$store.commit('shop/basketFlush')
+              this.$store.commit('shop/setCurrentPromocode', null)
               this.$router.push('/order/thanks');
             } catch (e) {
               console.log(e)

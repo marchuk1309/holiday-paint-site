@@ -299,8 +299,6 @@ export const actions = {
           .then(function(response) {
               console.log('addRequest RESPONSE');
               console.log(response.data);
-              commit('basketFlush')
-              commit('setCurrentPromocode', null)
           })
           .catch(function (error) {
               console.log(error)

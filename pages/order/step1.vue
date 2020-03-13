@@ -133,19 +133,17 @@
               request.colors = []
               request.prices = []
               request.value = 0
-              this.items.forEach( function(item, index) {
+              for (let item of this.items) {
+                request.prices.push(item.price)
                 request.product_ids.push(item.id)
                 request.quantity.push(item.quantity)
                 if (item.category == 4) request.colors.push(item.sizes[item.size])
                 else request.colors.push(item.color)
-                //request.value += parseInt(item.price) * parseInt(item.quantity)
-                request.prices.push(item.price)
-              });
+              }
               request.seller_id = this.$store.state.shop.user.info.id
               console.log("Promocode is used")
               console.log(this.$store.state.shop.currentPromocode)
               request.promocode = this.$store.state.shop.currentPromocode
-              //request.value = request.value - this.$store.state.shop.discount
               request.product_ids = JSON.stringify(request.product_ids)
               request.quantity = JSON.stringify(request.quantity)
               request.colors = JSON.stringify(request.colors)
@@ -153,6 +151,8 @@
 
               if (this.delivery == 0) {
                 this.$store.dispatch('shop/addRequest', request)
+                this.$store.commit('shop/basketFlush')
+                this.$store.commit('shop/setCurrentPromocode', null)
                 this.$router.push('/order/thanks')
               }
               else {

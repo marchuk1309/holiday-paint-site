@@ -7,10 +7,10 @@
           <div v-if="element.images != null" class="item-card__gallery" :class="{single: element.images.length === 1}">
             <el-carousel v-if="element.images.length > 1" arrow="always" height="30em" trigger="click" :autoplay="false">
               <el-carousel-item v-for="(item, index) in element.images" :key="index">
-                <img :src="'http://hpapi.fobesko.com/public/storage/product/' + item" alt="">
+                <img :src="$store.state.shop.apiServer + '/storage/product/' + item" alt="">
               </el-carousel-item>
             </el-carousel>
-            <img class="item-card__single-photo" v-else :src="'http://hpapi.fobesko.com/public/storage/product/' + element.images[0]" alt="">
+            <img class="item-card__single-photo" v-else :src="$store.state.shop.apiServer + '/storage/product/' + element.images[0]" alt="">
           </div>
           <img v-if="element.images == null" class="item-card__gallery single" :src="$store.state.shop.noPhoto" alt="">
         </div>

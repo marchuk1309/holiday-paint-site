@@ -17,13 +17,6 @@
       imageArr: [[]]
     }),
     computed: {
-      photos() {return [
-          'http://hpapi.fobesko.com/public/storage/content/0.png',
-          'http://hpapi.fobesko.com/public/storage/content/0.png',
-          'http://hpapi.fobesko.com/public/storage/content/0.png',
-          'http://hpapi.fobesko.com/public/storage/content/0.png',
-          'http://hpapi.fobesko.com/public/storage/content/0.png'
-      ]},
       number() {
         if (this.$route.name == 'paint') return 1
         if (this.$route.name == 'colored-smoke') return 3
@@ -44,7 +37,7 @@
         for (let x in this.$store.state.shop.content) {
           arr.push([])
           for (let y in this.$store.state.shop.content[x].images) {
-            arr[x].push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[x].images[y]})
+            arr[x].push({url: this.$store.state.shop.apiServer + '/storage/content/' + this.$store.state.shop.content[x].images[y]})
           }
         }
         for (let x in arr) {
@@ -61,7 +54,7 @@
       for (let x in this.$store.state.shop.content) {
         arr.push([])
         for (let y in this.$store.state.shop.content[x].images) {
-          arr[x].push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[x].images[y]})
+          arr[x].push({url: this.$store.state.shop.apiServer + '/storage/content/' + this.$store.state.shop.content[x].images[y]})
         }
       }
       for (let x in arr) {

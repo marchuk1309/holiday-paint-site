@@ -14,11 +14,10 @@
         :modal-append-to-body="false"
         :center="true"
         :visible.sync="changeCity"
-        width="360px"
         class="modal"
       >
         <div class="flex mb2 ai-c">
-          <p>Выберите город</p>
+          <p>Выберите город</p>&nbsp;
           <input placeholder="Поиск" v-model="citiesFind" class="form-input" type="text">
         </div>
         <div class="cities-list">

@@ -140,6 +140,7 @@
       <div class="container">
         <h2 class="section-title big gradient">Фестивальные краски холи</h2>
         <p class="subtitle">Сделайте небо над головой ярким</p>
+        <!--
         <div class="video-btn-2">
           <button class="video-btn-2__body" @click.prevent="openVideo($refs.holipaintVideo.src)">
             <svg id="play"  viewBox="0 0 163 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px">
@@ -154,6 +155,7 @@
           </button>
           <span class="video-btn-2--label">Открыть на весь экран</span>
         </div>
+        -->
         <div class="holipaint-content">
           <div class="holipaint-item">
             <div class="holipaint-img"><img src="../assets/img/icons/recycle-sign.svg" alt=""></div>

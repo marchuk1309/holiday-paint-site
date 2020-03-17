@@ -11,7 +11,7 @@
           <a href="https://vk.com/holidaypaint" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
           <a href="https://www.instagram.com/holidaypaint/" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
           <a href="https://wa.me/79385040674" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
-          <a href="https://t.me/Roman_HP" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
+          <a href="https://tlgg.ru/Roman_HP" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
         </div>
       </div>
       <div class="footer-col">
@@ -79,10 +79,10 @@
     }),
     created() {
       for (let y in this.$store.state.shop.content[0].images) {
-        this.imageArr1.push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[0].images[y]})
+        this.imageArr1.push({url: this.$store.state.shop.apiServer + '/storage/content/' + this.$store.state.shop.content[0].images[y]})
       }
       for (let y in this.$store.state.shop.content[6].images) {
-        this.imageArr2.push({url: 'http://hpapi.fobesko.com/public/storage/content/' + this.$store.state.shop.content[6].images[y]})
+        this.imageArr2.push({url: this.$store.state.shop.apiServer + '/storage/content/' + this.$store.state.shop.content[6].images[y]})
       }
       this.$forceUpdate()
       console.log(this.imageArr)

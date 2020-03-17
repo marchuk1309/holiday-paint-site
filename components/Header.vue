@@ -24,7 +24,7 @@
                     <a v-if="userInfo.socials.ids.vk != undefined && userInfo.socials.active.vk == 1" :href="'https://vk.com/'+userInfo.socials.ids.vk" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/vk.svg" alt=""></a>
                     <a v-if="userInfo.socials.ids.instagram != undefined && userInfo.socials.active.instagram == 1" :href="'https://instagram.com/'+userInfo.socials.ids.instagram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/instagram.svg" alt=""></a>
                     <a v-if="userInfo.socials.ids.whatsapp != undefined && userInfo.socials.active.whatsapp == 1" :href="'https://api.whatsapp.com/send?phone='+userInfo.socials.ids.whatsapp" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/whatsapp.svg" alt=""></a>
-                    <a v-if="userInfo.socials.ids.telegram != undefined && userInfo.socials.active.telegram == 1" :href="'https://t.me/'+userInfo.socials.ids.telegram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
+                    <a v-if="userInfo.socials.ids.telegram != undefined && userInfo.socials.active.telegram == 1" :href="'https://tlgg.ru/'+userInfo.socials.ids.telegram" target="_blank" class="socials-item header__socials-item"><img src="@/assets/img/icons/telegram.svg" alt=""></a>
                 </div>
                 <ul class="header__menu flex jc-sb">
                     <li class="header__menu-link">
@@ -102,7 +102,6 @@
                 :center="true"
                 title="Выберите район"
                 :visible.sync="changeDistrict"
-                width="300px"
         >
             <a v-for="district in districts" :key="district"  @click="changeCurrentDistrict(district)" class="dialog-link">{{district}}</a>
         </el-dialog>

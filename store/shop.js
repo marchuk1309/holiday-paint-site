@@ -105,18 +105,17 @@ export const mutations = {
         cities.forEach(function (element) {
             state.cities.push(element.city);
         })
+        if (!state.cities.includes(localStorage.getItem('city'))) {
+            localStorage.removeItem('city');
+        }
         console.log(localStorage.getItem('cityindex'));
-        let index = 0
-        if (localStorage.getItem('cityindex') > cities.length) {
-            localStorage.removeItem('cityindex');
-        }
-        if (localStorage.getItem('cityindex') != null) {
-            index = localStorage.getItem('cityindex');
-        }
         if (state.cities.includes(state.geolocationCity)) {
             state.currentCity = state.geolocationCity
         }
-        else state.currentCity = state.cities[index]
+        else if (localStorage.getItem('city') != null && state.cities.includes(localStorage.getItem('city'))) {
+            state.currentCity = localStorage.getItem('city');
+        }
+        else state.currentCity = state.cities[0]
     },
 
     filterSearch (state, string) {
@@ -304,7 +303,7 @@ export const actions = {
               console.log(error)
           });
     },
-    getPartnerInfo({commit, state}, location) {
+    async getPartnerInfo({commit, state}, location) {
         if (location.district == undefined) location.district = null
         console.log(location.city)
         console.log(location.district)

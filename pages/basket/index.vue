@@ -14,7 +14,7 @@
               <template slot-scope="scope">
                 <div class="basket-item">
                   <div class="basket-image">
-                    <img v-if="scope.row.images != null" :src="'http://hpapi.fobesko.com/public/storage/product/' + scope.row.images[0]" alt="">
+                    <img v-if="scope.row.images != null" :src="$store.state.shop.apiServer + '/storage/product/' + scope.row.images[0]" alt="">
                     <img v-if="scope.row.images == null" :src="$store.state.shop.noPhoto" alt="">
                   </div>
                   <div class="basket-descript">

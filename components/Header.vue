@@ -15,7 +15,7 @@
                 <div class="header__location-toggler" @click="$emit('changeCity')">
                     <span>{{currentCity}}</span>
                 </div><br>
-                <div :class="{active: mobileMenu}+' header__location-toggler'" v-if="districts.length > 0" @click="changeDistrict = !changeDistrict" >
+                <div class="mobile-menu__toggler header__location-toggler" :class="{active: mobileMenu}" v-if="districts.length > 0" @click="changeDistrict = !changeDistrict" >
                     <span>Район {{currentDistrict}}</span>
                 </div>
                 </div>

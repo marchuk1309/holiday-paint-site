@@ -17,6 +17,7 @@ export const state = () => ({
     colors: [],
     markers: [],
     partners: [],
+    top: [],
     settings: [],
     content: [],
     searchString: '',
@@ -56,6 +57,7 @@ export const getters = {
     productsInfo (state) { return state.products },
     colorsInfo (state) { return state.colors },
     partnersInfo (state) { return state.partners },
+    topInfo (state) { return state.top },
     userInfo (state) { return state.user },
     userInfoId (state) {return state.user.info.id},
     districtsInfo (state) {return state.districts},
@@ -259,6 +261,7 @@ export const mutations = {
         state.colors = response.data['colors']
         state.markers = response.data['coordinates']
         state.partners = response.data['partners']
+        state.top = response.data['top']
         state.settings = response.data['settings']
         state.categories = response.data['categories']
         state.content = response.data['content']

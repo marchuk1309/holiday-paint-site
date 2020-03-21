@@ -38,7 +38,7 @@
           <div class="item-card__form-box">
             <div class="item-card__buttons">
               <a @click.prevent="basketPush(); proceed()" class="item-card__btn btn btn-transparent">Купить сразу</a>
-              <a @click.prevent="basketPush()" class="item-card__btn btn">В корзину</a>
+              <a @click.prevent="basketPush()" class="item-card__btn btn" :class="{blue: !available}">{{available ? "В корзину" : "Заказать"}}</a>
             </div>
             <p class="item-card__label">Описание:</p>
             <p class="item-card__text">{{element.description}}</p>
@@ -93,6 +93,21 @@
       },
     },
     computed: {
+      available() {
+        let id = this.$store.getters['shop/userInfoId']
+        //let stock = this.good[id]
+        //if (stock != undefined && stock.length > 0) stock = stock.reduce((a, b) => a + b, 0)
+        if (this.element.sizes.length > 1) {
+          if (this.element[id][this.element.size] > 0) return true
+        }
+        else if (this.element.colors.length > 1) {
+          if (this.element[id][this.element.color] > 0) return true
+        }
+        else {
+          if (this.element[id] > 0) return true
+        }
+        return false
+      },
       photo() {
         let index = this.$store.state.shop.products_photos.findIndex(product => product.id == this.element.id)
         if (index != -1) return this.$store.state.shop.products_photos[index].value

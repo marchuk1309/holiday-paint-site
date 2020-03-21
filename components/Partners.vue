@@ -37,18 +37,20 @@
     computed: {
       partners() {
         let partnersInfo = this.$store.getters['shop/partnersInfo']
+        let partnersTop = this.$store.getters['shop/topInfo']
         let partners = []
-        for (let x in partnersInfo.info) {
+        for (let x of partnersTop) {
+          let index = partnersInfo.info.findIndex(element => element.id === x)
           let partner = {
-            info: partnersInfo.info[x],
+            info: partnersInfo.info[index],
             socials: {
-              ids: partnersInfo.socials.ids[x],
-              active: partnersInfo.socials.active[x]
+              ids: partnersInfo.socials.ids[index],
+              active: partnersInfo.socials.active[index]
             }
           }
           partners.push(partner)
         }
-        return partners.slice(0,5)
+        return partners
       }
     },
     mounted() {

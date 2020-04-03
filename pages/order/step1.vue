@@ -35,8 +35,7 @@
                   <div class="order-delivery__label-border"></div>
                   <div class="order-delivery__label-text">
                     <p>Самовывоз</p>
-                    <span v-if="$store.state.shop.user.info.street != null">{{$store.state.shop.user.info.street + ', ' + $store.state.shop.user.info.building}}</span>
-                    <span v-else>Адрес уточните по телефону</span>
+                    <span>{{termAddr}}</span>
                   </div>
                 </label>
                 <label class="order-delivery__label">
@@ -94,6 +93,17 @@
         ]
       }
     }),
+    computed: {
+      termAddr() {
+        let info = this.$store.state.shop.user.info
+        if (info.street) {
+          if (info.building) {
+            return info.street + ', ' + info.building
+          } else return info.street
+        }
+        else return 'Адрес уточните по телефону'
+      }
+    },
     watch: {
       'userData.email'() {
         this.userData.email = this.userData.email.replace(/[А-Яа-яЁё\s]/g, "")

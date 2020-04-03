@@ -15,7 +15,7 @@
                 <div class="header__location-toggler" @click="$emit('changeCity')">
                     <span>{{currentCity}}</span>
                 </div><br>
-                <div class="mobile-menu__toggler header__location-toggler" :class="{active: mobileMenu}" v-if="districts.length > 0" @click="changeDistrict = !changeDistrict" >
+                <div class="mobile-menu__area header__location-toggler" :class="{active: mobileMenu}" v-if="districts.length > 0" @click="changeDistrict = !changeDistrict" >
                     <span>Район {{currentDistrict}}</span>
                 </div>
                 </div>
@@ -387,6 +387,8 @@
                             bottom: auto
                             top: calc(50% - 2px)
                             transform: rotate(-45deg)
+            &__area
+                display: none
     @media (max-width: 1024px)
         .header
             position: fixed
@@ -405,7 +407,7 @@
                 text-align: center
             &-logo
                 width: 5em
-            .mobile-menu__toggler
+            .mobile-menu__toggler, .mobile-menu__area
                 display: block
             .header-basket
                 font-size: .8em

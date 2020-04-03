@@ -312,6 +312,7 @@ export const actions = {
         console.log(location.district)
         let users = []
         let districts = []
+        let userIndex = 0
         for (let x in Array.from(state.partners.info)) {
             let user = {
                 info: state.partners.info[x],
@@ -326,12 +327,24 @@ export const actions = {
                 if (user.info.area != null) districts.push(user.info.area)
             }
         }
-        if (location.district == null) commit('updatePartnerInfo', users[0])
+        if (location.district == null) {
+            let lastSale = Date.now()
+            for (let [index, item] of users.entries()) {
+                console.log(item.info.id+' '+lastSale+' > '+ new Date(item.info.last_sale).getTime())
+                if (lastSale > new Date(item.info.last_sale).getTime()) {
+                    lastSale = new Date(item.info.last_sale).getTime()
+                    userIndex = index
+                    console.log(users[userIndex].info.id)
+                }
+            }
+            console.log(users[userIndex].info.id)
+            commit('updatePartnerInfo', users[userIndex])
+        }
         else {
             for (let x of users) if (x.info.area == location.district) commit('updatePartnerInfo', x)
         }
         commit('updateDistricts', districts)
-        commit('setCurrentDistrict', districts[0])
+        commit('setCurrentDistrict', districts[userIndex])
         /*
         await axios.get(this.state.apiServer + '/api/user/city/'+location.city+'/'+location.district)
             .then(function (response) {

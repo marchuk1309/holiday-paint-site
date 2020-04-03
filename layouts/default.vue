@@ -122,8 +122,9 @@
       display: flex;
       flex-direction: column;
       text-align: left;
-      height: 12em;
+      height: 14em;
       flex-wrap: wrap;
+      overflow-x: scroll;
     }
   }
 </style>

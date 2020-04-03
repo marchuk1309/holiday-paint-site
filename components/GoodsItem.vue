@@ -20,6 +20,7 @@
       </div>
       <input v-for="item in good.colors" v-model="good.color" :value="item" type="radio" class="form-checkbox__color" :style="'background-color:' + $store.state.shop.colors[colorIndex(item)].color">
     </div>
+    <div class="goods-descript" v-if="$store.state.shop.settings.showstocks == 1">{{available ? 'В наличии ' + available + ' шт.' : 'Нет в наличии'}}</div>
     <div class="goods__alert" v-if="good.category != 4 && showAlert">Выберите цвет!</div>
     <div class="goods__alert" v-if="good.category == 4 && showAlert">Выберите размер!</div>
     <a v-if="available" @click.prevent="basketPush()" class="goods-btn btn">{{added ? "В корзине +" :"В корзину"}}</a>
@@ -80,15 +81,15 @@
         //let stock = this.good[id]
         //if (stock != undefined && stock.length > 0) stock = stock.reduce((a, b) => a + b, 0)
         if (this.good.sizes.length > 1) {
-          if (this.good[id][this.good.size] > 0) return true
+          if (this.good[id][this.good.size] > 0) return this.good[id][this.good.size]
         }
         else if (this.good.colors.length > 1) {
-          if (this.good[id][this.good.color] > 0) return true
+          if (this.good[id][this.good.color] > 0) return this.good[id][this.good.color]
         }
         else {
-          if (this.good[id] > 0) return true
+          if (this.good[id] > 0) return this.good[id][0]
         }
-        return false
+        return 0
       },
       volume() {
         if (this.good.volume == null) return ''

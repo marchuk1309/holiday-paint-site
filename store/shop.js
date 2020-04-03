@@ -3,7 +3,7 @@ import { loadYmap } from 'vue-yandex-maps'
 import {arrayFindIndex} from "element-ui/src/utils/util";
 
 export const state = () => ({
-    apiServer: 'https://hpapi.fobesko.com/public',
+    apiServer: 'https://hptestapi.fobesko.com/public',
     user: {
         info:{},
         socials:{ ids:{}, active:{} }
@@ -262,9 +262,16 @@ export const mutations = {
         state.markers = response.data['coordinates']
         state.partners = response.data['partners']
         state.top = response.data['top']
-        state.settings = response.data['settings']
+        for (let item of response.data['settings']) {
+            state.settings[item.setting] = item.value
+        }
         state.categories = response.data['categories']
         state.content = response.data['content']
+        for (let item of response.data['pages']) {
+            item.data = JSON.parse(item.data)
+            console.log(item.data)
+        }
+        state.pages = response.data['pages']
         state.promocodes = response.data['promocodes']
         state.showAvailable = false
         state.showSale = false
@@ -358,6 +365,15 @@ export const actions = {
         */
     },
     async getData({commit, dispatch, state}) {
+        /*
+        axios
+          .get(state.apiServer + '/api/file/one/content/main-bg-0')
+          .then(function(response) {
+          })
+          .catch(function (error) {
+              console.log(error)
+          });
+        */
         console.log('Getting data...')
         await axios
             .get(state.apiServer + '/api/data/1')
@@ -394,5 +410,16 @@ export const actions = {
             .catch(function (error) {
                 console.log(error)
             })
-    }
+    },
+    async getImage ({commit, state}, request) {
+        console.log(request);
+        return axios
+          .get(state.apiServer + '/api/file/one/'+request)
+          .then(function(response) {
+          })
+          .catch(function (error) {
+              console.log(error)
+          });
+
+    },
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="feedback-slider">
     <el-carousel :autoplay="false" :loop="false" arrow="always" :trigger="'click'" :type="sliderType" height="30em">
-      <el-carousel-item v-for="(item,index) in imageArr[number]" :key="index">
+      <el-carousel-item v-for="(item,index) in imageArr" :key="index">
         <img :src="item.url" alt="">
       </el-carousel-item>
     </el-carousel>
@@ -17,12 +17,9 @@
       imageArr: [[]]
     }),
     computed: {
-      number() {
-        if (this.$route.name == 'paint') return 1
-        if (this.$route.name == 'colored-smoke') return 3
-        if (this.$route.name == 'holy-paint') return 4
-        if (this.$route.name == 'kigurumi') return 5
-        if (this.$route.name == 'markers') return 2
+      id() {
+        let item = this.$store.state.shop.pages.find(item => item.data.url == this.$route.params.id)
+        if (this.$route.name != 'index') return item.id
         else return 0
       }
     },
@@ -32,43 +29,18 @@
       },
     },
     watch: {
-      '$store.state.shop.content'() {
-        let arr = []
-        for (let x in this.$store.state.shop.content) {
-          arr.push([])
-          for (let y in this.$store.state.shop.content[x].images) {
-            arr[x].push({url: this.$store.state.shop.apiServer + '/storage/content/' + this.$store.state.shop.content[x].images[y]})
-          }
-        }
-        for (let x in arr) {
-          this.imageArr[i] = arr[i]
-
-        }
-        this.$forceUpdate()
-        console.log(this.$store.state.shop.content)
-        console.log(this.imageArr[this.number])
-      }
     },
     created() {
-      let arr = []
-      for (let x in this.$store.state.shop.content) {
-        arr.push([])
-        for (let y in this.$store.state.shop.content[x].images) {
-          arr[x].push({url: this.$store.state.shop.apiServer + '/storage/content/' + this.$store.state.shop.content[x].images[y]})
+      let index = this.$store.state.shop.content.findIndex(item => item.id == this.id)
+        this.imageArr = []
+        for (let name of this.$store.state.shop.content[index].images['gallery']) {
+          this.imageArr.push({url: this.$store.state.shop.apiServer + '/storage/content/' + this.id +'-'+ 'gallery' +'-'+ name})
         }
-      }
-      for (let x in arr) {
-        this.imageArr[x] = arr[x]
-
-      }
       this.$forceUpdate()
-      console.log(this.$store.state.shop.content)
-      console.log(this.imageArr[this.number])
     },
     mounted() {
       window.addEventListener('resize', this.onResize);
       this.onResize();
-      //if (this.$route.name == "colored-smoke")
     },
   }
 </script>

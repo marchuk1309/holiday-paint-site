@@ -25,7 +25,8 @@ export default {
     {
       src: '@/plugins/Slider',
       ssr: false
-    }
+    },
+    { src: '@/plugins/vue-masonry', ssr: false }
   ],
   buildModules: [
     ['@nuxtjs/yandex-metrika',

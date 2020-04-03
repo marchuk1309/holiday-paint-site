@@ -2,7 +2,7 @@
     <div class="header">
         <div class="header-top">
             <div class="container flex ai-c jc-sb">
-                <nuxt-link no-prefetch to="/" class="header-logo"><img src="@/assets/img/logo.png" alt=""></nuxt-link>
+                <nuxt-link no-prefetch to="/" class="header-logo"><img :src="$store.state.shop.apiServer + '/storage/content/0-logo-' + $store.state.shop.content[0].images['logo'][0]" alt=""></nuxt-link>
                 <div class="header__contacts">
                     <a :href="'tel:' + userInfo.info.phone" class="header__contacts-link">{{userPhone}}</a>
                     <a target="_blank" :href="'mailto:' + userInfo.info.email" class="header__contacts-link">{{userInfo.info.email}}</a>
@@ -69,6 +69,14 @@
         <div class="header-bottom" :class="{fixed: this.headerFixed}">
             <div class="container flex ai-c jc-sb">
                 <div class="header-nav flex ai-c jc-sb">
+                    <div v-for="item in $store.state.shop.pages" >
+                        <nuxt-link v-if="item.id != 0 && item.data.url != undefined" no-prefetch :to="'/product/' + item.data.url" active-class="active" class="header-nav__link">
+                            <p class="header-nav__link-img"><img :src="$store.state.shop.apiServer + '/storage/content/' + item.id + '-icon-' + $store.state.shop.content[item.id].images['icon'][0]" alt=""></p>
+                            {{item.data.title}}
+                        </nuxt-link>
+                    </div>
+
+                    <!--
                     <nuxt-link no-prefetch to="/paint" active-class="active" class="header-nav__link">
                         <p class="header-nav__link-img"><img src="@/assets/img/icons/paint-spray.svg" alt=""></p>
                         Смываемая краска
@@ -89,6 +97,7 @@
                         <p class="header-nav__link-img"><img src="@/assets/img/icons/working-coverall.svg" alt=""></p>
                         Кигуруми
                     </nuxt-link>
+                    -->
                 </div>
                 <nuxt-link no-prefetch to="/basket" class="header-basket">
                     <p v-if="basketCount" class="header-basket__counter">{{basketCount}}</p>
@@ -146,6 +155,9 @@
             window.addEventListener('scroll', this.scrolled);
         },
         methods: {
+            getIndex(id) {
+                return  this.$store.state.shop.content.findIndex(item => item.id == id)
+            },
             scrolled () {
                 if (window.pageYOffset > 100) {
                     this.headerFixed = true
